@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FIFAMap — FIFA World Cup 2026 Global Trip Planner</title>
+<meta name="description" content="Plan your FIFA World Cup 2026 trip across all 16 host cities in the USA, Canada, and Mexico. AI-powered itinerary builder, match schedules, attractions, dining, and transport. Available in 8 languages."/>
+<meta name="keywords" content="FIFA World Cup 2026, trip planner, host cities, match schedule, Los Angeles, New York, Dallas, Miami, Mexico City, Toronto, Vancouver, itinerary"/>
+<meta property="og:title" content="FIFAMap — FIFA World Cup 2026 Global Trip Planner"/>
+<meta property="og:description" content="16 host cities. 104 matches. 3 countries. One AI-powered planner. Available in 8 languages."/>
+<meta property="og:url" content="https://fifamap.org"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="canonical" href="https://fifamap.org"/>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet"/>
+<!-- Google AdSense placeholder — replace YOUR_ADSENSE_ID -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script> -->
+<style>
+/* ======= RESET & BASE ======= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter','Noto Sans JP','Noto Sans SC',sans-serif;background:#0f111a;color:#e8eaf0;min-height:100dvh;line-height:1.6}
+img,svg{display:block;max-width:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}
+a{text-decoration:none;color:inherit}
+
+/* ======= CSS VARS ======= */
+:root{
+  --red:#c8102e;--blue:#003087;--gold:#FFD700;--gold2:#D4AF37;
+  --navy:#0f111a;--navy2:#161926;--navy3:#1e2235;--navy4:#252b42;
+  --border:#2a3050;--muted:#8892b0;--text:#e8eaf0;--text2:#ccd6f6;
+  --primary:#e63946;--primary2:#c1121f;
+  --green:#22c55e;--accent-blue:#3b82f6;
+}
+
+/* ======= SCROLLBAR ======= */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--navy2)}
+::-webkit-scrollbar-thumb{background:#3a4460;border-radius:3px}
+
+/* ======= LAYOUT ======= */
+.container{max-width:1100px;margin:0 auto;padding:0 1rem}
+.section{padding:3rem 0}
+.section-sm{padding:1.5rem 0}
+
+/* ======= NAV ======= */
+nav{position:sticky;top:0;z-index:100;background:rgba(15,17,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.6rem 0}
+.nav-inner{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.nav-logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:.95rem;letter-spacing:-.01em;white-space:nowrap}
+.nav-logo svg{flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:.25rem;flex-wrap:wrap;flex:1}
+.nav-link{padding:.4rem .7rem;border-radius:.5rem;font-size:.75rem;font-weight:500;transition:background .15s,color .15s;white-space:nowrap}
+.nav-link:hover{background:var(--navy4);color:var(--gold)}
+.nav-link.active{background:var(--primary);color:#fff}
+.nav-link.planner-link{border:1px solid rgba(230,57,70,.5);color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:.5rem;margin-left:auto}
+.nav-btn{display:flex;align-items:center;gap:.4rem;padding:.4rem .7rem;border-radius:.5rem;font-size:.72rem;font-weight:600;background:var(--navy3);border:1px solid var(--border);transition:all .15s;white-space:nowrap}
+.nav-btn:hover{background:var(--navy4);border-color:var(--primary)}
+.dropdown{position:relative}
+.dropdown-menu{position:absolute;top:calc(100% + .4rem);right:0;background:var(--navy2);border:1px solid var(--border);border-radius:.75rem;padding:.4rem;min-width:180px;z-index:200;display:none;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.dropdown:hover .dropdown-menu,.dropdown.open .dropdown-menu{display:block}
+.dd-item{display:flex;align-items:center;justify-content:space-between;width:100%;padding:.55rem .8rem;border-radius:.5rem;font-size:.75rem;text-align:left;transition:background .12s}
+.dd-item:hover{background:var(--navy4)}
+.dd-item.active{color:var(--primary);font-weight:700}
+.dd-sub{font-size:.65rem;color:var(--muted)}
+.mobile-menu-btn{display:none;padding:.4rem;border-radius:.5rem;background:var(--navy3);border:1px solid var(--border)}
+
+/* ======= HERO ======= */
+.hero{position:relative;background:linear-gradient(160deg,#0b0d16 0%,#12182d 50%,#0d1520 100%);overflow:hidden;padding:4rem 0 3.5rem}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.hero::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#C8102E,#003087,#FFD700)}
+.hero-inner{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.5rem}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.4rem 1rem;font-size:.8rem}
+.hero-badge .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--primary);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2rem,6vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.03em}
+.hero h1 .gradient{background:linear-gradient(135deg,#ef4444 0%,#3b82f6 50%,#fbbf24 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(.9rem,2vw,1.1rem);color:var(--muted);max-width:520px}
+.hero-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:clamp(1.4rem,4vw,2.2rem);font-weight:800;background:linear-gradient(135deg,var(--gold),#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.stat-label{font-size:.7rem;color:var(--muted);margin-top:.2rem}
+.countdown{display:flex;gap:.75rem;justify-content:center}
+.cd-box{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.7rem 1.1rem;min-width:64px}
+.cd-num{font-size:1.8rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.cd-label{font-size:.65rem;color:var(--muted);margin-top:.15rem}
+.cd-note{font-size:.7rem;color:var(--muted)}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.4rem;border-radius:.7rem;font-size:.9rem;font-weight:700;transition:all .15s;border:1px solid transparent}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary2);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.25)}
+.btn-outline:hover{background:rgba(255,255,255,.08)}
+
+/* ======= GOLD STRIPE ======= */
+.stripe{height:3px;background:linear-gradient(90deg,#C8102E,#003087,#FFD700)}
+
+/* ======= QUICK LINKS ======= */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.75rem}
+.quick-card{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.9rem .5rem;background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;cursor:pointer;transition:all .15s;text-align:center}
+.quick-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 16px rgba(230,57,70,.15)}
+.quick-icon{font-size:1.6rem;line-height:1}
+.quick-label{font-size:.72rem;font-weight:600;line-height:1.2}
+
+/* ======= SECTION HEADER ======= */
+.sec-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.sec-title{font-size:1.2rem;font-weight:800}
+.sec-sub{font-size:.8rem;color:var(--muted);margin-top:.2rem}
+.sec-link{font-size:.78rem;color:var(--primary);white-space:nowrap;align-self:center}
+.sec-link:hover{text-decoration:underline}
+
+/* ======= CITY SELECTOR ======= */
+.city-bar{background:var(--navy2);border:1px solid var(--border);border-radius:1rem;padding:1rem;margin-bottom:1.5rem}
+.city-bar-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.city-current{font-size:.85rem;font-weight:700}
+.city-sub{font-size:.72rem;color:var(--muted)}
+.city-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem}
+.city-pill{display:flex;align-items:center;gap:.4rem;padding:.5rem .75rem;background:var(--navy3);border:1px solid var(--border);border-radius:.6rem;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .12s;text-align:left}
+.city-pill:hover{border-color:rgba(230,57,70,.5);background:rgba(230,57,70,.08)}
+.city-pill.active{border-color:var(--primary);background:rgba(230,57,70,.12);color:var(--primary)}
+.city-matches{margin-left:auto;font-size:.65rem;color:var(--muted);font-weight:400}
+
+/* ======= MATCH CARD ======= */
+.match-list{display:flex;flex-direction:column;gap:.6rem}
+.match-card{background:var(--navy2);border:1px solid var(--border);border-radius:.8rem;padding:.9rem 1rem;position:relative;overflow:hidden;transition:border-color .15s}
+.match-card.highlight{border-color:rgba(230,57,70,.35)}
+.match-card .accent-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#C8102E,#003087,#FFD700)}
+.match-inner{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.match-meta{font-size:.72rem;color:var(--muted);min-width:110px}
+.match-meta strong{color:var(--text);font-size:.78rem}
+.match-teams{display:flex;align-items:center;gap:.5rem;flex:1;min-width:150px}
+.match-flag{font-size:1.4rem;line-height:1}
+.match-vs{font-size:.72rem;color:var(--muted);padding:0 .3rem}
+.match-team{font-size:.82rem;font-weight:700}
+.match-badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.65rem;font-weight:700}
+.badge-stage{background:rgba(139,92,246,.15);color:#a78bfa}
+.badge-usmnt{background:var(--primary);color:#fff}
+.badge-host{background:rgba(255,215,0,.15);color:#FFD700}
+.badge-final{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000}
+.badge-green{background:rgba(34,197,94,.15);color:#4ade80}
+
+/* ======= CARDS GRID ======= */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.card{background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;padding:1.1rem;transition:border-color .15s,transform .15s}
+.card:hover{border-color:rgba(230,57,70,.35);transform:translateY(-2px)}
+.card-icon{font-size:1.8rem;margin-bottom:.6rem}
+.card-title{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
+.card-sub{font-size:.72rem;color:var(--muted);margin-bottom:.5rem}
+.card-desc{font-size:.8rem;color:var(--text2);line-height:1.5;margin-bottom:.75rem}
+.card-meta{display:flex;gap.75rem;font-size:.7rem;color:var(--muted);flex-wrap:wrap;gap:.6rem}
+.tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.6rem}
+.tag{background:var(--navy3);border:1px solid var(--border);padding:.15rem .5rem;border-radius:.35rem;font-size:.65rem}
+.tag-free{background:rgba(34,197,94,.1);color:#4ade80;border-color:rgba(34,197,94,.2)}
+.tip-box{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-radius:.6rem;padding:.55rem .75rem;font-size:.72rem;margin-top:.6rem;line-height:1.5}
+.tip-label{font-weight:700;color:#FFD700}
+.must-try{border-left:2px solid rgba(230,57,70,.5);padding-left:.6rem;font-size:.75rem;margin:.6rem 0}
+.must-label{font-size:.65rem;font-weight:700;color:var(--primary);margin-bottom:.15rem}
+
+/* ======= TRANSPORT ======= */
+.transport-card{background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;padding:1.1rem;display:flex;flex-direction:column;gap:.75rem;margin-bottom:.75rem;transition:border-color .15s}
+.transport-card:hover{border-color:rgba(230,57,70,.3)}
+.transport-head{display:flex;align-items:flex-start;gap:.75rem}
+.transport-icon{font-size:2rem;flex-shrink:0}
+.transport-title{font-size:.9rem;font-weight:700}
+.transport-info{display:flex;gap:1rem;font-size:.72rem;color:var(--muted);flex-wrap:wrap;margin-top:.3rem}
+.steps{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.step{display:flex;gap:.5rem;font-size:.78rem}
+.step-num{width:1.3rem;height:1.3rem;border-radius:50%;background:rgba(230,57,70,.12);color:var(--primary);font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.05rem}
+
+/* ======= AI PLANNER ======= */
+.planner-wrap{max-width:720px;margin:0 auto}
+.planner-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.planner-icon{width:2.5rem;height:2.5rem;border-radius:.75rem;background:linear-gradient(135deg,var(--primary),#3b82f6);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.planner-title{font-size:1.1rem;font-weight:800}
+.planner-sub{font-size:.75rem;color:var(--muted)}
+.live-badge{padding:.2rem .55rem;background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25);border-radius:999px;font-size:.65rem;font-weight:700;margin-left:auto}
+.prompts-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.5rem}
+.prompts{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.prompt-btn{padding:.45rem .75rem;background:var(--navy3);border:1px solid var(--border);border-radius:999px;font-size:.72rem;transition:all .12s;text-align:left}
+.prompt-btn:hover{border-color:rgba(230,57,70,.5);background:rgba(230,57,70,.06)}
+.chat-box{background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;height:380px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
+.msg{display:flex;gap:.5rem;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-avatar{width:1.7rem;height:1.7rem;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:.1rem}
+.msg-bubble{max-width:80%;padding:.65rem .9rem;border-radius:1rem;font-size:.82rem;line-height:1.5;white-space:pre-wrap}
+.msg-bubble.ai{background:var(--navy3);border:1px solid var(--border);border-radius:1rem 1rem 1rem .25rem}
+.msg-bubble.user{background:var(--primary);border-radius:1rem 1rem .25rem 1rem;margin-left:auto}
+.msg.user-msg{flex-direction:row-reverse}
+.chat-input-row{display:flex;gap:.5rem}
+.chat-input{flex:1;background:var(--navy3);border:1px solid var(--border);border-radius:.7rem;padding:.65rem .9rem;font-size:.85rem;resize:none;min-height:48px;max-height:120px;outline:none;transition:border-color .15s;color:var(--text)}
+.chat-input:focus{border-color:var(--primary)}
+.chat-send{width:2.5rem;height:2.5rem;border-radius:.7rem;background:var(--primary);display:flex;align-items:center;justify-content:center;align-self:flex-end;transition:opacity .15s}
+.chat-send:hover{opacity:.85}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
+.chat-hint{font-size:.68rem;color:var(--muted);margin-top:.4rem}
+.typing{display:flex;gap:.3rem;padding:.65rem .9rem;background:var(--navy3);border:1px solid var(--border);border-radius:1rem;width:fit-content}
+.typing span{width:.45rem;height:.45rem;border-radius:50%;background:var(--primary);animation:blink 1.2s ease-in-out infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ======= CITIES PAGE ======= */
+.country-section{margin-bottom:2rem}
+.country-title{font-size:1rem;font-weight:800;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.cities-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.8rem}
+.city-card-full{background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;padding:1rem;cursor:pointer;transition:all .15s;text-align:left}
+.city-card-full:hover{border-color:rgba(230,57,70,.4);transform:translateY(-2px)}
+.city-card-full.active{border-color:var(--primary)}
+.city-card-full .city-top{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
+.city-card-full .city-emoji{font-size:1.5rem}
+.city-card-full .city-name{font-size:.9rem;font-weight:800}
+.city-card-full .city-stadium{font-size:.7rem;color:var(--muted)}
+.city-stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.3rem;font-size:.72rem;margin-bottom:.5rem}
+.city-stat-item span:first-child{font-weight:600}
+.city-stat-item span:last-child{color:var(--muted)}
+.city-desc{font-size:.75rem;color:var(--muted);line-height:1.45;margin-bottom:.5rem}
+.city-first-match{font-size:.72rem;padding:.4rem .6rem;background:var(--navy3);border-radius:.5rem;border:1px solid var(--border)}
+
+/* ======= MONETIZATION ======= */
+.mono-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.mono-card{background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;padding:1.2rem;position:relative;overflow:hidden}
+.mono-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.mono-card.tier-1::before{background:linear-gradient(90deg,var(--green),#4ade80)}
+.mono-card.tier-2::before{background:linear-gradient(90deg,var(--accent-blue),#60a5fa)}
+.mono-card.tier-3::before{background:linear-gradient(90deg,var(--gold),#fbbf24)}
+.mono-card.tier-4::before{background:linear-gradient(90deg,var(--primary),#f97316)}
+.mono-title{font-size:.95rem;font-weight:800;margin-bottom:.3rem}
+.mono-sub{font-size:.72rem;color:var(--muted);margin-bottom:.75rem}
+.mono-list{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.mono-list li{font-size:.78rem;display:flex;gap:.5rem;align-items:flex-start;line-height:1.4}
+.mono-list li::before{content:'→';color:var(--primary);font-weight:700;flex-shrink:0}
+.mono-cta{margin-top:1rem;display:flex;align-items:center;justify-content:space-between}
+.mono-earn{font-size:.75rem;font-weight:700;color:var(--green)}
+.mono-link{font-size:.72rem;color:var(--primary);border:1px solid rgba(230,57,70,.4);padding:.3rem .7rem;border-radius:.4rem}
+.mono-link:hover{background:rgba(230,57,70,.1)}
+
+/* ======= FILTERS ======= */
+.filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.filter-btn{padding:.35rem .8rem;border-radius:999px;font-size:.72rem;font-weight:600;border:1px solid var(--border);background:var(--navy3);transition:all .12s}
+.filter-btn:hover{border-color:rgba(230,57,70,.4)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* ======= FOOTER ======= */
+footer{background:var(--navy2);border-top:1px solid var(--border);padding:2rem 0;text-align:center;font-size:.75rem;color:var(--muted)}
+footer a{color:var(--primary)}
+footer a:hover{text-decoration:underline}
+.footer-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem}
+
+/* ======= AD SLOT ======= */
+.ad-slot{background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.1);border-radius:.75rem;padding:1rem;text-align:center;font-size:.72rem;color:var(--muted);min-height:80px;display:flex;align-items:center;justify-content:center;margin:1.5rem 0}
+
+/* ======= TABS ======= */
+.page-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:.75rem}
+.tab-btn{padding:.45rem .9rem;border-radius:.5rem;font-size:.8rem;font-weight:600;transition:all .12s;color:var(--muted)}
+.tab-btn:hover{color:var(--text);background:var(--navy3)}
+.tab-btn.active{background:var(--primary);color:#fff}
+.page-section{display:none}
+.page-section.active{display:block}
+
+/* ======= RTL ======= */
+[dir="rtl"] .match-teams{flex-direction:row-reverse}
+[dir="rtl"] .must-try{border-left:none;border-right:2px solid rgba(230,57,70,.5);padding-left:0;padding-right:.6rem}
+[dir="rtl"] .step{flex-direction:row-reverse}
+[dir="rtl"] .mono-list li::before{content:'←'}
+
+/* ======= RESPONSIVE ======= */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:56px;left:0;right:0;background:rgba(15,17,26,.98);padding:.75rem;gap:.3rem;border-bottom:1px solid var(--border)}
+  .mobile-menu-btn{display:flex}
+  .hero{padding:2.5rem 0}
+  .hero h1{font-size:1.9rem}
+  .city-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .cards-grid{grid-template-columns:1fr}
+  .match-inner{gap:.5rem}
+  .cities-cards{grid-template-columns:1fr}
+  .mono-grid{grid-template-columns:1fr}
+  .quick-grid{grid-template-columns:repeat(3,1fr)}
+  .chat-box{height:300px}
+  .planner-wrap{max-width:100%}
+}
+@media(max-width:400px){.quick-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="container">
+<div class="nav-inner">
+  <a href="#" onclick="showPage('home')" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" stroke="#e63946" stroke-width="2"/>
+      <polygon points="20,6 23,16 33,16 25,22 28,32 20,26 12,32 15,22 7,16 17,16" fill="#e63946" opacity=".9"/>
+    </svg>
+    <span>FIFA<span style="color:var(--primary)">Map</span>.org</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link active" onclick="showPage('home')" data-page="home" href="#" id="nav-home">🏠 <span class="nl-home">Home</span></a>
+    <a class="nav-link" onclick="showPage('cities')" data-page="cities" href="#" id="nav-cities">🌍 <span class="nl-cities">Cities</span></a>
+    <a class="nav-link" onclick="showPage('matches')" data-page="matches" href="#" id="nav-matches">📅 <span class="nl-matches">Matches</span></a>
+    <a class="nav-link" onclick="showPage('attractions')" data-page="attractions" href="#" id="nav-attractions">🗺️ <span class="nl-attractions">Attractions</span></a>
+    <a class="nav-link" onclick="showPage('dining')" data-page="dining" href="#" id="nav-dining">🍽️ <span class="nl-dining">Dining</span></a>
+    <a class="nav-link" onclick="showPage('transport')" data-page="transport" href="#" id="nav-transport">🚇 <span class="nl-transport">Transport</span></a>
+    <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="#" id="nav-planner">✨ <span class="nl-planner">AI Planner</span></a>
+    <a class="nav-link" onclick="showPage('monetize')" data-page="monetize" href="#" id="nav-monetize">💰 <span class="nl-monetize">Partner</span></a>
+  </div>
+  <div class="nav-right">
+    <!-- City dropdown -->
+    <div class="dropdown" id="cityDropdown">
+      <button class="nav-btn" id="cityBtnLabel">🌴 <span id="cityBtnName">Los Angeles</span> ▾</button>
+      <div class="dropdown-menu" id="cityDropMenu" style="max-height:350px;overflow-y:auto;min-width:220px"></div>
+    </div>
+    <!-- Language dropdown -->
+    <div class="dropdown" id="langDropdown">
+      <button class="nav-btn">🌐 <span id="langLabel">English</span> ▾</button>
+      <div class="dropdown-menu" id="langMenu"></div>
+    </div>
+    <!-- Theme toggle -->
+    <button class="nav-btn" onclick="toggleTheme()" title="Toggle theme" style="padding:.4rem .5rem">🌙</button>
+    <!-- Mobile menu -->
+    <button class="mobile-menu-btn nav-btn" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</div>
+</div>
+</nav>
+
+<!-- ============ HOME PAGE ============ -->
+<div id="page-home" class="page-section active">
+
+<section class="hero">
+<div class="container">
+<div class="hero-inner">
+  <div class="hero-badge"><span class="dot"></span><span id="hero-badge-text">Official Host Cities · June–July 2026</span></div>
+  <h1 id="hero-title1">Welcome to the<br><span class="gradient" id="hero-title2">FIFA World Cup 2026™</span></h1>
+  <p class="hero-sub" id="hero-sub">16 host cities. 104 matches. 3 countries. Plan your ultimate trip — free.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">16</div><div class="stat-label" id="stat-cities">Cities</div></div>
+    <div class="stat"><div class="stat-num">104</div><div class="stat-label" id="stat-matches">Matches</div></div>
+    <div class="stat"><div class="stat-num">48</div><div class="stat-label" id="stat-teams">Teams</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label" id="stat-nations">Nations</div></div>
+  </div>
+  <div class="countdown" id="countdown"></div>
+  <p class="cd-note" id="cd-note">Until the Tournament Opener · Mexico City · June 11, 2026</p>
+  <div class="hero-btns">
+    <a href="#" onclick="showPage('planner')" class="btn btn-primary" id="cta1">✨ Build My Itinerary</a>
+    <a href="#" onclick="showPage('cities')" class="btn btn-outline" id="cta2">Browse All Cities</a>
+  </div>
+</div>
+</div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- AdSense Slot 1 (Banner) -->
+<div class="container">
+<div class="ad-slot" id="ad-top">
+  <div>
+    <div style="font-size:.8rem;margin-bottom:.3rem">📢 Advertisement</div>
+    <div style="font-size:.7rem">Book your World Cup accommodation early — <a href="https://booking.com" target="_blank" rel="noopener" style="color:var(--primary)">Booking.com</a> · <a href="https://www.airbnb.com" target="_blank" rel="noopener" style="color:var(--primary)">Airbnb</a> · <a href="https://www.hotels.com" target="_blank" rel="noopener" style="color:var(--primary)">Hotels.com</a></div>
+  </div>
+</div>
+</div>
+
+<!-- Quick links -->
+<div class="container section-sm">
+<div class="quick-grid" id="quickGrid"></div>
+</div>
+
+<!-- Currently Viewing City -->
+<div class="container section-sm">
+<div class="city-bar">
+  <div class="city-bar-top">
+    <div>
+      <div class="city-current" id="cur-city-name">🌴 Los Angeles <span style="font-size:.75rem;font-weight:400;color:var(--muted)">🇺🇸</span></div>
+      <div class="city-sub" id="cur-city-sub">SoFi Stadium · 8 matches · 72–85°F sunny</div>
+    </div>
+    <a href="#" onclick="showPage('cities')" class="sec-link" id="change-city-link">Change city →</a>
+  </div>
+  <!-- First match preview -->
+  <div id="home-first-match"></div>
+</div>
+
+<!-- Match preview -->
+<div class="sec-header">
+  <div><div class="sec-title" id="sec-matches-title">Match Schedule</div><div class="sec-sub" id="sec-matches-sub">Official fixtures at this stadium</div></div>
+  <a href="#" onclick="showPage('matches')" class="sec-link" id="all-matches-link">All matches →</a>
+</div>
+<div class="match-list" id="home-matches"></div>
+</div>
+
+<!-- Attractions preview -->
+<div style="background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.5rem 0;margin-bottom:1.5rem">
+<div class="container">
+<div class="sec-header">
+  <div><div class="sec-title" id="sec-attr-title">Top Attractions</div><div class="sec-sub" id="sec-attr-sub">Must-see spots near the stadium</div></div>
+  <a href="#" onclick="showPage('attractions')" class="sec-link" id="all-attr-link">All attractions →</a>
+</div>
+<div class="cards-grid" id="home-attractions"></div>
+</div>
+</div>
+
+<!-- Dining preview -->
+<div class="container section-sm">
+<div class="sec-header">
+  <div><div class="sec-title" id="sec-dining-title">Best Dining</div><div class="sec-sub" id="sec-dining-sub">Local favorites for World Cup visitors</div></div>
+  <a href="#" onclick="showPage('dining')" class="sec-link" id="all-dining-link">All dining →</a>
+</div>
+<div class="cards-grid" id="home-dining"></div>
+</div>
+
+<!-- AI CTA -->
+<div class="container" style="padding-bottom:3rem">
+<div style="background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(59,130,246,.06));border:1px solid rgba(230,57,70,.25);border-radius:1.2rem;padding:2.5rem;text-align:center">
+  <div style="font-size:2.5rem;margin-bottom:.75rem">✨</div>
+  <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:.5rem" id="ai-cta-title">Build Your Perfect World Cup Trip</h2>
+  <p style="font-size:.85rem;color:var(--muted);max-width:480px;margin:0 auto .75rem" id="ai-cta-sub">Tell our AI your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.</p>
+  <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+    <a href="#" onclick="showPage('planner')" class="btn btn-primary" id="ai-cta-btn">✨ Start Planning Free</a>
+    <a href="https://booking.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.82rem">🏨 Book Hotels</a>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ============ CITIES PAGE ============ -->
+<div id="page-cities" class="page-section">
+<div class="container section">
+<h1 class="sec-title" style="font-size:1.5rem;margin-bottom:.4rem" id="cities-title">Choose Your City</h1>
+<p style="color:var(--muted);font-size:.82rem;margin-bottom:1.5rem" id="cities-sub">16 host cities across USA, Canada &amp; Mexico · Click to set as active city</p>
+<div id="cities-countries"></div>
+</div>
+</div>
+
+<!-- ============ MATCHES PAGE ============ -->
+<div id="page-matches" class="page-section">
+<div class="container section">
+<div id="matches-header"></div>
+<div class="filters" id="match-filters"></div>
+<div class="match-list" id="matches-list"></div>
+<div style="margin-top:1.5rem">
+  <div class="sec-title" style="margin-bottom:.75rem" id="fan-zones-title">Official Fan Zones</div>
+  <p style="font-size:.8rem;color:var(--muted);margin-bottom:.75rem" id="fan-zones-sub">Watch free on the big screen</p>
+  <div class="cards-grid" id="fan-zones-list"></div>
+</div>
+</div>
+</div>
+
+<!-- ============ ATTRACTIONS PAGE ============ -->
+<div id="page-attractions" class="page-section">
+<div class="container section">
+<div id="attr-header"></div>
+<div class="filters" id="attr-filters"></div>
+<div class="cards-grid" id="attr-list"></div>
+</div>
+</div>
+
+<!-- ============ DINING PAGE ============ -->
+<div id="page-dining" class="page-section">
+<div class="container section">
+<div id="dining-header"></div>
+<div class="filters" id="dining-filters"></div>
+<div class="cards-grid" id="dining-list"></div>
+</div>
+</div>
+
+<!-- ============ TRANSPORT PAGE ============ -->
+<div id="page-transport" class="page-section">
+<div class="container section">
+<div id="transport-header"></div>
+<div id="transport-list"></div>
+<div style="margin-top:1.5rem">
+  <div class="sec-title" style="margin-bottom:.75rem" id="stay-title">Where to Stay</div>
+  <div class="cards-grid" id="neighborhoods-list"></div>
+</div>
+</div>
+</div>
+
+<!-- ============ AI PLANNER PAGE ============ -->
+<div id="page-planner" class="page-section">
+<div class="container section">
+<div class="planner-wrap">
+  <div class="planner-header">
+    <div class="planner-icon">✨</div>
+    <div>
+      <div class="planner-title" id="planner-title">AI Itinerary Planner</div>
+      <div class="planner-sub" id="planner-sub">Knows every match, city, attraction &amp; transport</div>
+    </div>
+    <span class="live-badge" id="live-badge">Live</span>
+  </div>
+  <p class="prompts-label" id="try-asking">TRY ASKING...</p>
+  <div class="prompts" id="quick-prompts"></div>
+  <div class="chat-box" id="chatBox"></div>
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="chatInput" rows="2" placeholder="Ask anything — match days, best restaurants, transport from airport..." onkeydown="handleChatKey(event)"></textarea>
+    <button class="chat-send" id="sendBtn" onclick="sendChat()" title="Send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <p class="chat-hint" id="chat-hint">Enter to send · Shift+Enter for new line · Responds in your selected language</p>
+
+  <!-- AdSense Slot 2 (In-planner) -->
+  <div class="ad-slot" style="min-height:60px;margin-top:1rem">
+    <div style="font-size:.7rem">🎫 Get your World Cup tickets via <a href="https://www.viagogo.com" target="_blank" rel="noopener" style="color:var(--primary)">Viagogo</a> · <a href="https://www.stubhub.com" target="_blank" rel="noopener" style="color:var(--primary)">StubHub</a></div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ============ MONETIZE PAGE ============ -->
+<div id="page-monetize" class="page-section">
+<div class="container section">
+<h1 style="font-size:1.5rem;font-weight:800;margin-bottom:.4rem">💰 Partner & Earn with FIFAMap</h1>
+<p style="color:var(--muted);font-size:.85rem;margin-bottom:2rem">FIFAMap.org serves World Cup fans planning trips across 16 cities. Here's how to partner with us or how we make this site profitable — all free to start.</p>
+
+<div class="mono-grid" id="mono-grid"></div>
+
+<!-- Affiliate links section -->
+<div style="margin-top:2.5rem">
+<h2 style="font-size:1.1rem;font-weight:800;margin-bottom:1rem">🔗 Affiliate Links Active on This Site</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem">
+  <div class="card" style="padding:.9rem">
+    <div style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">🏨 Hotels</div>
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:.6rem">Book accommodation in any host city</div>
+    <div style="display:flex;flex-direction:column;gap:.4rem">
+      <a href="https://booking.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Booking.com →</a>
+      <a href="https://www.hotels.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Hotels.com →</a>
+      <a href="https://www.airbnb.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Airbnb →</a>
+    </div>
+  </div>
+  <div class="card" style="padding:.9rem">
+    <div style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">✈️ Flights</div>
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:.6rem">Find flights between host cities</div>
+    <div style="display:flex;flex-direction:column;gap:.4rem">
+      <a href="https://www.skyscanner.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Skyscanner →</a>
+      <a href="https://www.kayak.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Kayak →</a>
+    </div>
+  </div>
+  <div class="card" style="padding:.9rem">
+    <div style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">🎫 Tickets</div>
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:.6rem">Secondary market match tickets</div>
+    <div style="display:flex;flex-direction:column;gap:.4rem">
+      <a href="https://www.viagogo.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Viagogo →</a>
+      <a href="https://www.stubhub.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">StubHub →</a>
+    </div>
+  </div>
+  <div class="card" style="padding:.9rem">
+    <div style="font-size:.9rem;font-weight:700;margin-bottom:.3rem">🗺️ Experiences</div>
+    <div style="font-size:.75rem;color:var(--muted);margin-bottom:.6rem">Tours, activities, and day trips</div>
+    <div style="display:flex;flex-direction:column;gap:.4rem">
+      <a href="https://www.viator.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">Viator →</a>
+      <a href="https://www.getyourguide.com" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.75rem;padding:.4rem .8rem;justify-content:center">GetYourGuide →</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Contact for partnerships -->
+<div style="margin-top:2rem;background:var(--navy2);border:1px solid var(--border);border-radius:.9rem;padding:1.5rem;text-align:center">
+  <div style="font-size:1.1rem;font-weight:800;margin-bottom:.5rem">📧 Advertise on FIFAMap.org</div>
+  <p style="font-size:.82rem;color:var(--muted);max-width:440px;margin:0 auto .75rem">Reach hundreds of thousands of World Cup fans actively planning their trips. Sponsored listings, banner ads, and city exclusives available.</p>
+  <a href="mailto:partnerships@fifamap.org" class="btn btn-primary" style="font-size:.82rem">Contact for Sponsorship</a>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="container">
+  <p>FIFA World Cup 2026™ · USA · Canada · Mexico · June 11 – July 19, 2026</p>
+  <p style="margin-top:.3rem;font-size:.68rem">FIFAMap.org is an independent fan planning resource. Not affiliated with FIFA.</p>
+  <div class="footer-links">
+    <a href="mailto:partnerships@fifamap.org">Partnerships</a>
+    <a href="#" onclick="showPage('monetize')">Advertise</a>
+    <a href="https://fifa.com" target="_blank" rel="noopener">Official FIFA Site</a>
+    <a href="https://www.perplexity.ai" target="_blank" rel="noopener">Powered by AI</a>
+  </div>
+</div>
+</footer>
+
+<script>
+/* ===================================================
+   DATA — 16 CITIES
+=================================================== */
+const CITIES=[
+{id:"los-angeles",name:"Los Angeles",country:"USA",flag:"🇺🇸",emoji:"🌴",stadium:"SoFi Stadium",addr:"1001 Stadium Dr, Inglewood, CA 90301",capacity:"70,240",matchCount:8,weather:"72–85°F sunny",tz:"PT (UTC-7)",highlights:"Beaches, Hollywood, world-class dining, perfect weather",
+matches:[
+  {id:4,date:"Fri, Jun 12",time:"6:00 PM PT",home:"USA",hf:"🇺🇸",away:"Paraguay",af:"🇵🇾",stage:"Group D",usmnt:true},
+  {id:15,date:"Mon, Jun 15",time:"6:00 PM PT",home:"Iran",hf:"🇮🇷",away:"New Zealand",af:"🇳🇿",stage:"Group G"},
+  {id:26,date:"Thu, Jun 18",time:"12:00 PM PT",home:"Switzerland",hf:"🇨🇭",away:"Bosnia & Herz.",af:"🇧🇦",stage:"Group B"},
+  {id:39,date:"Sun, Jun 21",time:"12:00 PM PT",home:"Belgium",hf:"🇧🇪",away:"Iran",af:"🇮🇷",stage:"Group G"},
+  {id:59,date:"Thu, Jun 25",time:"7:00 PM PT",home:"Türkiye",hf:"🇹🇷",away:"USA",af:"🇺🇸",stage:"Group D",usmnt:true},
+  {id:73,date:"Sun, Jun 28",time:"12:00 PM PT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
+  {id:84,date:"Thu, Jul 2",time:"12:00 PM PT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
+  {id:98,date:"Fri, Jul 10",time:"12:00 PM PT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"}
+],
+attractions:[
+  {name:"Getty Center",category:"Culture",icon:"🏛️",desc:"World-class art museum with panoramic LA views. Free admission.",duration:"2–4 hrs",distance:"12 mi",tip:"Book timed-entry tickets online to skip the line.",tags:["Free","Art","Views"]},
+  {name:"Griffith Observatory",category:"Scenic",icon:"🔭",desc:"Hilltop observatory with sweeping views of the Hollywood sign.",duration:"1–3 hrs",distance:"16 mi",tip:"Go at sunset for the best light. Free entry.",tags:["Free","Iconic","Views"]},
+  {name:"Santa Monica Pier",category:"Outdoor",icon:"🎡",desc:"Beachfront amusement park on Route 66's western terminus.",duration:"2–4 hrs",distance:"8 mi",tip:"The pier itself is free to walk. Rides cost extra.",tags:["Beach","Family"]},
+  {name:"Venice Beach",category:"Outdoor",icon:"🏖️",desc:"Iconic SoCal beach culture — street performers, murals, Muscle Beach.",duration:"2–3 hrs",distance:"5 mi",tip:"Rent a bike from Santa Monica and ride south.",tags:["Beach","Free"]},
+  {name:"Hollywood Walk of Fame",category:"Entertainment",icon:"⭐",desc:"Browse 2,700+ star plaques and the TCL Chinese Theatre.",duration:"1–2 hrs",distance:"14 mi",tip:"Go early morning to avoid crowds.",tags:["Iconic"]}
+],
+dining:[
+  {name:"Grand Central Market",cuisine:"Food Hall",price:"$",icon:"🏪",desc:"Historic 1917 market with 30+ vendors — tacos, ramen, egg sandwiches.",mustTry:"Eggslut Fairfax sandwich + pupusa from Sarita's",tip:"Take Metro to Pershing Square. Busiest at lunch.",category:"Food Hall"},
+  {name:"Sonoratown",cuisine:"Mexican",price:"$",icon:"🌮",desc:"James Beard Award-winning Sonoran tacos with handmade flour tortillas.",mustTry:"Machaca burrito",tip:"Lunch only — closes when sold out. Go early.",category:"Local Gem"},
+  {name:"Kang Ho-dong Baekjeong",cuisine:"Korean BBQ",price:"$$",icon:"🥩",desc:"Legendary Koreatown K-BBQ feast — brisket, pork belly, soju.",mustTry:"Wagyu short rib combo",tip:"No reservations — arrive when doors open.",category:"Celebration"}
+],
+transport:[
+  {mode:"Metro + Free Shuttle",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$1.75",time:"45–60 min from downtown",steps:["Take Metro C Line (Green) to Hawthorne/Lennox Station","Board free SoFi Stadium Shuttle (every 10 min on match days)","Walk 2 min to stadium entrance"],tip:"TAP cards work on all Metro lines. Buy at any station machine."},
+  {mode:"Uber / Lyft",icon:"🚗",badge:"Convenient",badgeColor:"blue",cost:"$25–$50",time:"25–45 min",steps:["Drop-off at Kareem Court or Pincay Drive","Book return before match ends to avoid surge pricing"],tip:"Book return ride BEFORE the match ends — surge can be 3x."}
+],
+fanZones:[
+  {name:"Exposition Park – Main FIFA Fan Festival",area:"Downtown LA",dates:"June 11–15"},
+  {name:"Original Farmers Market (3rd & Fairfax)",area:"Fairfax",dates:"All matches"},
+  {name:"Venice Beach Fan Zone",area:"Westside",dates:"All matches"}
+],
+neighborhoods:[
+  {name:"Inglewood (Near Stadium)",vibe:"Walking distance to SoFi",hotel:"Renaissance Inglewood, AC Hotel",dist:"5–15 min walk"},
+  {name:"Downtown LA",vibe:"Metro hub, nightlife, dining",hotel:"JW Marriott LA Live, Nomad Hotel",dist:"30–40 min via Metro"},
+  {name:"Santa Monica",vibe:"Beach, upscale, relaxed",hotel:"Fairmont Miramar, Shutters on Beach",dist:"40–50 min via Metro"}
+]
+},
+{id:"new-york",name:"New York / NJ",country:"USA",flag:"🇺🇸",emoji:"🗽",stadium:"MetLife Stadium",addr:"1 MetLife Stadium Dr, East Rutherford, NJ",capacity:"82,500",matchCount:9,weather:"75–88°F, humid",tz:"ET (UTC-4)",highlights:"The FINAL, world's greatest city, diverse cuisine, iconic skyline",
+matches:[
+  {id:7,date:"Sat, Jun 13",time:"6:00 PM ET",home:"Brazil",hf:"🇧🇷",away:"Morocco",af:"🇲🇦",stage:"Group C"},
+  {id:17,date:"Tue, Jun 16",time:"3:00 PM ET",home:"France",hf:"🇫🇷",away:"Senegal",af:"🇸🇳",stage:"Group I"},
+  {id:56,date:"Thu, Jun 25",time:"4:00 PM ET",home:"Ecuador",hf:"🇪🇨",away:"Germany",af:"🇩🇪",stage:"Group E"},
+  {id:67,date:"Sat, Jun 27",time:"5:00 PM ET",home:"Panama",hf:"🇵🇦",away:"England",af:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",stage:"Group L"},
+  {id:104,date:"Sun, Jul 19",time:"3:00 PM ET",home:"TBD",hf:"🏆",away:"TBD",af:"🏆",stage:"FINAL"}
+],
+attractions:[
+  {name:"Times Square & Broadway",category:"Entertainment",icon:"🎭",desc:"The crossroads of the world — neon, Broadway shows, restaurants.",duration:"2–4 hrs",distance:"8 mi",tip:"TKTS booth sells same-day Broadway tickets at 50% off.",tags:["Iconic","Nightlife"]},
+  {name:"Central Park",category:"Outdoor",icon:"🌿",desc:"843-acre urban oasis — bike, concerts, the Reservoir.",duration:"2–5 hrs",distance:"9 mi",tip:"Rent bikes at park entrances. The Reservoir loop has skyline views.",tags:["Free","Outdoor"]},
+  {name:"Brooklyn Bridge Walk",category:"Outdoor",icon:"🌉",desc:"Walk the iconic bridge for breathtaking Manhattan skyline views.",duration:"1 hr",distance:"9 mi",tip:"Walk Manhattan → Brooklyn for the best photos.",tags:["Free","Iconic"]}
+],
+dining:[
+  {name:"Katz's Delicatessen",cuisine:"Jewish Deli",price:"$$",icon:"🥪",desc:"Since 1888 — NYC's most iconic pastrami sandwich.",mustTry:"Pastrami on rye with mustard",tip:"Take a number at the door — don't lose it!",category:"Iconic"},
+  {name:"Joe's Pizza",cuisine:"New York Pizza",price:"$",icon:"🍕",desc:"The definitive New York slice — two bucks, perfect char.",mustTry:"Plain cheese slice, no substitutions",tip:"Order at the window, eat on the sidewalk.",category:"Local Gem"}
+],
+transport:[
+  {mode:"NJ Transit Train",icon:"🚆",badge:"Recommended",badgeColor:"green",cost:"$7–12 roundtrip",time:"20–30 min from Penn Station",steps:["Take NJ Transit Meadowlands Rail Link from Penn Station (33rd St)","Direct service on match days — every 20 min","Walk 5 min from Meadowlands Station"],tip:"Buy round-trip before match day — trains fill up fast after the final whistle."}
+],
+fanZones:[{name:"Central Park Fan Festival",area:"Manhattan",dates:"Selected match days"},{name:"Brooklyn Waterfront",area:"Brooklyn",dates:"All matches"}],
+neighborhoods:[{name:"Midtown Manhattan",vibe:"Center of everything",hotel:"Times Square hotels, Marriott Marquis",dist:"30–40 min via NJ Transit"},{name:"Hoboken / Jersey City",vibe:"Closest to MetLife, great NYC views",hotel:"W Hoboken, Westin Jersey City",dist:"15–20 min via shuttle"}]
+},
+{id:"dallas",name:"Dallas",country:"USA",flag:"🇺🇸",emoji:"🤠",stadium:"AT&T Stadium",addr:"1 AT&T Way, Arlington, TX 76011",capacity:"94,000",matchCount:9,weather:"88–96°F hot & sunny",tz:"CT (UTC-5)",highlights:"Most matches of any city, BBQ capital, biggest stadium in the world",
+matches:[
+  {id:11,date:"Sun, Jun 14",time:"4:00 PM CT",home:"Netherlands",hf:"🇳🇱",away:"Japan",af:"🇯🇵",stage:"Group F"},
+  {id:22,date:"Tue, Jun 17",time:"4:00 PM CT",home:"England",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",away:"Croatia",af:"🇭🇷",stage:"Group L"},
+  {id:43,date:"Mon, Jun 22",time:"1:00 PM CT",home:"Argentina",hf:"🇦🇷",away:"Austria",af:"🇦🇹",stage:"Group J"},
+  {id:70,date:"Sat, Jun 27",time:"10:00 PM CT",home:"Jordan",hf:"🇯🇴",away:"Argentina",af:"🇦🇷",stage:"Group J"},
+  {id:101,date:"Tue, Jul 14",time:"3:00 PM CT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Semi-Final"}
+],
+attractions:[
+  {name:"AT&T Stadium Tour",category:"Sports",icon:"🏟️",desc:"Tour the world's largest domed stadium — a cathedral of sport with a 60-yard video screen.",duration:"1–2 hrs",distance:"At venue",tip:"Book the All-Access tour to see the Cowboys locker room.",tags:["Sports","Iconic"]},
+  {name:"Deep Ellum",category:"Nightlife",icon:"🎸",desc:"Dallas arts and entertainment district — murals, craft beer, live music.",duration:"Evening",distance:"11 mi",tip:"Best on weekends. Walk the murals by day, hit bars at night.",tags:["Nightlife","Art"]}
+],
+dining:[
+  {name:"Pecan Lodge",cuisine:"Texas BBQ",price:"$$",icon:"🔥",desc:"Award-winning Dallas BBQ — monster beef ribs, brisket that melts.",mustTry:"Beef rib + brisket combo with jalapeño cheddar sausage",tip:"Opens at 11am, sells out by 2pm. Show up early.",category:"Local Legend"},
+  {name:"Torchy's Tacos",cuisine:"Tex-Mex",price:"$",icon:"🌮",desc:"Texas-born taco chain with inventive flavors — a local institution.",mustTry:"Trailer Park taco (fried chicken, green chile)",tip:"Multiple locations. Quick, affordable, and always fresh.",category:"Casual"}
+],
+transport:[
+  {mode:"Stadium Shuttle",icon:"🚌",badge:"Recommended",badgeColor:"green",cost:"~$10 roundtrip",time:"Varies",steps:["Official shuttles run from Dallas/Fort Worth hotels on match days","Pre-book through AT&T Stadium website"],tip:"Arlington has no rail. Shuttle or rideshare are your best options."}
+],
+fanZones:[{name:"Downtown Dallas Fan Zone",area:"Victory Park",dates:"All match days"}],
+neighborhoods:[{name:"Uptown Dallas",vibe:"Walkable, bars, restaurants",hotel:"W Dallas, The Crescent Court",dist:"20–30 min via rideshare"},{name:"Arlington (Near Stadium)",vibe:"Closest, sports district",hotel:"Loews Arlington, Sheraton",dist:"5–15 min walk"}]
+},
+{id:"miami",name:"Miami",country:"USA",flag:"🇺🇸",emoji:"🌊",stadium:"Hard Rock Stadium",addr:"347 Don Shula Dr, Miami Gardens, FL",capacity:"65,000",matchCount:6,weather:"87–92°F, humid",tz:"ET (UTC-4)",highlights:"Beach party culture, Latin energy, vibrant nightlife, Cuban food",
+matches:[
+  {id:13,date:"Mon, Jun 15",time:"6:00 PM ET",home:"Saudi Arabia",hf:"🇸🇦",away:"Uruguay",af:"🇺🇾",stage:"Group H"},
+  {id:49,date:"Wed, Jun 24",time:"6:00 PM ET",home:"Scotland",hf:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",away:"Brazil",af:"🇧🇷",stage:"Group C"},
+  {id:71,date:"Sat, Jun 27",time:"7:30 PM ET",home:"Colombia",hf:"🇨🇴",away:"Portugal",af:"🇵🇹",stage:"Group K"},
+  {id:103,date:"Sat, Jul 18",time:"5:00 PM ET",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Third Place"}
+],
+attractions:[
+  {name:"South Beach (Ocean Drive)",category:"Beach",icon:"🏖️",desc:"Iconic Art Deco architecture, beautiful beach, Miami's beating heart.",duration:"Half–Full day",distance:"17 mi",tip:"Rent a bike on the beach boardwalk. Go early to claim a beach spot.",tags:["Beach","Iconic"]},
+  {name:"Wynwood Walls",category:"Art",icon:"🎨",desc:"World-famous outdoor museum of street art murals from global artists.",duration:"2–3 hrs",distance:"8 mi",tip:"Free to walk outside. Weekend market is lively.",tags:["Art","Free"]}
+],
+dining:[
+  {name:"Versailles Restaurant",cuisine:"Cuban",price:"$",icon:"🇨🇺",desc:"Miami's most famous Cuban restaurant since 1971 — a cultural landmark.",mustTry:"Ropa vieja + black beans, rice, plantains + café cubano",tip:"Open 24/7. Perfect after a late match.",category:"Iconic"},
+  {name:"Joe's Stone Crab",cuisine:"Seafood",price:"$$$",icon:"🦀",desc:"South Beach institution since 1913 — the stone crab is legendary.",mustTry:"Stone crab claws with mustard sauce",tip:"Peak season Oct–May. Summer menu focuses on other seafood.",category:"Fine Dining"}
+],
+transport:[{mode:"Metrorail + Shuttle",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$2.25/ride",time:"40–50 min from downtown",steps:["Take Metrorail to Palmetto Station","Board free match-day shuttle to Hard Rock Stadium","Shuttle every 15 min on match days"],tip:"Miami's Metrorail is clean, air-conditioned, and reliable."}],
+fanZones:[{name:"Bayside Marketplace Fan Zone",area:"Downtown Miami",dates:"All matches"},{name:"South Beach Fan Zone",area:"Ocean Drive",dates:"Selected matches"}],
+neighborhoods:[{name:"South Beach",vibe:"Party, beach, Art Deco",hotel:"Fontainebleau, 1 Hotel South Beach",dist:"25–35 min via Metrorail"},{name:"Brickell / Downtown",vibe:"Financial district, walkable",hotel:"InterContinental, EAST Miami",dist:"20–30 min via Metrorail"}]
+},
+{id:"atlanta",name:"Atlanta",country:"USA",flag:"🇺🇸",emoji:"🍑",stadium:"Mercedes-Benz Stadium",addr:"1 AMB Dr NW, Atlanta, GA 30313",capacity:"75,000",matchCount:6,weather:"85–92°F, warm",tz:"ET (UTC-4)",highlights:"MLK birthplace, thriving food scene, Coca-Cola, Georgia Aquarium",
+matches:[
+  {id:14,date:"Mon, Jun 15",time:"2:00 PM ET",home:"Spain",hf:"🇪🇸",away:"Cape Verde",af:"🇨🇻",stage:"Group H"},
+  {id:38,date:"Sun, Jun 21",time:"12:00 PM ET",home:"Spain",hf:"🇪🇸",away:"Saudi Arabia",af:"🇸🇦",stage:"Group H"},
+  {id:80,date:"Wed, Jul 1",time:"12:00 PM ET",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[
+  {name:"Georgia Aquarium",category:"Family",icon:"🐋",desc:"One of the world's largest aquariums — whale sharks, manta rays, dolphin shows.",duration:"3–4 hrs",distance:"2 mi",tip:"Book in advance. Combined tickets with World of Coca-Cola save money.",tags:["Family","Indoor"]},
+  {name:"MLK Historic Site",category:"Culture",icon:"✊",desc:"Birthplace and final resting place of Dr. Martin Luther King Jr.",duration:"2–3 hrs",distance:"3 mi",tip:"Free admission. Ranger-led tours are excellent.",tags:["History","Free"]}
+],
+dining:[
+  {name:"Slutty Vegan",cuisine:"Vegan Burgers",price:"$",icon:"🍔",desc:"Atlanta's viral smash-hit vegan burger chain — lines around the block.",mustTry:"One Night Stand or Sloppy Toppy burger",tip:"Go to the original West End location for the full experience.",category:"Local Legend"},
+  {name:"Busy Bee Cafe",cuisine:"Soul Food",price:"$",icon:"🍗",desc:"Since 1947, Atlanta's most beloved soul food institution — MLK ate here.",mustTry:"Fried chicken + collard greens + mac & cheese",tip:"Lunch only — get there by noon.",category:"Iconic"}
+],
+transport:[{mode:"MARTA Rail",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$2.50/ride",time:"20–35 min",steps:["Take MARTA Red or Gold Line to Vine City Station","5-min walk to Mercedes-Benz Stadium"],tip:"MARTA Breeze Card is reloadable — buy at any station."}],
+fanZones:[{name:"Centennial Olympic Park",area:"Downtown Atlanta",dates:"All matches"}],
+neighborhoods:[{name:"Midtown / Downtown",vibe:"Walkable, hotels, food",hotel:"W Atlanta, Loews Atlanta",dist:"20–30 min via MARTA"},{name:"Buckhead",vibe:"Upscale, great dining",hotel:"Four Seasons, InterContinental",dist:"30–40 min via MARTA"}]
+},
+{id:"san-francisco",name:"San Francisco",country:"USA",flag:"🇺🇸",emoji:"🌁",stadium:"Levi's Stadium",addr:"4900 Marie P DeBartolo Way, Santa Clara, CA",capacity:"69,391",matchCount:6,weather:"65–75°F, foggy mornings",tz:"PT (UTC-7)",highlights:"Golden Gate, tech culture, incredible food, wine country nearby",
+matches:[
+  {id:8,date:"Sat, Jun 13",time:"12:00 PM PT",home:"Qatar",hf:"🇶🇦",away:"Switzerland",af:"🇨🇭",stage:"Group B"},
+  {id:20,date:"Mon, Jun 16",time:"9:00 PM PT",home:"Austria",hf:"🇦🇹",away:"Jordan",af:"🇯🇴",stage:"Group J"},
+  {id:81,date:"Wed, Jul 1",time:"5:00 PM PT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[
+  {name:"Golden Gate Bridge",category:"Iconic",icon:"🌁",desc:"Walk or bike the world's most photographed bridge for stunning bay views.",duration:"1–2 hrs",distance:"15 mi",tip:"Bike from Fisherman's Wharf and take the ferry back from Sausalito.",tags:["Iconic","Free"]},
+  {name:"Alcatraz Island",category:"History",icon:"🏝️",desc:"Tour the infamous federal penitentiary on an island in San Francisco Bay.",duration:"3–4 hrs",distance:"16 mi",tip:"Book at least 2 weeks in advance — boats sell out completely.",tags:["History"]}
+],
+dining:[
+  {name:"Tartine Bakery",cuisine:"Artisan Bakery",price:"$$",icon:"🍞",desc:"SF's most beloved bakery — country loaves, morning buns, croque monsieurs.",mustTry:"Country bread (hot from oven at 5 PM daily)",tip:"Line forms at 4:30 PM. Worth every minute.",category:"Iconic"},
+  {name:"La Taqueria (Mission)",cuisine:"Mexican",price:"$",icon:"🌯",desc:"James Beard-winning Mission-style burritos — voted America's best repeatedly.",mustTry:"Carnitas burrito (no rice — true Mission style)",tip:"Cash preferred. Line moves fast.",category:"Local Gem"}
+],
+transport:[{mode:"Caltrain + Shuttle",icon:"🚆",badge:"Recommended",badgeColor:"green",cost:"$3–8 one-way",time:"30–45 min from SF",steps:["Take Caltrain from SF 4th & King to Santa Clara Station","Transfer to VTA or shuttle to Levi's Stadium"],tip:"Use Clipper card for seamless Caltrain + VTA transfers."}],
+fanZones:[{name:"Justin Herman Plaza",area:"Embarcadero, SF",dates:"All matches"},{name:"San Jose Downtown",area:"San Jose",dates:"Selected matches"}],
+neighborhoods:[{name:"Downtown SF",vibe:"Central, hotels, shopping",hotel:"Marriott Marquis SF, Westin St. Francis",dist:"35–45 min via Caltrain"},{name:"Santa Clara (Near Stadium)",vibe:"Tech hub, closest",hotel:"Marriott Santa Clara, Hyatt Centric",dist:"10–20 min via shuttle"}]
+},
+{id:"seattle",name:"Seattle",country:"USA",flag:"🇺🇸",emoji:"☕",stadium:"Lumen Field",addr:"800 Occidental Ave S, Seattle, WA 98134",capacity:"65,123",matchCount:6,weather:"65–75°F, mild",tz:"PT (UTC-7)",highlights:"Coffee capital, Pike Place Market, Space Needle, most walkable stadium",
+matches:[
+  {id:16,date:"Mon, Jun 15",time:"3:00 PM PT",home:"Belgium",hf:"🇧🇪",away:"Egypt",af:"🇪🇬",stage:"Group G"},
+  {id:32,date:"Fri, Jun 19",time:"12:00 PM PT",home:"USA",hf:"🇺🇸",away:"Australia",af:"🇦🇺",stage:"Group D",usmnt:true},
+  {id:95,date:"Wed, Jul 8",time:"3:00 PM PT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"}
+],
+attractions:[
+  {name:"Pike Place Market",category:"Market",icon:"🐟",desc:"America's oldest farmers market — fish throws, fresh flowers, original Starbucks.",duration:"1–3 hrs",distance:"2 mi",tip:"Go early morning before crowds. Original Starbucks is around the corner.",tags:["Food","Iconic"]},
+  {name:"Space Needle",category:"Iconic",icon:"🗼",desc:"The 1962 World's Fair tower with a revolving glass floor and 360° views.",duration:"1–2 hrs",distance:"2 mi",tip:"Book online to skip the line. Go at sunset.",tags:["Iconic","Views"]}
+],
+dining:[
+  {name:"Canlis",cuisine:"Pacific Northwest",price:"$$$",icon:"🍽️",desc:"Seattle's most storied fine dining since 1950, on Lake Union.",mustTry:"Wagyu beef + Dungeness crab + wine pairings",tip:"Book months ahead. Perfect for a match celebration dinner.",category:"Fine Dining"},
+  {name:"Paseo Caribbean",cuisine:"Caribbean Sandwiches",price:"$",icon:"🥖",desc:"The legendary Cuban-inspired sandwich that inspires devotion in Seattleites.",mustTry:"Caribbean Roast sandwich — slow-roasted pork with aioli",tip:"Cash only. Lines are long but move fast.",category:"Local Legend"}
+],
+transport:[{mode:"Link Light Rail",icon:"🚇",badge:"Best in the USA",badgeColor:"green",cost:"$2.25–3.50",time:"15–30 min from airport",steps:["Take Link Light Rail to Stadium Station","Lumen Field is a 3-min walk","Runs every 8 min on match days"],tip:"Lumen Field is the most transit-accessible World Cup stadium in North America."}],
+fanZones:[{name:"Seattle Center Fan Zone",area:"Space Needle Area",dates:"All matches"}],
+neighborhoods:[{name:"Downtown / Pike Place",vibe:"Walking distance to Lumen",hotel:"Fairmont Olympic, Hyatt Regency",dist:"10–20 min walk"},{name:"Capitol Hill",vibe:"Vibrant, food, nightlife",hotel:"Loews Seattle, Inn at Market",dist:"15–20 min via Light Rail"}]
+},
+{id:"houston",name:"Houston",country:"USA",flag:"🇺🇸",emoji:"🚀",stadium:"NRG Stadium",addr:"NRG Pkwy, Houston, TX 77054",capacity:"68,311",matchCount:5,weather:"90–97°F, very humid",tz:"CT (UTC-5)",highlights:"Space Center NASA, most diverse city in America, incredible food scene",
+matches:[
+  {id:10,date:"Sun, Jun 14",time:"1:00 PM CT",home:"Germany",hf:"🇩🇪",away:"Curaçao",af:"🏝️",stage:"Group E"},
+  {id:23,date:"Tue, Jun 17",time:"1:00 PM CT",home:"Portugal",hf:"🇵🇹",away:"IC Winner 1",af:"⚽",stage:"Group K"},
+  {id:76,date:"Mon, Jun 29",time:"1:00 PM CT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[{name:"NASA Johnson Space Center",category:"Science",icon:"🚀",desc:"Mission Control, moon rocks, and astronaut training — America's top space attraction.",duration:"4–6 hrs",distance:"25 mi",tip:"Book early. The Astronaut Training Experience add-on is unforgettable.",tags:["Science","Family"]}],
+dining:[{name:"Killen's Barbecue",cuisine:"Texas BBQ",price:"$$",icon:"🔥",desc:"Pearland's legendary BBQ — widely regarded as Houston's best brisket.",mustTry:"Brisket + beef ribs + banana pudding",tip:"Opens at 11 AM, arrive by 10:30. Worth the drive from downtown.",category:"Local Legend"},{name:"Viet-Cajun Boiled Seafood",cuisine:"Viet-Cajun",price:"$$",icon:"🦞",desc:"Houston's unique fusion — boiled crawfish with Cajun-Vietnamese spice blends. Invented here.",mustTry:"Crawfish or snow crab in Viet-Cajun sauce (medium spice)",tip:"Try Crawfish & Noodles — Houston's most beloved spot for this unique dish.",category:"Unique to Houston"}],
+transport:[{mode:"METRORail + Shuttle",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$1.25/ride",time:"20–35 min",steps:["Take METRORail Red Line to Reliant Park Station","Walk or take shuttle to NRG Stadium"],tip:"Houston is a car city — rideshare is the dominant option for most visitors."}],
+fanZones:[{name:"Discovery Green Fan Zone",area:"Downtown Houston",dates:"All matches"}],
+neighborhoods:[{name:"Downtown Houston",vibe:"Central, business district",hotel:"Post Oak Hotel, Marriott Marquis",dist:"20–30 min via METRORail"}]
+},
+{id:"boston",name:"Boston",country:"USA",flag:"🇺🇸",emoji:"🦞",stadium:"Gillette Stadium",addr:"1 Patriot Pl, Foxborough, MA 02035",capacity:"65,000",matchCount:5,weather:"70–82°F, pleasant",tz:"ET (UTC-4)",highlights:"America's most historic city, seafood paradise, Freedom Trail, college energy",
+matches:[
+  {id:5,date:"Sat, Jun 13",time:"9:00 PM ET",home:"Haiti",hf:"🇭🇹",away:"Scotland",af:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",stage:"Group C"},
+  {id:45,date:"Tue, Jun 23",time:"4:00 PM ET",home:"England",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",away:"Ghana",af:"🇬🇭",stage:"Group L"},
+  {id:61,date:"Fri, Jun 26",time:"3:00 PM ET",home:"Norway",hf:"🇳🇴",away:"France",af:"🇫🇷",stage:"Group I"}
+],
+attractions:[{name:"Freedom Trail",category:"History",icon:"🗽",desc:"1.6-mile walk through 16 historic American Revolution sites in downtown Boston.",duration:"2–3 hrs",distance:"19 mi",tip:"Self-guided is free. The NPS guided tour is excellent.",tags:["History","Free","Walking"]},{name:"Fenway Park",category:"Sports",icon:"⚾",desc:"America's oldest baseball park (1912) — take a tour even if there's no game.",duration:"1–2 hrs",distance:"17 mi",tip:"Stadium tours run daily. Check if Red Sox are home.",tags:["Sports","Iconic"]}],
+dining:[{name:"Neptune Oyster",cuisine:"New England Seafood",price:"$$$",icon:"🦞",desc:"North End gem with Boston's best lobster roll — hot buttered or cold mayo.",mustTry:"Hot butter lobster roll + a dozen oysters",tip:"No reservations — arrive at 11:30 AM when they open.",category:"Iconic"},{name:"Regina Pizzeria",cuisine:"Pizza",price:"$",icon:"🍕",desc:"Boston's oldest pizzeria (1926) in the North End — thin crust, perfect char.",mustTry:"Classic cheese or pepperoni",tip:"Cash only at the original North End location.",category:"Local Legend"}],
+transport:[{mode:"Commuter Rail (Providence Line)",icon:"🚆",badge:"Recommended",badgeColor:"green",cost:"$10–12 roundtrip",time:"35–45 min from South Station",steps:["Take MBTA Commuter Rail from South Station","Foxboro Stop is adjacent to Patriot Place","Extra trains on match days"],tip:"Buy tickets in advance on the MBTA app — conductors charge a surcharge."}],
+fanZones:[{name:"Boston Common Fan Zone",area:"Downtown Boston",dates:"All matches"}],
+neighborhoods:[{name:"Back Bay / Copley",vibe:"Central, shopping, Newbury St",hotel:"Fairmont Copley, Marriott Copley",dist:"35–45 min via commuter rail"}]
+},
+{id:"philadelphia",name:"Philadelphia",country:"USA",flag:"🇺🇸",emoji:"🔔",stadium:"Lincoln Financial Field",addr:"1 Lincoln Financial Field Way, Philadelphia, PA",capacity:"65,827",matchCount:6,weather:"78–87°F",tz:"ET (UTC-4)",highlights:"Independence Hall, Rocky steps, incredible cheesesteaks, art museums",
+matches:[
+  {id:9,date:"Sun, Jun 14",time:"7:00 PM ET",home:"Ivory Coast",hf:"🇨🇮",away:"Ecuador",af:"🇪🇨",stage:"Group E"},
+  {id:29,date:"Fri, Jun 19",time:"9:00 PM ET",home:"Brazil",hf:"🇧🇷",away:"Haiti",af:"🇭🇹",stage:"Group C"},
+  {id:68,date:"Sat, Jun 27",time:"5:00 PM ET",home:"Croatia",hf:"🇭🇷",away:"Ghana",af:"🇬🇭",stage:"Group L"}
+],
+attractions:[{name:"Independence Hall",category:"History",icon:"🏛️",desc:"Where the Declaration of Independence and US Constitution were signed.",duration:"1–2 hrs",distance:"8 mi",tip:"Free timed tickets required — book at Recreation.gov. Come early.",tags:["History","Free"]},{name:"Philadelphia Museum of Art",category:"Culture",icon:"🎨",desc:"World-class art museum — and yes, run up the famous Rocky steps.",duration:"2–4 hrs",distance:"8 mi",tip:"The Rocky statue is at the bottom of the steps. Take the photo.",tags:["Art","Iconic"]}],
+dining:[{name:"Pat's vs. Geno's Cheesesteaks",cuisine:"Cheesesteak",price:"$",icon:"🥩",desc:"The legendary rivals, literally across the street in South Philly.",mustTry:"Cheesesteak wit (with onions) + Whiz",tip:"Get one from each. Pat's for history, Geno's for neon atmosphere.",category:"Iconic"},{name:"Zahav",cuisine:"Israeli",price:"$$$",icon:"🥙",desc:"James Beard Best Restaurant — modern Israeli cuisine that redefined American dining.",mustTry:"Laffa bread + hummus + lamb shoulder",tip:"Book 4–6 weeks in advance.",category:"Fine Dining"}],
+transport:[{mode:"SEPTA Broad Street Line",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$2.50/ride",time:"15–25 min",steps:["Take SEPTA Orange Line to NRG Station","Walk 5–10 min to Lincoln Financial Field"],tip:"SEPTA Key card gives best rates. Load at any station machine."}],
+fanZones:[{name:"Penn's Landing Fan Zone",area:"Delaware Waterfront",dates:"All matches"}],
+neighborhoods:[{name:"Center City / Rittenhouse",vibe:"Walkable, parks, dining",hotel:"Four Seasons Philly, Loews Philly",dist:"20–30 min via SEPTA"}]
+},
+{id:"kansas-city",name:"Kansas City",country:"USA",flag:"🇺🇸",emoji:"🎷",stadium:"Arrowhead Stadium",addr:"1 Arrowhead Dr, Kansas City, MO 64129",capacity:"73,000",matchCount:5,weather:"87–95°F",tz:"CT (UTC-5)",highlights:"BBQ capital of the world, jazz heritage, Chiefs stadium, surprise gem city",
+matches:[
+  {id:19,date:"Tue, Jun 16",time:"8:00 PM CT",home:"Argentina",hf:"🇦🇷",away:"Algeria",af:"🇩🇿",stage:"Group J"},
+  {id:58,date:"Thu, Jun 25",time:"7:00 PM CT",home:"Tunisia",hf:"🇹🇳",away:"Netherlands",af:"🇳🇱",stage:"Group F"},
+  {id:86,date:"Sat, Jul 4",time:"TBD",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[{name:"18th & Vine Jazz District",category:"Culture",icon:"🎷",desc:"Birthplace of jazz and bebop — Charlie Parker's hometown. Live music nightly.",duration:"Evening",distance:"7 mi",tip:"The American Jazz Museum is a must. Green Lady Lounge for live jazz.",tags:["Music","Culture"]},{name:"Country Club Plaza",category:"Shopping",icon:"🏰",desc:"Spanish-inspired shopping district with fountains, art, and great restaurants.",duration:"2–4 hrs",distance:"9 mi",tip:"Walk the Plaza and end at a rooftop bar for sunset views.",tags:["Shopping","Dining"]}],
+dining:[{name:"Joe's Kansas City BBQ",cuisine:"Kansas City BBQ",price:"$",icon:"🔥",desc:"Consistently ranked one of America's best BBQ joints — in a gas station.",mustTry:"Z-Man sandwich (brisket + smoked provolone + onion rings)",tip:"Located in a working gas station. Lines long — arrive before 11 AM.",category:"World Famous"},{name:"Q39",cuisine:"Competition BBQ",price:"$$",icon:"🥩",desc:"Championship competition BBQ in a proper restaurant — burnt ends are king.",mustTry:"Burnt ends + pulled pork + smoked jalapeño mac",tip:"Reservations accepted — rare for KC BBQ. Book ahead on match days.",category:"Local Favorite"}],
+transport:[{mode:"KC Streetcar + Shuttle",icon:"🚊",badge:"Recommended",badgeColor:"green",cost:"Free (streetcar)",time:"30–45 min",steps:["Take KC Streetcar (FREE) from downtown","Board match-day shuttle to Arrowhead Stadium"],tip:"KC Streetcar is completely free — the city subsidizes it."}],
+fanZones:[{name:"Power & Light District",area:"Downtown KC",dates:"All matches"}],
+neighborhoods:[{name:"Country Club Plaza",vibe:"Upscale, beautiful, walkable",hotel:"InterContinental KC, Raphael Hotel",dist:"20 min via shuttle"}]
+},
+{id:"mexico-city",name:"Mexico City",country:"Mexico",flag:"🇲🇽",emoji:"🌮",stadium:"Estadio Azteca",addr:"Calzada de Tlalpan 3465, Mexico City",capacity:"83,000",matchCount:5,weather:"60–75°F, mild (high altitude)",tz:"CT (UTC-5)",highlights:"Tournament OPENER, most iconic stadium in World Cup history, incredible culture",
+matches:[
+  {id:1,date:"Thu, Jun 11",time:"3:00 PM CT",home:"Mexico",hf:"🇲🇽",away:"South Africa",af:"🇿🇦",stage:"TOURNAMENT OPENER — Group A",host:true},
+  {id:53,date:"Wed, Jun 24",time:"9:00 PM CT",home:"UEFA Win D",hf:"🇪🇺",away:"Mexico",af:"🇲🇽",stage:"Group A",host:true},
+  {id:79,date:"Tue, Jun 30",time:"9:00 PM CT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
+  {id:92,date:"Sun, Jul 5",time:"8:00 PM CT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 16"}
+],
+attractions:[
+  {name:"Teotihuacán Pyramids",category:"History",icon:"🏛️",desc:"The ancient Pyramid of the Sun and Moon — among the largest in the world.",duration:"Half day",distance:"30 mi",tip:"Go at sunrise to beat crowds and heat. Hire a guide for context.",tags:["History","UNESCO"]},
+  {name:"Frida Kahlo Museum (Casa Azul)",category:"Art",icon:"🖼️",desc:"The iconic Blue House where Frida Kahlo was born and lived. Essential.",duration:"2–3 hrs",distance:"9 mi",tip:"Book online 2 weeks in advance — sells out daily.",tags:["Art"]}
+],
+dining:[
+  {name:"Contramar",cuisine:"Seafood",price:"$$",icon:"🐟",desc:"Mexico City's most beloved seafood restaurant — the tuna tostada is legendary.",mustTry:"Tostada de atún + red/green grilled fish",tip:"Lunch only. Book 2 weeks ahead.",category:"Iconic"},
+  {name:"Mercado de Medellín",cuisine:"Street Food",price:"$",icon:"🌽",desc:"Bustling market with the best street food in the city — gorditas, quesadillas.",mustTry:"Blue corn quesadilla with huitlacoche",tip:"Cash only at most stalls. Arrive hungry.",category:"Market"}
+],
+transport:[{mode:"Metro Line 2 + Tren Ligero",icon:"🚇",badge:"Best Value",badgeColor:"green",cost:"5 pesos (~$0.25!)",time:"20–45 min from center",steps:["Take Metro Line 2 to Tasqueña","Transfer to Tren Ligero to Estadio Azteca station","Stadium is 5-min walk"],tip:"World's cheapest metro ride. Avoid rush hour 7–10 AM, 6–9 PM."}],
+fanZones:[{name:"Zócalo Fan Festival",area:"Historic Center",dates:"All matches"},{name:"Parque Bicentenario",area:"Azcapotzalco",dates:"Selected matches"}],
+neighborhoods:[{name:"Polanco",vibe:"Upscale, restaurants, safe",hotel:"Four Seasons CDMX, Camino Real",dist:"20–30 min via Metro"},{name:"Roma Norte / Condesa",vibe:"Hip, trees, cafes, nightlife",hotel:"Condesa DF, Red Tree House",dist:"25–35 min via Metro"}]
+},
+{id:"guadalajara",name:"Guadalajara",country:"Mexico",flag:"🇲🇽",emoji:"🎺",stadium:"Estadio Akron",addr:"Av. de las Rosas, Zapopan, Jalisco, Mexico",capacity:"48,000",matchCount:5,weather:"75–85°F, pleasant",tz:"CT (UTC-5)",highlights:"Birthplace of mariachi & tequila, colonial architecture, vibrant culture",
+matches:[
+  {id:28,date:"Thu, Jun 18",time:"9:00 PM CT",home:"Mexico",hf:"🇲🇽",away:"South Korea",af:"🇰🇷",stage:"Group A",host:true},
+  {id:66,date:"Fri, Jun 26",time:"8:00 PM CT",home:"Uruguay",hf:"🇺🇾",away:"Spain",af:"🇪🇸",stage:"Group H"},
+  {id:75,date:"Mon, Jun 29",time:"9:00 PM CT",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[{name:"Tequila Town Day Trip",category:"Culture",icon:"🥃",desc:"The town of Tequila is 37 miles away — home to Jose Cuervo, Herradura, and blue agave fields.",duration:"Full day",distance:"37 mi",tip:"Take the Tequila Express train from Guadalajara for the full tour experience.",tags:["Culture","Day Trip"]},{name:"Tlaquepaque Art District",category:"Art",icon:"🎨",desc:"Colonial village with workshops, galleries, and the best handcrafts in Mexico.",duration:"2–4 hrs",distance:"8 mi",tip:"Best on weekends. El Parián square has live mariachi every afternoon.",tags:["Art","Shopping"]}],
+dining:[{name:"La Chata Restaurant",cuisine:"Jaliscan",price:"$$",icon:"🫕",desc:"Guadalajara's most beloved traditional restaurant — the birria is legendary.",mustTry:"Birria de res + torta ahogada (drowned sandwich)",tip:"The torta ahogada is Guadalajara's signature dish — don't miss it.",category:"Iconic"},{name:"Mercado San Juan de Dios",cuisine:"Market",price:"$",icon:"🏪",desc:"Latin America's largest indoor market — three floors of food and crafts.",mustTry:"Fresh ceviche + agua fresca + churros",tip:"Bring cash. Haggle on crafts but be polite.",category:"Market"}],
+transport:[{mode:"Uber / Cabify",icon:"🚗",badge:"Easy",badgeColor:"blue",cost:"$5–12 from center",time:"20–35 min",steps:["Uber and Cabify operate widely in Guadalajara","Drop-off near Estadio Akron — follow stadium signs"],tip:"Uber is very affordable in Mexico — highly recommended for stadium trips."}],
+fanZones:[{name:"Parque Ávila Camacho",area:"Guadalajara Center",dates:"All matches"}],
+neighborhoods:[{name:"Historic Center",vibe:"Colonial, cultural, walkable",hotel:"Hotel Demetria, One Guadalajara Centro",dist:"20–30 min"},{name:"Zapopan (Near Stadium)",vibe:"Suburban, modern, safe",hotel:"Marriott Guadalajara, Hilton Garden Inn",dist:"10 min"}]
+},
+{id:"monterrey",name:"Monterrey",country:"Mexico",flag:"🇲🇽",emoji:"⛰️",stadium:"Estadio BBVA",addr:"Av. Pablo Livas 2011, Guadalupe, Nuevo León",capacity:"53,500",matchCount:5,weather:"88–96°F hot, dry",tz:"CT (UTC-5)",highlights:"Stunning mountain backdrop, Mexico's business capital, incredible cabrito",
+matches:[
+  {id:12,date:"Sun, Jun 14",time:"10:00 PM CT",home:"UEFA Win B",hf:"🇪🇺",away:"Tunisia",af:"🇹🇳",stage:"Group F"},
+  {id:36,date:"Sat, Jun 20",time:"10:00 PM CT",home:"Tunisia",hf:"🇹🇳",away:"Japan",af:"🇯🇵",stage:"Group F"},
+  {id:54,date:"Wed, Jun 24",time:"9:00 PM CT",home:"South Africa",hf:"🇿🇦",away:"South Korea",af:"🇰🇷",stage:"Group A"}
+],
+attractions:[{name:"Huasteca Canyon",category:"Nature",icon:"🏔️",desc:"Stunning canyon in Parque Nacional Cumbres de Monterrey — dramatic limestone cliffs.",duration:"Half day",distance:"10 mi",tip:"Hire a local guide for the canyon — trail markings are minimal.",tags:["Nature","Hiking"]},{name:"MARCO (Museum of Contemporary Art)",category:"Art",icon:"🎨",desc:"One of Mexico's finest contemporary art museums in a striking building.",duration:"1–2 hrs",distance:"10 mi",tip:"Free on Wednesdays. Great bookshop with Mexican design books.",tags:["Art"]}],
+dining:[{name:"El Rey del Cabrito",cuisine:"Norteño Mexican",price:"$$",icon:"🐐",desc:"Monterrey's signature dish — whole roasted baby goat. The most famous cabrito restaurant.",mustTry:"Cabrito al pastor (whole baby goat) + refried beans + tortillas",tip:"Order a whole cabrito for the table — it's generous and unforgettable.",category:"Iconic"},{name:"Mercado Juárez",cuisine:"Street Food",price:"$",icon:"🥚",desc:"Downtown market with machacado (dried beef), gorditas, and Norteño food.",mustTry:"Machacado con huevo + flour tortilla + café de olla",tip:"Norteño breakfasts are legendary in Mexico. Go at 8 AM.",category:"Market"}],
+transport:[{mode:"Monterrey Metro + Uber",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"~$0.50–$10",time:"25–40 min",steps:["Take Metro Line 1 or 2 toward Estadio BBVA area","Transfer to Uber or taxi for final stretch"],tip:"Uber is very reliable and affordable in Monterrey."}],
+fanZones:[{name:"Macroplaza Fan Zone",area:"Downtown Monterrey",dates:"All matches"}],
+neighborhoods:[{name:"San Pedro Garza García",vibe:"Upscale, international, safe",hotel:"Fiesta Americana, Camino Real",dist:"20–25 min"},{name:"Centro / Barrio Antiguo",vibe:"Historic, nightlife",hotel:"Krystal Monterrey, Holiday Inn Centro",dist:"25–35 min"}]
+},
+{id:"toronto",name:"Toronto",country:"Canada",flag:"🇨🇦",emoji:"🍁",stadium:"BMO Field",addr:"170 Princes' Blvd, Toronto, ON M6K 3C3",capacity:"44,315",matchCount:6,weather:"72–82°F, pleasant",tz:"ET (UTC-4)",highlights:"Canada's opener, most multicultural city on Earth, Niagara Falls nearby, CN Tower walk",
+matches:[
+  {id:3,date:"Fri, Jun 12",time:"3:00 PM ET",home:"Canada",hf:"🇨🇦",away:"UEFA Win A",af:"🇪🇺",stage:"Group B — Canada Opener",host:true},
+  {id:21,date:"Tue, Jun 17",time:"4:00 PM ET",home:"Ghana",hf:"🇬🇭",away:"Panama",af:"🇵🇦",stage:"Group L"},
+  {id:33,date:"Sat, Jun 20",time:"4:00 PM ET",home:"Germany",hf:"🇩🇪",away:"Ivory Coast",af:"🇨🇮",stage:"Group E"},
+  {id:85,date:"Sat, Jul 4",time:"TBD",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[
+  {name:"CN Tower",category:"Iconic",icon:"🗼",desc:"Once the world's tallest structure — glass floor EdgeWalk and panoramic views.",duration:"1–2 hrs",distance:"2 mi from BMO Field",tip:"BMO Field is a 10-min walk from the CN Tower!",tags:["Iconic","Views"]},
+  {name:"Niagara Falls Day Trip",category:"Nature",icon:"💧",desc:"One of the world's great natural wonders — just 90 minutes from downtown Toronto.",duration:"Full day",distance:"80 mi",tip:"Take the GO Train from Union Station — easiest option.",tags:["Nature","Day Trip"]}
+],
+dining:[
+  {name:"St. Lawrence Market",cuisine:"Food Market",price:"$",icon:"🥩",desc:"Toronto's essential market since 1803 — legendary peameal bacon sandwich.",mustTry:"Peameal bacon on a bun from Carousel Bakery",tip:"Open Tue–Sat. The peameal sandwich is a Toronto rite of passage.",category:"Iconic"},
+  {name:"Pai Northern Thai Kitchen",cuisine:"Thai",price:"$$",icon:"🍜",desc:"Toronto's beloved Northern Thai restaurant with dishes you won't find elsewhere.",mustTry:"Khao soi (curry noodle soup) + beef short rib curry",tip:"Walk-in only — lines start 30 min before opening.",category:"Local Favorite"}
+],
+transport:[{mode:"TTC Streetcar + Walk",icon:"🚇",badge:"Recommended",badgeColor:"green",cost:"$3.30/ride",time:"15–25 min from downtown",steps:["Take TTC Subway to Union Station","Walk 10–15 min along waterfront to BMO Field","OR take 509/511 Streetcar along Lake Shore West"],tip:"BMO Field is 10-min walk from CN Tower — most walkable WC venue in Canada."}],
+fanZones:[{name:"Celebration Zone — Exhibition Place",area:"Lakeshore / CNE",dates:"All matches"},{name:"Nathan Phillips Square",area:"Downtown Toronto",dates:"Selected matches"}],
+neighborhoods:[{name:"Downtown / King West",vibe:"Walkable to stadium, vibrant",hotel:"Shangri-La Toronto, Thompson",dist:"15–20 min walk"},{name:"Harbourfront",vibe:"Closest to BMO Field",hotel:"Radisson Blu, Westin Harbour Castle",dist:"10–15 min walk"}]
+},
+{id:"vancouver",name:"Vancouver",country:"Canada",flag:"🇨🇦",emoji:"🏔️",stadium:"BC Place",addr:"777 Pacific Blvd, Vancouver, BC V6B 4Y8",capacity:"54,500",matchCount:7,weather:"65–75°F, mild",tz:"PT (UTC-7)",highlights:"Most scenic setting, mountains + ocean, outdoor paradise, multicultural food scene",
+matches:[
+  {id:6,date:"Sat, Jun 13",time:"9:00 PM PT",home:"Australia",hf:"🇦🇺",away:"UEFA Win C",af:"🇪🇺",stage:"Group D"},
+  {id:27,date:"Thu, Jun 18",time:"3:00 PM PT",home:"Canada",hf:"🇨🇦",away:"Qatar",af:"🇶🇦",stage:"Group B",host:true},
+  {id:51,date:"Wed, Jun 24",time:"3:00 PM PT",home:"Switzerland",hf:"🇨🇭",away:"Canada",af:"🇨🇦",stage:"Group B",host:true},
+  {id:64,date:"Fri, Jun 26",time:"11:00 PM PT",home:"New Zealand",hf:"🇳🇿",away:"Belgium",af:"🇧🇪",stage:"Group G"},
+  {id:83,date:"Thu, Jul 2",time:"TBD",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"}
+],
+attractions:[
+  {name:"Stanley Park",category:"Nature",icon:"🌲",desc:"1,001-acre urban park with seawall, rainforest trails, and mountain views.",duration:"2–4 hrs",distance:"3 mi",tip:"Rent a bike at the park entrance and ride the 9km seawall — unforgettable.",tags:["Nature","Free","Outdoor"]},
+  {name:"Whistler Day Trip",category:"Nature",icon:"⛷️",desc:"World-class mountain resort 75 miles north — hiking, biking, scenic gondola rides.",duration:"Full day",distance:"75 mi",tip:"Take the Whistler Mountaineer bus from downtown Vancouver.",tags:["Nature","Day Trip"]}
+],
+dining:[
+  {name:"Hawksworth Restaurant",cuisine:"Modern Canadian",price:"$$$",icon:"🍽️",desc:"Vancouver's premier fine dining — David Hawksworth's celebrated tasting menus.",mustTry:"BC halibut + wagyu + local truffle tasting menu",tip:"Reserve weeks in advance. Most celebrated restaurant in the city.",category:"Fine Dining"},
+  {name:"Vij's",cuisine:"Indian",price:"$$",icon:"🍛",desc:"Vikram Vij's legendary Indian restaurant — sophisticated Indian food with local BC ingredients.",mustTry:"Lamb popsicles in fenugreek curry cream",tip:"No reservations — arrive at 5 PM when they open.",category:"Local Icon"}
+],
+transport:[{mode:"SkyTrain (Walk to stadium!)",icon:"🚇",badge:"World-Class",badgeColor:"green",cost:"$2.55–4.55 CAD",time:"5–20 min from downtown",steps:["BC Place is 5-min walk from Stadium-Chinatown SkyTrain Station","Take Canada Line from YVR Airport directly to downtown","Walk or SkyTrain from any downtown hotel"],tip:"BC Place is possibly the most transit-connected World Cup venue — SkyTrain stops are seconds away."}],
+fanZones:[{name:"Jack Poole Plaza Live Site",area:"Vancouver Waterfront",dates:"All matches"},{name:"Robson Square",area:"Downtown Vancouver",dates:"Selected matches"}],
+neighborhoods:[{name:"Downtown / Yaletown",vibe:"Walking distance to BC Place",hotel:"Fairmont Pacific Rim, JW Marriott Parq",dist:"5–15 min walk"},{name:"Gastown / Chinatown",vibe:"Historic, food, artsy",hotel:"L'Hermitage, Skwachàys Lodge",dist:"10–20 min walk"}]
+}
+];
+
+/* ===================================================
+   LANGUAGES — 8 TOTAL
+=================================================== */
+const LANGS={
+en:{name:"English",native:"English",rtl:false,t:{
+  badge:"Official Host Cities · June–July 2026",h1:"Welcome to the",h2:"FIFA World Cup 2026™",sub:"16 host cities. 104 matches. 3 countries. Plan your ultimate trip — free.",
+  cta1:"✨ Build My Itinerary",cta2:"Browse All Cities",countdown:"Until the Tournament Opener",
+  qlCities:"Cities",qlMatches:"Matches",qlAttr:"Attractions",qlDining:"Dining",qlTransport:"Transport",qlPlanner:"AI Planner",
+  secMatches:"Match Schedule",secMatchesSub:"Official fixtures at this stadium",allMatches:"All matches →",
+  secAttr:"Top Attractions",secAttrSub:"Must-see spots near the stadium",allAttr:"All attractions →",
+  secDining:"Best Dining",secDiningSub:"Local favorites for World Cup visitors",allDining:"All dining →",
+  changeCity:"Change city →",
+  citiesTitle:"Choose Your City",citiesSub:"16 host cities across USA, Canada & Mexico · Click to set as active city",
+  fanZonesTitle:"Official Fan Zones",fanZonesSub:"Watch free on the big screen",stayTitle:"Where to Stay",
+  aiTitle:"Build Your Perfect World Cup Trip",aiSub:"Tell our AI your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.",aiBtn:"✨ Start Planning Free",
+  plannerTitle:"AI Itinerary Planner",plannerSub:"Knows every match, city, attraction & transport",liveLabel:"Live",tryAsking:"TRY ASKING...",
+  chatHint:"Enter to send · Shift+Enter for new line · Responds in your selected language",
+  chatPlaceholder:"Ask anything — match days, best restaurants, transport from airport...",
+  greeting:"Hello! I'm your FIFA World Cup 2026 global trip planner. 🌍\n\nI know all 104 matches across 16 cities in the USA, Canada, and Mexico — plus the best attractions, restaurants, fan zones, and transport in every host city.\n\nTell me which matches you're seeing, which cities you're visiting, your interests (beach, culture, food, nightlife), and how many days you have — and I'll build you a personalized itinerary.",
+  prompts:["I'm attending USA vs Paraguay in LA on June 12. Plan my trip!","Plan a 5-day trip covering LA, Dallas, and Miami.","Which cities are best for nightlife and beach?","I have kids (6 & 10) — which cities are most family-friendly?","Best restaurants near the Dallas stadium to celebrate Argentina winning?","Cheapest way to get from New York to Philadelphia for a match?"]
+}},
+es:{name:"Spanish",native:"Español",rtl:false,t:{
+  badge:"Ciudades Sede Oficiales · Junio–Julio 2026",h1:"Bienvenido al",h2:"FIFA World Cup 2026™",sub:"16 ciudades sede. 104 partidos. 3 países. Planifica tu viaje — gratis.",
+  cta1:"✨ Crear Mi Itinerario",cta2:"Ver Ciudades",countdown:"Hasta el Inicio del Torneo",
+  qlCities:"Ciudades",qlMatches:"Partidos",qlAttr:"Atracciones",qlDining:"Gastronomía",qlTransport:"Transporte",qlPlanner:"Planificador IA",
+  secMatches:"Calendario de Partidos",secMatchesSub:"Partidos oficiales en este estadio",allMatches:"Todos los partidos →",
+  secAttr:"Principales Atracciones",secAttrSub:"Lo imperdible cerca del estadio",allAttr:"Ver todas →",
+  secDining:"Mejor Gastronomía",secDiningSub:"Favoritos locales para visitantes del Mundial",allDining:"Ver todos →",
+  changeCity:"Cambiar ciudad →",
+  citiesTitle:"Elige Tu Ciudad",citiesSub:"16 ciudades sede en EE.UU., Canadá y México · Haz clic para elegir",
+  fanZonesTitle:"Zonas de Fanáticos Oficiales",fanZonesSub:"Ve gratis en pantalla grande",stayTitle:"Dónde Hospedarse",
+  aiTitle:"Crea Tu Viaje Perfecto al Mundial",aiSub:"Dile a nuestra IA tus partidos, ciudades, intereses y duración del viaje — obtén un itinerario personalizado en 8 idiomas.",aiBtn:"✨ Comenzar Gratis",
+  plannerTitle:"Planificador de Itinerario IA",plannerSub:"Conoce cada partido, ciudad, atracción y transporte",liveLabel:"En vivo",tryAsking:"PRUEBA PREGUNTANDO...",
+  chatHint:"Enter para enviar · Shift+Enter para nueva línea · Responde en tu idioma seleccionado",
+  chatPlaceholder:"Pregunta lo que quieras — días de partido, mejores restaurantes, transporte...",
+  greeting:"¡Hola! Soy tu planificador de viajes para el FIFA World Cup 2026. 🌍\n\nConozco los 104 partidos en 16 ciudades de EE.UU., Canadá y México — además de las mejores atracciones, restaurantes, zonas de fanáticos y transporte en cada ciudad sede.\n\nCuéntame qué partidos verás, qué ciudades visitarás, tus intereses y cuántos días tienes — y te crearé un itinerario personalizado.",
+  prompts:["Voy al partido México vs Sudáfrica en CDMX el 11 de junio. ¿Qué debo hacer?","Planifica un viaje de 5 días por Los Ángeles, Dallas y Miami.","¿Cuáles son las mejores ciudades para playa y vida nocturna?","Tengo hijos (6 y 10 años) — ¿qué ciudades son más familiares?","Mejores restaurantes cerca del estadio de Dallas para celebrar.","¿Cómo ir más barato de Nueva York a Filadelfia para un partido?"]
+}},
+fr:{name:"French",native:"Français",rtl:false,t:{
+  badge:"Villes Hôtes Officielles · Juin–Juillet 2026",h1:"Bienvenue à la",h2:"FIFA World Cup 2026™",sub:"16 villes hôtes. 104 matchs. 3 pays. Planifiez votre voyage — gratuitement.",
+  cta1:"✨ Créer Mon Itinéraire",cta2:"Voir les Villes",countdown:"Jusqu'au Match d'Ouverture",
+  qlCities:"Villes",qlMatches:"Matchs",qlAttr:"Attractions",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"Planificateur IA",
+  secMatches:"Calendrier des Matchs",secMatchesSub:"Matchs officiels dans ce stade",allMatches:"Tous les matchs →",
+  secAttr:"Meilleures Attractions",secAttrSub:"Les incontournables près du stade",allAttr:"Voir tout →",
+  secDining:"Meilleure Gastronomie",secDiningSub:"Favoris locaux pour les visiteurs",allDining:"Voir tout →",
+  changeCity:"Changer de ville →",
+  citiesTitle:"Choisissez Votre Ville",citiesSub:"16 villes hôtes aux États-Unis, Canada et Mexique",
+  fanZonesTitle:"Fan Zones Officielles",fanZonesSub:"Regardez gratuitement sur grand écran",stayTitle:"Où Séjourner",
+  aiTitle:"Créez Votre Voyage Parfait",aiSub:"Dites à notre IA vos matchs, villes, intérêts et durée de séjour — obtenez un itinéraire personnalisé en 8 langues.",aiBtn:"✨ Commencer Gratuitement",
+  plannerTitle:"Planificateur d'Itinéraire IA",plannerSub:"Connaît chaque match, ville, attraction et transport",liveLabel:"En Direct",tryAsking:"ESSAYEZ DE DEMANDER...",
+  chatHint:"Entrée pour envoyer · Maj+Entrée pour nouvelle ligne",
+  chatPlaceholder:"Posez n'importe quelle question — jours de match, meilleurs restaurants...",
+  greeting:"Bonjour ! Je suis votre planificateur de voyage pour la FIFA World Cup 2026. 🌍\n\nJe connais tous les 104 matchs dans 16 villes aux États-Unis, au Canada et au Mexique.\n\nDites-moi quels matchs vous allez voir, quelles villes vous visiterez, vos intérêts et combien de jours vous avez — je créerai un itinéraire personnalisé.",
+  prompts:["Je vais voir France vs Sénégal à New York. Planifiez mon séjour!","Planifiez 5 jours entre Los Angeles, Dallas et Miami.","Quelles villes sont les meilleures pour la vie nocturne?","Quelles villes sont les plus adaptées aux familles?","Meilleurs restaurants à Dallas pour célébrer?","Comment aller de New York à Philadelphie pour un match?"]
+}},
+pt:{name:"Portuguese",native:"Português",rtl:false,t:{
+  badge:"Cidades-Sede Oficiais · Junho–Julho 2026",h1:"Bem-vindo à",h2:"FIFA World Cup 2026™",sub:"16 cidades-sede. 104 jogos. 3 países. Planeje sua viagem — grátis.",
+  cta1:"✨ Criar Meu Itinerário",cta2:"Ver Cidades",countdown:"Até o Jogo de Abertura",
+  qlCities:"Cidades",qlMatches:"Jogos",qlAttr:"Atrações",qlDining:"Gastronomia",qlTransport:"Transporte",qlPlanner:"Planejador IA",
+  secMatches:"Calendário de Jogos",secMatchesSub:"Jogos oficiais neste estádio",allMatches:"Todos os jogos →",
+  secAttr:"Principais Atrações",secAttrSub:"O que não perder perto do estádio",allAttr:"Ver todas →",
+  secDining:"Melhor Gastronomia",secDiningSub:"Favoritos locais para visitantes da Copa",allDining:"Ver todos →",
+  changeCity:"Mudar cidade →",
+  citiesTitle:"Escolha Sua Cidade",citiesSub:"16 cidades-sede nos EUA, Canadá e México",
+  fanZonesTitle:"Fan Zones Oficiais",fanZonesSub:"Assista gratuitamente no telão",stayTitle:"Onde se Hospedar",
+  aiTitle:"Crie Sua Viagem Perfeita",aiSub:"Diga à nossa IA seus jogos, cidades, interesses e duração da viagem — receba um itinerário personalizado em 8 idiomas.",aiBtn:"✨ Começar Grátis",
+  plannerTitle:"Planejador de Itinerário IA",plannerSub:"Conhece cada jogo, cidade, atração e transporte",liveLabel:"Ao Vivo",tryAsking:"TENTE PERGUNTAR...",
+  chatHint:"Enter para enviar · Shift+Enter para nova linha",
+  chatPlaceholder:"Pergunte qualquer coisa — dias de jogo, melhores restaurantes...",
+  greeting:"Olá! Sou seu planejador de viagens para a FIFA World Cup 2026. 🌍\n\nConheço todos os 104 jogos em 16 cidades nos EUA, Canadá e México.\n\nMe diga quais jogos vai assistir, quais cidades vai visitar, seus interesses e quantos dias tem — e criarei um itinerário personalizado.",
+  prompts:["Vou ao Brasil vs Marrocos em Nova York. Planeje minha viagem!","Planeje uma viagem de 5 dias por LA, Dallas e Miami.","Quais cidades são melhores para praia e vida noturna?","Tenho filhos (6 e 10 anos) — quais cidades são mais familiares?","Melhores restaurantes perto do estádio de Dallas para comemorar?","Como ir de Nova York à Filadélfia para um jogo?"]
+}},
+ar:{name:"Arabic",native:"العربية",rtl:true,t:{
+  badge:"المدن المضيفة الرسمية · يونيو–يوليو 2026",h1:"مرحباً بكم في",h2:"كأس العالم FIFA 2026™",sub:"16 مدينة مضيفة. 104 مباريات. 3 دول. خطط رحلتك مجاناً.",
+  cta1:"✨ إنشاء مساري",cta2:"تصفح المدن",countdown:"حتى مباراة الافتتاح",
+  qlCities:"المدن",qlMatches:"المباريات",qlAttr:"المعالم",qlDining:"المطاعم",qlTransport:"المواصلات",qlPlanner:"المخطط الذكي",
+  secMatches:"جدول المباريات",secMatchesSub:"المباريات الرسمية في هذا الملعب",allMatches:"جميع المباريات →",
+  secAttr:"أبرز المعالم",secAttrSub:"الأماكن التي لا يجب تفويتها",allAttr:"عرض الكل →",
+  secDining:"أفضل المطاعم",secDiningSub:"مفضلات السكان المحليين للزوار",allDining:"عرض الكل →",
+  changeCity:"تغيير المدينة →",
+  citiesTitle:"اختر مدينتك",citiesSub:"16 مدينة مضيفة في الولايات المتحدة وكندا والمكسيك",
+  fanZonesTitle:"مناطق المشجعين الرسمية",fanZonesSub:"شاهد مجاناً على الشاشة الكبيرة",stayTitle:"أين تقيم",
+  aiTitle:"خطط رحلتك المثالية لكأس العالم",aiSub:"أخبر مساعدنا الذكي بمبارياتك واهتماماتك ومدة إقامتك للحصول على برنامج رحلة مخصص بـ 8 لغات.",aiBtn:"✨ ابدأ مجاناً",
+  plannerTitle:"مخطط الرحلة بالذكاء الاصطناعي",plannerSub:"يعرف كل مباراة ومدينة ومعلم ووسيلة نقل",liveLabel:"مباشر",tryAsking:"جرب السؤال عن...",
+  chatHint:"Enter للإرسال · Shift+Enter لسطر جديد · يرد بلغتك المختارة",
+  chatPlaceholder:"اسأل عن أي شيء — أيام المباريات، أفضل المطاعم، المواصلات...",
+  greeting:"مرحباً! أنا مخطط رحلتك لكأس العالم FIFA 2026. 🌍\n\nأعرف جميع المباريات الـ 104 في 16 مدينة في الولايات المتحدة وكندا والمكسيك.\n\nأخبرني بالمباريات التي ستشاهدها والمدن التي ستزورها واهتماماتك وعدد الأيام المتاحة — وسأنشئ لك برنامجاً مخصصاً.",
+  prompts:["سأحضر مباراة الأرجنتين في كانساس سيتي. ما الذي أفعله؟","خطط رحلة 5 أيام عبر لوس أنجلوس ودالاس وميامي.","ما أفضل المدن للحياة الليلية والشاطئ؟","أسافر مع أطفال — أي المدن الأنسب للعائلات؟","أفضل المطاعم بالقرب من ملعب دالاس؟","كيف أنتقل من نيويورك إلى فيلادلفيا لمباراة؟"]
+}},
+de:{name:"German",native:"Deutsch",rtl:false,t:{
+  badge:"Offizielle Austragungsorte · Juni–Juli 2026",h1:"Willkommen zur",h2:"FIFA Weltmeisterschaft 2026™",sub:"16 Austragungsorte. 104 Spiele. 3 Länder. Plane deine Reise — kostenlos.",
+  cta1:"✨ Mein Reiseplan",cta2:"Städte ansehen",countdown:"Bis zum Eröffnungsspiel",
+  qlCities:"Städte",qlMatches:"Spiele",qlAttr:"Sehenswürdigkeiten",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"KI-Planer",
+  secMatches:"Spielplan",secMatchesSub:"Offizielle Spiele in diesem Stadion",allMatches:"Alle Spiele →",
+  secAttr:"Top Sehenswürdigkeiten",secAttrSub:"Must-see-Orte in der Nähe",allAttr:"Alle ansehen →",
+  secDining:"Beste Gastronomie",secDiningSub:"Lokale Favoriten für WM-Besucher",allDining:"Alle ansehen →",
+  changeCity:"Stadt wechseln →",
+  citiesTitle:"Wähle deine Stadt",citiesSub:"16 Austragungsorte in den USA, Kanada und Mexiko",
+  fanZonesTitle:"Offizielle Fan Zones",fanZonesSub:"Kostenlos auf der Großleinwand schauen",stayTitle:"Wo übernachten",
+  aiTitle:"Plane deine perfekte WM-Reise",aiSub:"Sag unserem KI-Assistenten deine Spiele, Städte, Interessen und Reisedauer — erhalte ein persönliches Reiseprogramm in 8 Sprachen.",aiBtn:"✨ Kostenlos starten",
+  plannerTitle:"KI Reiseplaner",plannerSub:"Kennt jedes Spiel, jede Stadt, Sehenswürdigkeit und Transport",liveLabel:"Live",tryAsking:"FRAG ZUM BEISPIEL...",
+  chatHint:"Enter zum Senden · Shift+Enter für neue Zeile",
+  chatPlaceholder:"Frag alles — Spieltage, beste Restaurants, Transporttipps...",
+  greeting:"Hallo! Ich bin dein Reiseplaner für die FIFA Weltmeisterschaft 2026. 🌍\n\nIch kenne alle 104 Spiele in 16 Städten in den USA, Kanada und Mexiko.\n\nSag mir, welche Spiele du besuchst, welche Städte du besichtigst, deine Interessen und wie viele Tage du hast — ich erstelle dir einen maßgeschneiderten Reiseplan.",
+  prompts:["Ich besuche Deutschland vs Curaçao in Houston. Was kann ich machen?","Plane 5 Tage zwischen Los Angeles, Dallas und Miami.","Welche Städte sind am besten für Nachtleben?","Welche Städte sind am familienfreundlichsten?","Beste Restaurants nahe des Dallas-Stadions?","Günstigster Weg von New York nach Philadelphia für ein Spiel?"]
+}},
+ja:{name:"Japanese",native:"日本語",rtl:false,t:{
+  badge:"公式開催都市 · 2026年6月〜7月",h1:"ようこそ",h2:"FIFA ワールドカップ 2026™",sub:"16都市・104試合・3カ国。あなたの旅を無料でプランしよう。",
+  cta1:"✨ 旅程を作る",cta2:"都市を見る",countdown:"開幕まで",
+  qlCities:"都市",qlMatches:"試合",qlAttr:"観光",qlDining:"グルメ",qlTransport:"交通",qlPlanner:"AIプランナー",
+  secMatches:"試合スケジュール",secMatchesSub:"このスタジアムの公式試合",allMatches:"全試合を見る →",
+  secAttr:"おすすめ観光スポット",secAttrSub:"スタジアム周辺の必見スポット",allAttr:"全て見る →",
+  secDining:"おすすめグルメ",secDiningSub:"地元のお気に入りスポット",allDining:"全て見る →",
+  changeCity:"都市を変更 →",
+  citiesTitle:"都市を選ぶ",citiesSub:"米国・カナダ・メキシコの16開催都市 · クリックして選択",
+  fanZonesTitle:"公式ファンゾーン",fanZonesSub:"大画面で無料観戦",stayTitle:"宿泊先",
+  aiTitle:"完璧なワールドカップ旅程を作ろう",aiSub:"試合・都市・興味・滞在日数をAIに伝えれば、8言語で個人旅程を作成します。",aiBtn:"✨ 無料でプランを始める",
+  plannerTitle:"AI 旅程プランナー",plannerSub:"全試合・都市・観光・交通情報を把握",liveLabel:"ライブ",tryAsking:"こんな質問をしてみよう...",
+  chatHint:"Enterで送信 · Shift+Enterで改行 · 選択した言語で回答",
+  chatPlaceholder:"何でも聞いてください — 試合日、おすすめレストラン、交通手段...",
+  greeting:"こんにちは！FIFA ワールドカップ 2026 の旅程プランナーです。🌍\n\n米国・カナダ・メキシコの16都市で開催される全104試合の情報と、各開催都市の観光・グルメ・ファンゾーン・交通情報を把握しています。\n\n観戦する試合、訪問する都市、興味や滞在日数を教えていただければ、個人に合わせた日程を作成します。",
+  prompts:["6月14日にダラスでオランダvsオランダの試合を観ます。旅程を計画して！","ロサンゼルス・ダラス・マイアミを5日間旅するプランを立てて。","ナイトライフと海が楽しめる都市はどこ？","子供連れ（6歳と10歳）— どの都市が最もファミリーフレンドリー？","ダラスのスタジアム周辺のおすすめレストランは？","ニューヨークからフィラデルフィアへの試合観戦の最安方法は？"]
+}},
+zh:{name:"Mandarin",native:"中文",rtl:false,t:{
+  badge:"官方举办城市 · 2026年6月—7月",h1:"欢迎来到",h2:"FIFA 世界杯 2026™",sub:"16座城市 · 104场比赛 · 3个国家。免费规划你的完美旅程。",
+  cta1:"✨ 制定我的行程",cta2:"浏览城市",countdown:"距开幕式",
+  qlCities:"城市",qlMatches:"赛程",qlAttr:"景点",qlDining:"美食",qlTransport:"交通",qlPlanner:"AI规划",
+  secMatches:"赛事日程",secMatchesSub:"本场馆的正式赛事",allMatches:"查看全部赛事 →",
+  secAttr:"热门景点",secAttrSub:"球场周边必看景点",allAttr:"查看全部 →",
+  secDining:"推荐美食",secDiningSub:"世界杯观赛者的本地最爱",allDining:"查看全部 →",
+  changeCity:"切换城市 →",
+  citiesTitle:"选择你的城市",citiesSub:"美国、加拿大和墨西哥的16个举办城市 · 点击选择",
+  fanZonesTitle:"官方球迷区",fanZonesSub:"免费大屏幕观赛",stayTitle:"住宿推荐",
+  aiTitle:"规划你完美的世界杯之旅",aiSub:"告诉我们的AI你的比赛、城市、兴趣和旅行天数——用8种语言生成个性化日程。",aiBtn:"✨ 免费开始规划",
+  plannerTitle:"AI 行程规划助手",plannerSub:"掌握所有比赛、城市、景点和交通信息",liveLabel:"实时",tryAsking:"试试这样问...",
+  chatHint:"Enter发送 · Shift+Enter换行 · 以您选择的语言回复",
+  chatPlaceholder:"随便问我——比赛日、推荐餐厅、从机场如何到达...",
+  greeting:"你好！我是你的FIFA世界杯2026全球旅行规划助手。🌍\n\n我掌握美国、加拿大和墨西哥16个城市的全部104场比赛信息，以及每个举办城市的最佳景点、餐厅、球迷区和交通方式。\n\n告诉我你要观看哪些比赛、将要访问哪些城市、你的兴趣爱好以及旅行天数——我将为你制定个性化的行程。",
+  prompts:["我6月12日要去洛杉矶看美国vs巴拉圭的比赛，帮我规划行程！","规划一个横跨洛杉矶、达拉斯和迈阿密的5天旅程。","哪些城市最适合夜生活和海滩？","我带着孩子（6岁和10岁）——哪些城市最适合家庭旅行？","达拉斯球场附近的推荐餐厅？","从纽约到费城看比赛最便宜的方式是什么？"]
+}}
+};
+
+/* ===================================================
+   MONETIZE DATA
+=================================================== */
+const MONO_DATA=[
+{tier:"tier-1",icon:"🏨",title:"Hotel & Accommodation Affiliates",sub:"Earn 4–8% on every hotel booking",earn:"$15–$120 per booking",link:"Sign up free at Booking.com",linkUrl:"https://affiliate.booking.com",items:["Add Booking.com affiliate links to every city's 'Where to Stay' section","Partner with Airbnb, Hotels.com, and Expedia affiliate programs","Earn commission when visitors book — zero upfront cost","Estimated: $5K–$50K during the June–July tournament window"]},
+{tier:"tier-2",icon:"✈️",title:"Flight & Transport Affiliates",sub:"Earn per click and per booking",earn:"$0.50–$30 per conversion",link:"Join Skyscanner Affiliate",linkUrl:"https://www.partners.skyscanner.net",items:["Skyscanner API embeds on every city page — compare flights between host cities","Kayak and Google Flights affiliate links","Amtrak affiliate for Boston–NYC–Philadelphia corridor","Car rental: Hertz, Enterprise, and Avis affiliate programs"]},
+{tier:"tier-3",icon:"🎫",title:"Experience & Ticket Affiliates",sub:"Highest commission rates",earn:"8–12% per booking",link:"Join Viator Partner Program",linkUrl:"https://www.viator.com/partner",items:["Viator and GetYourGuide tour affiliate links on all Attractions pages","StubHub and Viagogo secondary ticket market links","FanPass and SeatGeek partner programs for match tickets","Disneyland/Universal Studios experiences near LA, Niagara Falls near Toronto"]},
+{tier:"tier-4",icon:"📢",title:"Sponsored Listings & Ads",sub:"Direct revenue from local businesses",earn:"$200–$2,000/month per sponsor",link:"Contact partnerships@fifamap.org",linkUrl:"mailto:partnerships@fifamap.org",items:["Sponsored restaurant listings in each city's Dining section","Featured hotel placement on city pages","Google AdSense programmatic ads (apply after 3 months traffic)","City-exclusive banner sponsorships for local businesses and tour operators"]},
+{tier:"tier-1",icon:"💎",title:"Premium AI Planner (Freemium)",sub:"Unlimited itinerary generation",earn:"$4.99/trip or $9.99/month",link:"Coming soon — waitlist open",linkUrl:"mailto:partnerships@fifamap.org",items:["Free tier: 3 AI planner messages per session","Premium: Unlimited planning + PDF itinerary export + offline access","Implement via Stripe — $0 setup cost","Target: 5,000 premium users × $4.99 = $25K+ during tournament"]},
+{tier:"tier-2",icon:"📄",title:"PDF Itinerary Export",sub:"One-time purchase, instant download",earn:"$2.99 per download",link:"Coming soon",linkUrl:"mailto:partnerships@fifamap.org",items:["Auto-generate a beautifully formatted PDF from any AI-planned itinerary","Printable, shareable, professional — high perceived value","Implement with jsPDF (free library) + Stripe payment","Estimated: 10,000 downloads × $2.99 = $30K during tournament"]}
+];
+
+/* ===================================================
+   APP STATE
+=================================================== */
+let currentLang="en";
+let currentCity="los-angeles";
+let chatMessages=[];
+let chatLoading=false;
+const API_BASE="__PORT_5000__";
+
+/* ===================================================
+   HELPERS
+=================================================== */
+function t(){return LANGS[currentLang].t}
+function city(){return CITIES.find(c=>c.id===currentCity)}
+
+function makeBadge(cls,text){return`<span class="badge badge-${cls}">${text}</span>`}
+
+function renderMatchCard(m,showAccent){
+  const hl=m.usmnt||m.host||m.stage==="FINAL"||m.stage.includes("Semi");
+  return`<div class="match-card ${hl?'highlight':''}">
+    ${showAccent&&hl?'<div class="accent-bar"></div>':''}
+    <div class="match-inner">
+      <div class="match-meta"><strong>Match ${m.id}</strong><br>${m.date} · ${m.time}</div>
+      <div class="match-teams">
+        <span class="match-flag">${m.hf}</span>
+        <span class="match-team">${m.home}</span>
+        <span class="match-vs">vs</span>
+        <span class="match-flag">${m.af}</span>
+        <span class="match-team">${m.away}</span>
+      </div>
+      <div class="match-badges">
+        <span class="badge badge-stage">${m.stage}</span>
+        ${m.usmnt?makeBadge('usmnt','🇺🇸 USMNT'):''}
+        ${m.host?makeBadge('host','🏠 Host'):''}
+        ${m.stage==='FINAL'?makeBadge('final','🏆 FINAL'):''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAttrCard(a){
+  const tags=a.tags.map(tg=>`<span class="tag ${tg==='Free'?'tag-free':''}">${tg}</span>`).join('');
+  return`<div class="card">
+    <div class="card-icon">${a.icon}</div>
+    <div class="card-title">${a.name}</div>
+    <div class="card-sub">${a.category}</div>
+    <div class="card-desc">${a.desc}</div>
+    <div class="card-meta"><span>⏱ ${a.duration}</span><span>📍 ${a.distance}</span></div>
+    <div class="tags">${tags}</div>
+    <div class="tip-box"><span class="tip-label">💡 Pro tip: </span>${a.tip}</div>
+  </div>`;
+}
+
+function renderDiningCard(d){
+  return`<div class="card">
+    <div class="card-icon">${d.icon}</div>
+    <div class="card-title">${d.name}</div>
+    <div class="card-sub">${d.cuisine} · ${d.price} · ${d.category}</div>
+    <div class="card-desc">${d.desc}</div>
+    <div class="must-try"><div class="must-label">Must try</div>${d.mustTry}</div>
+    <div class="tip-box"><span class="tip-label">💡 Tip: </span>${d.tip}</div>
+  </div>`;
+}
+
+function renderTransport(tr){
+  const steps=tr.steps.map((s,i)=>`<li class="step"><span class="step-num">${i+1}</span><span>${s}</span></li>`).join('');
+  const badgeCls={'green':'badge-green','blue':'badge-stage','yellow':'badge-host'}[tr.badgeColor]||'badge-stage';
+  return`<div class="transport-card">
+    <div class="transport-head">
+      <span class="transport-icon">${tr.icon}</span>
+      <div>
+        <div class="transport-title">${tr.mode} <span class="badge ${badgeCls}">${tr.badge}</span></div>
+        <div class="transport-info"><span>💰 ${tr.cost}</span><span>⏱ ${tr.time}</span></div>
+      </div>
+    </div>
+    <ol class="steps">${steps}</ol>
+    <div class="tip-box"><span class="tip-label">💡 </span>${tr.tip}</div>
+  </div>`;
+}
+
+/* ===================================================
+   PAGE RENDERING
+=================================================== */
+function renderHome(){
+  const c=city(),lang=LANGS[currentLang],T=t();
+  // Quick grid
+  const items=[
+    {icon:'🌍',label:T.qlCities,page:'cities'},
+    {icon:'📅',label:T.qlMatches,page:'matches'},
+    {icon:'🗺️',label:T.qlAttr,page:'attractions'},
+    {icon:'🍽️',label:T.qlDining,page:'dining'},
+    {icon:'🚇',label:T.qlTransport,page:'transport'},
+    {icon:'✨',label:T.qlPlanner,page:'planner'}
+  ];
+  document.getElementById('quickGrid').innerHTML=items.map(i=>`
+    <div class="quick-card" onclick="showPage('${i.page}')">
+      <div class="quick-icon">${i.icon}</div>
+      <div class="quick-label">${i.label}</div>
+    </div>`).join('');
+
+  // City bar
+  document.getElementById('cur-city-name').innerHTML=`${c.emoji} ${c.name} <span style="font-size:.75rem;font-weight:400;color:var(--muted)">${c.flag}</span>`;
+  document.getElementById('cur-city-sub').textContent=`${c.stadium} · ${c.matchCount} matches · ${c.weather}`;
+  document.getElementById('change-city-link').textContent=T.changeCity;
+
+  // First match card
+  const fm=c.matches[0];
+  document.getElementById('home-first-match').innerHTML=`<div class="match-card" style="background:rgba(230,57,70,.05);border-color:rgba(230,57,70,.25)">
+    <div class="match-inner">
+      <div class="match-meta"><strong>Next Match</strong><br>${fm.shortDate||fm.date}</div>
+      <div class="match-teams">
+        <span class="match-flag">${fm.hf}</span><span class="match-team">${fm.home}</span>
+        <span class="match-vs">vs</span>
+        <span class="match-flag">${fm.af}</span><span class="match-team">${fm.away}</span>
+      </div>
+      <div class="match-badges">
+        <span class="badge badge-stage">${fm.stage}</span>
+        ${fm.usmnt?makeBadge('usmnt','🇺🇸 USMNT'):''}
+        ${fm.host?makeBadge('host','🏠 Host'):''}
+      </div>
+    </div>
+  </div>`;
+
+  // Section headers
+  document.getElementById('sec-matches-title').textContent=T.secMatches;
+  document.getElementById('sec-matches-sub').textContent=T.secMatchesSub;
+  document.getElementById('all-matches-link').textContent=T.allMatches;
+  document.getElementById('sec-attr-title').textContent=T.secAttr;
+  document.getElementById('sec-attr-sub').textContent=T.secAttrSub;
+  document.getElementById('all-attr-link').textContent=T.allAttr;
+  document.getElementById('sec-dining-title').textContent=T.secDining;
+  document.getElementById('sec-dining-sub').textContent=T.secDiningSub;
+  document.getElementById('all-dining-link').textContent=T.allDining;
+  document.getElementById('ai-cta-title').textContent=T.aiTitle;
+  document.getElementById('ai-cta-sub').textContent=T.aiSub;
+  document.getElementById('ai-cta-btn').textContent=T.aiBtn;
+
+  // Matches preview (first 3)
+  document.getElementById('home-matches').innerHTML=c.matches.slice(0,3).map(m=>renderMatchCard(m,true)).join('');
+  // Attractions preview (first 3)
+  document.getElementById('home-attractions').innerHTML=c.attractions.slice(0,3).map(renderAttrCard).join('');
+  // Dining preview (first 2)
+  document.getElementById('home-dining').innerHTML=c.dining.slice(0,2).map(renderDiningCard).join('');
+
+  // Hero text
+  document.getElementById('hero-badge-text').textContent=T.badge;
+  document.getElementById('hero-title1').childNodes[0].textContent=T.h1+' ';
+  document.getElementById('hero-title2').textContent=T.h2;
+  document.getElementById('hero-sub').textContent=T.sub;
+  document.getElementById('cta1').textContent=T.cta1;
+  document.getElementById('cta2').textContent=T.cta2;
+  document.getElementById('cd-note').textContent=T.countdown+' · Mexico City · June 11, 2026';
+}
+
+function renderMatches(){
+  const c=city(),T=t();
+  document.getElementById('matches-header').innerHTML=`
+    <div style="margin-bottom:1rem">
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">${c.emoji} ${c.name}</div>
+      <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:.3rem">${T.secMatches}</h1>
+      <div style="background:var(--navy2);border:1px solid var(--border);border-radius:.75rem;padding:.9rem 1rem;margin-top:.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
+        <span style="font-size:1.5rem">🏟️</span>
+        <div>
+          <div style="font-weight:700;font-size:.9rem">${c.stadium}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${c.addr}</div>
+          <div style="font-size:.72rem;margin-top:.3rem">⚡ Capacity: ${c.capacity} · ⛅ ${c.weather} · 🕒 ${c.tz}</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Filters
+  let activeFilter='All';
+  function doFilter(){
+    const ml=document.getElementById('matches-list');
+    const matches=activeFilter==='All'?c.matches:activeFilter==='Group Stage'?c.matches.filter(m=>m.stage.startsWith('Group')):c.matches.filter(m=>!m.stage.startsWith('Group'));
+    ml.innerHTML=matches.map(m=>renderMatchCard(m,true)).join('');
+    document.querySelectorAll('#match-filters .filter-btn').forEach(b=>{
+      b.classList.toggle('active',b.dataset.f===activeFilter);
+    });
+  }
+  document.getElementById('match-filters').innerHTML=['All','Group Stage','Knockout'].map(f=>`<button class="filter-btn ${f==='All'?'active':''}" data-f="${f}" onclick="this.closest('.filters').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');window._mf='${f}';window._renderMatches()">${f}</button>`).join('');
+  window._mf='All';
+  window._renderMatches=function(){
+    const f=window._mf;
+    const matches=f==='All'?c.matches:f==='Group Stage'?c.matches.filter(m=>m.stage.startsWith('Group')):c.matches.filter(m=>!m.stage.startsWith('Group'));
+    document.getElementById('matches-list').innerHTML=matches.map(m=>renderMatchCard(m,true)).join('');
+  };
+  document.getElementById('matches-list').innerHTML=c.matches.map(m=>renderMatchCard(m,true)).join('');
+
+  // Fan zones
+  document.getElementById('fan-zones-title').textContent=T.fanZonesTitle;
+  document.getElementById('fan-zones-sub').textContent=T.fanZonesSub;
+  document.getElementById('fan-zones-list').innerHTML=c.fanZones.map(fz=>`
+    <div class="card"><div class="card-icon">⚽</div><div class="card-title">${fz.name}</div><div class="card-sub">${fz.area} · ${fz.dates}</div></div>`).join('');
+}
+
+function renderAttractions(){
+  const c=city(),T=t();
+  document.getElementById('attr-header').innerHTML=`
+    <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">${c.emoji} ${c.name}</div>
+    <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem">${T.secAttr}</h1>`;
+  const cats=['All',...new Set(c.attractions.map(a=>a.category))];
+  let af='All';
+  document.getElementById('attr-filters').innerHTML=cats.map(cat=>`<button class="filter-btn ${cat==='All'?'active':''}" onclick="this.closest('.filters').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');window._af='${cat}';window._renderAttr()">${cat}</button>`).join('');
+  window._af='All';
+  window._renderAttr=function(){
+    const f=window._af;
+    const list=f==='All'?c.attractions:c.attractions.filter(a=>a.category===f);
+    document.getElementById('attr-list').innerHTML=list.map(renderAttrCard).join('');
+  };
+  document.getElementById('attr-list').innerHTML=c.attractions.map(renderAttrCard).join('');
+}
+
+function renderDining(){
+  const c=city(),T=t();
+  document.getElementById('dining-header').innerHTML=`
+    <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">${c.emoji} ${c.name}</div>
+    <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem">${T.secDining}</h1>`;
+  document.getElementById('dining-filters').innerHTML=['All','$','$$','$$$'].map(p=>`<button class="filter-btn ${p==='All'?'active':''}" onclick="this.closest('.filters').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');window._dp='${p}';window._renderDining()">${p==='All'?'All Price Ranges':p}</button>`).join('');
+  window._dp='All';
+  window._renderDining=function(){
+    const f=window._dp;
+    const list=f==='All'?c.dining:c.dining.filter(d=>d.price===f);
+    document.getElementById('dining-list').innerHTML=list.length?list.map(renderDiningCard).join(''):'<p style="color:var(--muted);padding:2rem 0">No results for this filter.</p>';
+  };
+  document.getElementById('dining-list').innerHTML=c.dining.map(renderDiningCard).join('');
+}
+
+function renderTransportPage(){
+  const c=city(),T=t();
+  document.getElementById('transport-header').innerHTML=`
+    <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">${c.emoji} ${c.name}</div>
+    <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:1rem">${T.secAttr.replace('Attractions','Transport')}</h1>
+    <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.5rem;font-size:.82rem">
+      <strong>🚇 Best advice:</strong> <span style="color:var(--muted)">On match days, take public transit whenever possible. Stadium traffic can add 60–90 minutes. Metro and train options are always faster than driving.</span>
+    </div>`;
+  document.getElementById('transport-list').innerHTML=c.transport.map(renderTransport).join('');
+  document.getElementById('stay-title').textContent=T.stayTitle;
+  document.getElementById('neighborhoods-list').innerHTML=c.neighborhoods.map(n=>`
+    <div class="card">
+      <div class="card-title">${n.name}</div>
+      <div class="card-sub" style="font-style:italic;margin-bottom:.5rem">${n.vibe}</div>
+      <div style="font-size:.78rem;display:flex;flex-direction:column;gap:.35rem">
+        <div><strong>🏨 Hotels:</strong> <span style="color:var(--muted)">${n.hotel}</span></div>
+        <div><strong>⚽ Stadium:</strong> <span style="color:var(--muted)">${n.dist}</span></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderCities(){
+  const T=t();
+  document.getElementById('cities-title').textContent=T.citiesTitle;
+  document.getElementById('cities-sub').textContent=T.citiesSub;
+  const countries=['USA','Canada','Mexico'];
+  const flags={'USA':'🇺🇸','Canada':'🇨🇦','Mexico':'🇲🇽'};
+  document.getElementById('cities-countries').innerHTML=countries.map(country=>{
+    const citiesOfCountry=CITIES.filter(c=>c.country===country);
+    return`<div class="country-section">
+      <div class="country-title">${flags[country]} ${country} — ${citiesOfCountry.length} host ${citiesOfCountry.length===1?'city':'cities'}</div>
+      <div class="cities-cards">
+        ${citiesOfCountry.map(c=>`
+          <button class="city-card-full ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}')">
+            <div class="city-top">
+              <span class="city-emoji">${c.emoji}</span>
+              <div>
+                <div class="city-name">${c.name} ${c.flag}</div>
+                <div class="city-stadium">${c.stadium}</div>
+              </div>
+              ${c.id===currentCity?'<span class="badge badge-green" style="margin-left:auto">Active</span>':''}
+            </div>
+            <div class="city-stats-row">
+              <div class="city-stat-item"><span>⚽ ${c.matchCount} matches</span></div>
+              <div class="city-stat-item"><span>🏟️ Cap: ${c.capacity}</span></div>
+              <div class="city-stat-item"><span>⛅ ${c.weather}</span></div>
+              <div class="city-stat-item"><span>🕒 ${c.tz}</span></div>
+            </div>
+            <div class="city-desc">${c.highlights}</div>
+            <div class="city-first-match">
+              First: ${c.matches[0].hf} ${c.matches[0].home} vs ${c.matches[0].af} ${c.matches[0].away} · ${c.matches[0].date||c.matches[0].shortDate}
+            </div>
+          </button>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPlanner(){
+  const T=t();
+  document.getElementById('planner-title').textContent=T.plannerTitle;
+  document.getElementById('planner-sub').textContent=T.plannerSub;
+  document.getElementById('live-badge').textContent=T.liveLabel;
+  document.getElementById('try-asking').textContent=T.tryAsking;
+  document.getElementById('chat-hint').textContent=T.chatHint;
+  document.getElementById('chatInput').placeholder=T.chatPlaceholder;
+
+  // Quick prompts
+  const prompts=T.prompts;
+  document.getElementById('quick-prompts').innerHTML=chatMessages.length<=1?
+    prompts.map(p=>`<button class="prompt-btn" onclick="sendPrompt(this.textContent)">${p.length>65?p.slice(0,63)+'…':p}</button>`).join(''):
+    '';
+
+  // Render chat
+  renderChatMessages();
+}
+
+function renderMonetize(){
+  document.getElementById('mono-grid').innerHTML=MONO_DATA.map(m=>`
+    <div class="mono-card ${m.tier}">
+      <div class="mono-title">${m.icon} ${m.title}</div>
+      <div class="mono-sub">${m.sub}</div>
+      <ul class="mono-list">${m.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+      <div class="mono-cta">
+        <span class="mono-earn">Earn: ${m.earn}</span>
+        <a href="${m.linkUrl}" target="_blank" rel="noopener" class="mono-link">${m.link}</a>
+      </div>
+    </div>`).join('');
+}
+
+/* ===================================================
+   PAGE NAVIGATION
+=================================================== */
+function showPage(page){
+  document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l=>{
+    l.classList.toggle('active',l.dataset.page===page);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Render on demand
+  if(page==='home')renderHome();
+  else if(page==='cities')renderCities();
+  else if(page==='matches')renderMatches();
+  else if(page==='attractions')renderAttractions();
+  else if(page==='dining')renderDining();
+  else if(page==='transport')renderTransportPage();
+  else if(page==='planner')renderPlanner();
+  else if(page==='monetize')renderMonetize();
+  // Close mobile menu
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+/* ===================================================
+   CITY SWITCHER
+=================================================== */
+function setCity(id){
+  currentCity=id;
+  const c=CITIES.find(x=>x.id===id);
+  document.getElementById('cityBtnName').textContent=c.name;
+  document.getElementById('cityBtnLabel').children[0].textContent=c.emoji+' ';
+  // Re-render city dropdown
+  buildCityDropdown();
+  // Re-render current page
+  const activePage=document.querySelector('.page-section.active');
+  if(activePage)showPage(activePage.id.replace('page-',''));
+  closDropdowns();
+}
+
+function buildCityDropdown(){
+  const menu=document.getElementById('cityDropMenu');
+  menu.innerHTML=CITIES.map(c=>`
+    <button class="dd-item ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}')">
+      <span>${c.flag} ${c.emoji} ${c.name}</span>
+      <span class="dd-sub">${c.matchCount} matches</span>
+    </button>`).join('');
+}
+
+/* ===================================================
+   LANGUAGE SWITCHER
+=================================================== */
+function buildLangMenu(){
+  const menu=document.getElementById('langMenu');
+  menu.innerHTML=Object.entries(LANGS).map(([code,l])=>`
+    <button class="dd-item ${code===currentLang?'active':''}" onclick="setLang('${code}')">
+      ${l.native} <span class="dd-sub">${l.name}</span>
+    </button>`).join('');
+}
+
+function setLang(code){
+  currentLang=code;
+  const l=LANGS[code];
+  document.getElementById('langLabel').textContent=l.native;
+  document.documentElement.lang=code;
+  document.documentElement.dir=l.rtl?'rtl':'ltr';
+  buildLangMenu();
+  // Reset chat greeting in new language
+  chatMessages=[{role:'assistant',content:LANGS[currentLang].t.greeting}];
+  // Re-render nav labels
+  const T=t();
+  document.querySelector('.nl-home').textContent=T.qlCities.replace('Cities','Home');
+  document.querySelector('.nl-cities').textContent=T.qlCities;
+  document.querySelector('.nl-matches').textContent=T.qlMatches;
+  document.querySelector('.nl-attractions').textContent=T.qlAttr;
+  document.querySelector('.nl-dining').textContent=T.qlDining;
+  document.querySelector('.nl-transport').textContent=T.qlTransport;
+  document.querySelector('.nl-planner').textContent=T.qlPlanner;
+  // Re-render current page
+  const activePage=document.querySelector('.page-section.active');
+  if(activePage)showPage(activePage.id.replace('page-',''));
+  closDropdowns();
+}
+
+function closDropdowns(){
+  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+}
+
+/* ===================================================
+   COUNTDOWN
+=================================================== */
+function updateCountdown(){
+  const target=new Date("2026-06-11T15:00:00-05:00").getTime();
+  const diff=target-Date.now();
+  if(diff<=0){document.getElementById('countdown').innerHTML='';return;}
+  const days=Math.floor(diff/86400000);
+  const hours=Math.floor((diff%86400000)/3600000);
+  const mins=Math.floor((diff%3600000)/60000);
+  const secs=Math.floor((diff%60000)/1000);
+  document.getElementById('countdown').innerHTML=[
+    {v:days,l:'Days'},{v:hours,l:'Hrs'},{v:mins,l:'Min'},{v:secs,l:'Sec'}
+  ].map(({v,l})=>`<div class="cd-box"><div class="cd-num">${String(v).padStart(2,'0')}</div><div class="cd-label">${l}</div></div>`).join('');
+}
+
+/* ===================================================
+   AI CHAT
+=================================================== */
+const SYSTEM=`You are FIFAMap.org's expert FIFA World Cup 2026 global travel assistant. You know all 104 matches across 16 host cities in the USA (LA, NYC/NJ, Dallas, Miami, Atlanta, SF, Seattle, Houston, Boston, Philadelphia, Kansas City), Canada (Toronto, Vancouver), and Mexico (Mexico City, Guadalajara, Monterrey). You give practical, friendly, concise advice. Key facts: Final is July 19 at MetLife (NJ). Opener is June 11 Mexico vs South Africa at Azteca. Dallas has most matches (9). Vancouver's BC Place is most walkable. Mexico City Metro is cheapest ($0.25). Tournament: June 11-July 19, 2026. Respond in the same language the user writes in.`;
+
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim();
+  if(!text||chatLoading)return;
+  input.value='';
+  chatMessages.push({role:'user',content:text});
+  renderChatMessages();
+  chatLoading=true;
+  document.getElementById('sendBtn').disabled=true;
+  // Show typing indicator
+  const chatBox=document.getElementById('chatBox');
+  const typing=document.createElement('div');
+  typing.className='msg';
+  typing.innerHTML=`<div class="msg-avatar">⚽</div><div class="typing"><span></span><span></span><span></span></div>`;
+  chatBox.appendChild(typing);
+  chatBox.scrollTop=chatBox.scrollHeight;
+  try{
+    // Try real API first
+    let reply='';
+    try{
+      const res=await fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatMessages,lang:currentLang})});
+      if(res.ok){const data=await res.json();reply=data.reply;}
+    }catch(e){}
+    // Fallback if no backend
+    if(!reply){reply=generateFallback(text);}
+    chatMessages.push({role:'assistant',content:reply});
+  }catch(e){
+    chatMessages.push({role:'assistant',content:"I'm having trouble connecting right now. Please try again!"});
+  }
+  chatLoading=false;
+  document.getElementById('sendBtn').disabled=false;
+  typing.remove();
+  renderChatMessages();
+  // Hide prompts after first real message
+  document.getElementById('quick-prompts').innerHTML='';
+}
+
+function generateFallback(text){
+  const q=text.toLowerCase();
+  const c=city();
+  if(q.includes('transport')||q.includes('get there')||q.includes('metro')||q.includes('shuttle')||q.includes('how to get')){
+    return`Getting to ${c.stadium} in ${c.name}:\n\n${c.transport.map(tr=>`🚇 ${tr.mode}: ${tr.steps.join(' → ')} (${tr.cost}, ${tr.time})\n💡 ${tr.tip}`).join('\n\n')}`;
+  }
+  if(q.includes('eat')||q.includes('food')||q.includes('restaurant')||q.includes('dining')){
+    return`Top dining in ${c.name} for World Cup visitors:\n\n${c.dining.map((d,i)=>`${i+1}. ${d.icon} **${d.name}** (${d.cuisine}, ${d.price})\n   Must try: ${d.mustTry}\n   💡 ${d.tip}`).join('\n\n')}`;
+  }
+  if(q.includes('match')||q.includes('game')||q.includes('fixture')||q.includes('schedule')){
+    return`${c.name} hosts ${c.matchCount} matches at ${c.stadium}:\n\n${c.matches.map(m=>`⚽ Match ${m.id}: ${m.hf} ${m.home} vs ${m.af} ${m.away}\n   ${m.date} · ${m.time} · ${m.stage}`).join('\n\n')}`;
+  }
+  if(q.includes('hotel')||q.includes('stay')||q.includes('accommodation')){
+    return`Best neighborhoods to stay in ${c.name}:\n\n${c.neighborhoods.map((n,i)=>`${i+1}. **${n.name}** — ${n.vibe}\n   🏨 ${n.hotel}\n   ⚽ ${n.dist} to stadium`).join('\n\n')}\n\n🔗 Book at: Booking.com · Airbnb · Hotels.com`;
+  }
+  return`Great question! Here's what I know about ${c.name} for FIFA World Cup 2026:\n\n🏟️ Stadium: ${c.stadium} (${c.capacity} capacity)\n⚽ ${c.matchCount} matches hosted\n⛅ Weather: ${c.weather}\n🌟 Highlights: ${c.highlights}\n\nAsk me about matches, dining, transport, hotels, or attractions — I know everything about all 16 host cities! You can also ask about other cities like Dallas, New York, Mexico City, Toronto, or Vancouver.`;
+}
+
+function sendPrompt(text){
+  document.getElementById('chatInput').value=text;
+  sendChat();
+}
+
+function handleChatKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}
+}
+
+function renderChatMessages(){
+  const box=document.getElementById('chatBox');
+  if(!box)return;
+  box.innerHTML=chatMessages.map(m=>`
+    <div class="msg ${m.role==='user'?'user-msg':''}">
+      ${m.role==='assistant'?'<div class="msg-avatar">⚽</div>':''}
+      <div class="msg-bubble ${m.role}">${escHtml(m.content)}</div>
+    </div>`).join('');
+  box.scrollTop=box.scrollHeight;
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');}
+
+/* ===================================================
+   THEME TOGGLE
+=================================================== */
+let lightMode=false;
+function toggleTheme(){
+  lightMode=!lightMode;
+  if(lightMode){
+    document.body.style.background='#f0f2f8';
+    document.body.style.color='#0f111a';
+    document.documentElement.style.setProperty('--navy','#f0f2f8');
+    document.documentElement.style.setProperty('--navy2','#ffffff');
+    document.documentElement.style.setProperty('--navy3','#eef0f6');
+    document.documentElement.style.setProperty('--navy4','#e2e6f0');
+    document.documentElement.style.setProperty('--border','#c8cedd');
+    document.documentElement.style.setProperty('--muted','#5a6480');
+    document.documentElement.style.setProperty('--text','#0f111a');
+    document.documentElement.style.setProperty('--text2','#1e2535');
+  }else{
+    document.body.style.background='';
+    document.body.style.color='';
+    ['--navy','--navy2','--navy3','--navy4','--border','--muted','--text','--text2'].forEach(v=>document.documentElement.style.removeProperty(v));
+  }
+}
+
+/* ===================================================
+   MOBILE MENU
+=================================================== */
+function toggleMobileMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+/* ===================================================
+   DROPDOWN CLOSE ON OUTSIDE CLICK
+=================================================== */
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.dropdown'))closDropdowns();
+});
+document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    const dd=this.closest('.dropdown');
+    const wasOpen=dd.classList.contains('open');
+    closDropdowns();
+    if(!wasOpen)dd.classList.add('open');
+  });
+});
+
+/* ===================================================
+   INIT
+=================================================== */
+(function init(){
+  // Init chat
+  chatMessages=[{role:'assistant',content:LANGS[currentLang].t.greeting}];
+  // Build dropdowns
+  buildCityDropdown();
+  buildLangMenu();
+  // Start countdown
+  updateCountdown();
+  setInterval(updateCountdown,1000);
+  // Render home
+  renderHome();
+})();
+</script>
+</body>
+</html>
