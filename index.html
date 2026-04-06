@@ -4,10 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>FIFAMap — FIFA World Cup 2026 Global Trip Planner</title>
-<meta name="description" content="Plan your FIFA World Cup 2026 trip across all 16 host cities in the USA, Canada, and Mexico. AI-powered itinerary builder, match schedules, attractions, dining, and transport. Available in 8 languages."/>
+<meta name="description" content="Plan your FIFA World Cup 2026 trip across all 16 host cities in the USA, Canada, and Mexico. software-powered itinerary builder, match schedules, attractions, dining, and transport. Available in 8 languages."/>
 <meta name="keywords" content="FIFA World Cup 2026, trip planner, host cities, match schedule, Los Angeles, New York, Dallas, Miami, Mexico City, Toronto, Vancouver, itinerary"/>
 <meta property="og:title" content="FIFAMap — FIFA World Cup 2026 Global Trip Planner"/>
-<meta property="og:description" content="16 host cities. 104 matches. 3 countries. One AI-powered planner. Available in 8 languages."/>
+<meta property="og:description" content="16 host cities. 104 matches. 3 countries. One software-powered planner. Available in 8 languages."/>
 <meta property="og:url" content="https://fifamap.org"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
@@ -307,7 +307,7 @@ footer a:hover{text-decoration:underline}
     <a class="nav-link" onclick="showPage('attractions')" data-page="attractions" href="#" id="nav-attractions">🗺️ <span class="nl-attractions">Attractions</span></a>
     <a class="nav-link" onclick="showPage('dining')" data-page="dining" href="#" id="nav-dining">🍽️ <span class="nl-dining">Dining</span></a>
     <a class="nav-link" onclick="showPage('transport')" data-page="transport" href="#" id="nav-transport">🚇 <span class="nl-transport">Transport</span></a>
-    <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="#" id="nav-planner">✨ <span class="nl-planner">AI Planner</span></a>
+    <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="#" id="nav-planner">✨ <span class="nl-planner">Smart Planner</span></a>
     <a class="nav-link" onclick="showPage('monetize')" data-page="monetize" href="#" id="nav-monetize">💰 <span class="nl-monetize">Partner</span></a>
   </div>
   <div class="nav-right">
@@ -419,7 +419,7 @@ footer a:hover{text-decoration:underline}
 <div style="background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(59,130,246,.06));border:1px solid rgba(230,57,70,.25);border-radius:1.2rem;padding:2.5rem;text-align:center">
   <div style="font-size:2.5rem;margin-bottom:.75rem">✨</div>
   <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:.5rem" id="ai-cta-title">Build Your Perfect World Cup Trip</h2>
-  <p style="font-size:.85rem;color:var(--muted);max-width:480px;margin:0 auto .75rem" id="ai-cta-sub">Tell our AI your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.</p>
+  <p style="font-size:.85rem;color:var(--muted);max-width:480px;margin:0 auto .75rem" id="ai-cta-sub">Tell our planner your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.</p>
   <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
     <a href="#" onclick="showPage('planner')" class="btn btn-primary" id="ai-cta-btn">✨ Start Planning Free</a>
     <a href="https://www.booking.com/index.html?aid=2842560&awinaffid=2842560&label=fifamap-worldcup2026" target="_blank" rel="noopener" class="btn btn-outline" style="font-size:.82rem">🏨 Book Hotels</a>
@@ -488,7 +488,7 @@ footer a:hover{text-decoration:underline}
   <div class="planner-header">
     <div class="planner-icon">✨</div>
     <div>
-      <div class="planner-title" id="planner-title">AI Itinerary Planner</div>
+      <div class="planner-title" id="planner-title">Smart Itinerary Planner</div>
       <div class="planner-sub" id="planner-sub">Knows every match, city, attraction &amp; transport</div>
     </div>
     <span class="live-badge" id="live-badge">Live</span>
@@ -579,7 +579,7 @@ footer a:hover{text-decoration:underline}
     <a href="mailto:customercareblackaiser@gmail.com">Partnerships</a>
     <a href="#" onclick="showPage('monetize')">Advertise</a>
     <a href="https://fifa.com" target="_blank" rel="noopener">Official FIFA Site</a>
-    <a href="https://www.perplexity.ai" target="_blank" rel="noopener">Powered by AI</a>
+    <a href="https://www.perplexity.ai" target="_blank" rel="noopener">Powered by Software</a>
   </div>
 </div>
 </footer>
@@ -884,15 +884,15 @@ const LANGS={
 en:{name:"English",native:"English",rtl:false,t:{
   badge:"Official Host Cities · June–July 2026",h1:"Welcome to the",h2:"FIFA World Cup 2026™",sub:"16 host cities. 104 matches. 3 countries. Plan your ultimate trip — free.",
   cta1:"✨ Build My Itinerary",cta2:"Browse All Cities",countdown:"Until the Tournament Opener",
-  qlCities:"Cities",qlMatches:"Matches",qlAttr:"Attractions",qlDining:"Dining",qlTransport:"Transport",qlPlanner:"AI Planner",
+  qlCities:"Cities",qlMatches:"Matches",qlAttr:"Attractions",qlDining:"Dining",qlTransport:"Transport",qlPlanner:"Smart Planner",
   secMatches:"Match Schedule",secMatchesSub:"Official fixtures at this stadium",allMatches:"All matches →",
   secAttr:"Top Attractions",secAttrSub:"Must-see spots near the stadium",allAttr:"All attractions →",
   secDining:"Best Dining",secDiningSub:"Local favorites for World Cup visitors",allDining:"All dining →",
   changeCity:"Change city →",
   citiesTitle:"Choose Your City",citiesSub:"16 host cities across USA, Canada & Mexico · Click to set as active city",
   fanZonesTitle:"Official Fan Zones",fanZonesSub:"Watch free on the big screen",stayTitle:"Where to Stay",
-  aiTitle:"Build Your Perfect World Cup Trip",aiSub:"Tell our AI your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.",aiBtn:"✨ Start Planning Free",
-  plannerTitle:"AI Itinerary Planner",plannerSub:"Knows every match, city, attraction & transport",liveLabel:"Live",tryAsking:"TRY ASKING...",
+  aiTitle:"Build Your Perfect World Cup Trip",aiSub:"Tell our planner your matches, cities, interests, and trip length — get a personalized day-by-day itinerary in any of 8 languages.",aiBtn:"✨ Start Planning Free",
+  plannerTitle:"Smart Itinerary Planner",plannerSub:"Knows every match, city, attraction & transport option",liveLabel:"Live",tryAsking:"TRY ASKING...",
   chatHint:"Enter to send · Shift+Enter for new line · Responds in your selected language",
   chatPlaceholder:"Ask anything — match days, best restaurants, transport from airport...",
   greeting:"Hello! I'm your FIFA World Cup 2026 global trip planner. 🌍\n\nI know all 104 matches across 16 cities in the USA, Canada, and Mexico — plus the best attractions, restaurants, fan zones, and transport in every host city.\n\nTell me which matches you're seeing, which cities you're visiting, your interests (beach, culture, food, nightlife), and how many days you have — and I'll build you a personalized itinerary.",
@@ -901,14 +901,14 @@ en:{name:"English",native:"English",rtl:false,t:{
 es:{name:"Spanish",native:"Español",rtl:false,t:{
   badge:"Ciudades Sede Oficiales · Junio–Julio 2026",h1:"Bienvenido al",h2:"FIFA World Cup 2026™",sub:"16 ciudades sede. 104 partidos. 3 países. Planifica tu viaje — gratis.",
   cta1:"✨ Crear Mi Itinerario",cta2:"Ver Ciudades",countdown:"Hasta el Inicio del Torneo",
-  qlCities:"Ciudades",qlMatches:"Partidos",qlAttr:"Atracciones",qlDining:"Gastronomía",qlTransport:"Transporte",qlPlanner:"Planificador IA",
+  qlCities:"Ciudades",qlMatches:"Partidos",qlAttr:"Atracciones",qlDining:"Gastronomía",qlTransport:"Transporte",qlPlanner:"Planificador Inteligente",
   secMatches:"Calendario de Partidos",secMatchesSub:"Partidos oficiales en este estadio",allMatches:"Todos los partidos →",
   secAttr:"Principales Atracciones",secAttrSub:"Lo imperdible cerca del estadio",allAttr:"Ver todas →",
   secDining:"Mejor Gastronomía",secDiningSub:"Favoritos locales para visitantes del Mundial",allDining:"Ver todos →",
   changeCity:"Cambiar ciudad →",
   citiesTitle:"Elige Tu Ciudad",citiesSub:"16 ciudades sede en EE.UU., Canadá y México · Haz clic para elegir",
   fanZonesTitle:"Zonas de Fanáticos Oficiales",fanZonesSub:"Ve gratis en pantalla grande",stayTitle:"Dónde Hospedarse",
-  aiTitle:"Crea Tu Viaje Perfecto al Mundial",aiSub:"Dile a nuestra IA tus partidos, ciudades, intereses y duración del viaje — obtén un itinerario personalizado en 8 idiomas.",aiBtn:"✨ Comenzar Gratis",
+  aiTitle:"Crea Tu Viaje Perfecto al Mundial",aiSub:"Dile a nuestro planificador tus partidos, ciudades, intereses y duración del viaje — obtén un itinerario personalizado en 8 idiomas.",aiBtn:"✨ Comenzar Gratis",
   plannerTitle:"Planificador de Itinerario IA",plannerSub:"Conoce cada partido, ciudad, atracción y transporte",liveLabel:"En vivo",tryAsking:"PRUEBA PREGUNTANDO...",
   chatHint:"Enter para enviar · Shift+Enter para nueva línea · Responde en tu idioma seleccionado",
   chatPlaceholder:"Pregunta lo que quieras — días de partido, mejores restaurantes, transporte...",
@@ -918,14 +918,14 @@ es:{name:"Spanish",native:"Español",rtl:false,t:{
 fr:{name:"French",native:"Français",rtl:false,t:{
   badge:"Villes Hôtes Officielles · Juin–Juillet 2026",h1:"Bienvenue à la",h2:"FIFA World Cup 2026™",sub:"16 villes hôtes. 104 matchs. 3 pays. Planifiez votre voyage — gratuitement.",
   cta1:"✨ Créer Mon Itinéraire",cta2:"Voir les Villes",countdown:"Jusqu'au Match d'Ouverture",
-  qlCities:"Villes",qlMatches:"Matchs",qlAttr:"Attractions",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"Planificateur IA",
+  qlCities:"Villes",qlMatches:"Matchs",qlAttr:"Attractions",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"Planificateur Intelligent",
   secMatches:"Calendrier des Matchs",secMatchesSub:"Matchs officiels dans ce stade",allMatches:"Tous les matchs →",
   secAttr:"Meilleures Attractions",secAttrSub:"Les incontournables près du stade",allAttr:"Voir tout →",
   secDining:"Meilleure Gastronomie",secDiningSub:"Favoris locaux pour les visiteurs",allDining:"Voir tout →",
   changeCity:"Changer de ville →",
   citiesTitle:"Choisissez Votre Ville",citiesSub:"16 villes hôtes aux États-Unis, Canada et Mexique",
   fanZonesTitle:"Fan Zones Officielles",fanZonesSub:"Regardez gratuitement sur grand écran",stayTitle:"Où Séjourner",
-  aiTitle:"Créez Votre Voyage Parfait",aiSub:"Dites à notre IA vos matchs, villes, intérêts et durée de séjour — obtenez un itinéraire personnalisé en 8 langues.",aiBtn:"✨ Commencer Gratuitement",
+  aiTitle:"Créez Votre Voyage Parfait",aiSub:"Dites à notre planificateur vos matchs, villes, intérêts et durée de séjour — obtenez un itinéraire personnalisé en 8 langues.",aiBtn:"✨ Commencer Gratuitement",
   plannerTitle:"Planificateur d'Itinéraire IA",plannerSub:"Connaît chaque match, ville, attraction et transport",liveLabel:"En Direct",tryAsking:"ESSAYEZ DE DEMANDER...",
   chatHint:"Entrée pour envoyer · Maj+Entrée pour nouvelle ligne",
   chatPlaceholder:"Posez n'importe quelle question — jours de match, meilleurs restaurants...",
@@ -935,14 +935,14 @@ fr:{name:"French",native:"Français",rtl:false,t:{
 pt:{name:"Portuguese",native:"Português",rtl:false,t:{
   badge:"Cidades-Sede Oficiais · Junho–Julho 2026",h1:"Bem-vindo à",h2:"FIFA World Cup 2026™",sub:"16 cidades-sede. 104 jogos. 3 países. Planeje sua viagem — grátis.",
   cta1:"✨ Criar Meu Itinerário",cta2:"Ver Cidades",countdown:"Até o Jogo de Abertura",
-  qlCities:"Cidades",qlMatches:"Jogos",qlAttr:"Atrações",qlDining:"Gastronomia",qlTransport:"Transporte",qlPlanner:"Planejador IA",
+  qlCities:"Cidades",qlMatches:"Jogos",qlAttr:"Atrações",qlDining:"Gastronomia",qlTransport:"Transporte",qlPlanner:"Planejador Inteligente",
   secMatches:"Calendário de Jogos",secMatchesSub:"Jogos oficiais neste estádio",allMatches:"Todos os jogos →",
   secAttr:"Principais Atrações",secAttrSub:"O que não perder perto do estádio",allAttr:"Ver todas →",
   secDining:"Melhor Gastronomia",secDiningSub:"Favoritos locais para visitantes da Copa",allDining:"Ver todos →",
   changeCity:"Mudar cidade →",
   citiesTitle:"Escolha Sua Cidade",citiesSub:"16 cidades-sede nos EUA, Canadá e México",
   fanZonesTitle:"Fan Zones Oficiais",fanZonesSub:"Assista gratuitamente no telão",stayTitle:"Onde se Hospedar",
-  aiTitle:"Crie Sua Viagem Perfeita",aiSub:"Diga à nossa IA seus jogos, cidades, interesses e duração da viagem — receba um itinerário personalizado em 8 idiomas.",aiBtn:"✨ Começar Grátis",
+  aiTitle:"Crie Sua Viagem Perfeita",aiSub:"Diga ao nosso planejador seus jogos, cidades, interesses e duração da viagem — receba um itinerário personalizado em 8 idiomas.",aiBtn:"✨ Começar Grátis",
   plannerTitle:"Planejador de Itinerário IA",plannerSub:"Conhece cada jogo, cidade, atração e transporte",liveLabel:"Ao Vivo",tryAsking:"TENTE PERGUNTAR...",
   chatHint:"Enter para enviar · Shift+Enter para nova linha",
   chatPlaceholder:"Pergunte qualquer coisa — dias de jogo, melhores restaurantes...",
@@ -969,14 +969,14 @@ ar:{name:"Arabic",native:"العربية",rtl:true,t:{
 de:{name:"German",native:"Deutsch",rtl:false,t:{
   badge:"Offizielle Austragungsorte · Juni–Juli 2026",h1:"Willkommen zur",h2:"FIFA Weltmeisterschaft 2026™",sub:"16 Austragungsorte. 104 Spiele. 3 Länder. Plane deine Reise — kostenlos.",
   cta1:"✨ Mein Reiseplan",cta2:"Städte ansehen",countdown:"Bis zum Eröffnungsspiel",
-  qlCities:"Städte",qlMatches:"Spiele",qlAttr:"Sehenswürdigkeiten",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"KI-Planer",
+  qlCities:"Städte",qlMatches:"Spiele",qlAttr:"Sehenswürdigkeiten",qlDining:"Gastronomie",qlTransport:"Transport",qlPlanner:"Smart Planer",
   secMatches:"Spielplan",secMatchesSub:"Offizielle Spiele in diesem Stadion",allMatches:"Alle Spiele →",
   secAttr:"Top Sehenswürdigkeiten",secAttrSub:"Must-see-Orte in der Nähe",allAttr:"Alle ansehen →",
   secDining:"Beste Gastronomie",secDiningSub:"Lokale Favoriten für WM-Besucher",allDining:"Alle ansehen →",
   changeCity:"Stadt wechseln →",
   citiesTitle:"Wähle deine Stadt",citiesSub:"16 Austragungsorte in den USA, Kanada und Mexiko",
   fanZonesTitle:"Offizielle Fan Zones",fanZonesSub:"Kostenlos auf der Großleinwand schauen",stayTitle:"Wo übernachten",
-  aiTitle:"Plane deine perfekte WM-Reise",aiSub:"Sag unserem KI-Assistenten deine Spiele, Städte, Interessen und Reisedauer — erhalte ein persönliches Reiseprogramm in 8 Sprachen.",aiBtn:"✨ Kostenlos starten",
+  aiTitle:"Plane deine perfekte WM-Reise",aiSub:"Sag unserem Planungsassistenten deine Spiele, Städte, Interessen und Reisedauer — erhalte ein persönliches Reiseprogramm in 8 Sprachen.",aiBtn:"✨ Kostenlos starten",
   plannerTitle:"KI Reiseplaner",plannerSub:"Kennt jedes Spiel, jede Stadt, Sehenswürdigkeit und Transport",liveLabel:"Live",tryAsking:"FRAG ZUM BEISPIEL...",
   chatHint:"Enter zum Senden · Shift+Enter für neue Zeile",
   chatPlaceholder:"Frag alles — Spieltage, beste Restaurants, Transporttipps...",
@@ -986,15 +986,15 @@ de:{name:"German",native:"Deutsch",rtl:false,t:{
 ja:{name:"Japanese",native:"日本語",rtl:false,t:{
   badge:"公式開催都市 · 2026年6月〜7月",h1:"ようこそ",h2:"FIFA ワールドカップ 2026™",sub:"16都市・104試合・3カ国。あなたの旅を無料でプランしよう。",
   cta1:"✨ 旅程を作る",cta2:"都市を見る",countdown:"開幕まで",
-  qlCities:"都市",qlMatches:"試合",qlAttr:"観光",qlDining:"グルメ",qlTransport:"交通",qlPlanner:"AIプランナー",
+  qlCities:"都市",qlMatches:"試合",qlAttr:"観光",qlDining:"グルメ",qlTransport:"交通",qlPlanner:"スマートプランナー",
   secMatches:"試合スケジュール",secMatchesSub:"このスタジアムの公式試合",allMatches:"全試合を見る →",
   secAttr:"おすすめ観光スポット",secAttrSub:"スタジアム周辺の必見スポット",allAttr:"全て見る →",
   secDining:"おすすめグルメ",secDiningSub:"地元のお気に入りスポット",allDining:"全て見る →",
   changeCity:"都市を変更 →",
   citiesTitle:"都市を選ぶ",citiesSub:"米国・カナダ・メキシコの16開催都市 · クリックして選択",
   fanZonesTitle:"公式ファンゾーン",fanZonesSub:"大画面で無料観戦",stayTitle:"宿泊先",
-  aiTitle:"完璧なワールドカップ旅程を作ろう",aiSub:"試合・都市・興味・滞在日数をAIに伝えれば、8言語で個人旅程を作成します。",aiBtn:"✨ 無料でプランを始める",
-  plannerTitle:"AI 旅程プランナー",plannerSub:"全試合・都市・観光・交通情報を把握",liveLabel:"ライブ",tryAsking:"こんな質問をしてみよう...",
+  aiTitle:"完璧なワールドカップ旅程を作ろう",aiSub:"試合・都市・興味・滞在日数をプランナーに伝えれば、8言語で個人旅程を作成します。",aiBtn:"✨ 無料でプランを始める",
+  plannerTitle:"スマート旅程プランナー",plannerSub:"全試合・都市・観光・交通情報を把握",liveLabel:"ライブ",tryAsking:"こんな質問をしてみよう...",
   chatHint:"Enterで送信 · Shift+Enterで改行 · 選択した言語で回答",
   chatPlaceholder:"何でも聞いてください — 試合日、おすすめレストラン、交通手段...",
   greeting:"こんにちは！FIFA ワールドカップ 2026 の旅程プランナーです。🌍\n\n米国・カナダ・メキシコの16都市で開催される全104試合の情報と、各開催都市の観光・グルメ・ファンゾーン・交通情報を把握しています。\n\n観戦する試合、訪問する都市、興味や滞在日数を教えていただければ、個人に合わせた日程を作成します。",
@@ -1003,15 +1003,15 @@ ja:{name:"Japanese",native:"日本語",rtl:false,t:{
 zh:{name:"Mandarin",native:"中文",rtl:false,t:{
   badge:"官方举办城市 · 2026年6月—7月",h1:"欢迎来到",h2:"FIFA 世界杯 2026™",sub:"16座城市 · 104场比赛 · 3个国家。免费规划你的完美旅程。",
   cta1:"✨ 制定我的行程",cta2:"浏览城市",countdown:"距开幕式",
-  qlCities:"城市",qlMatches:"赛程",qlAttr:"景点",qlDining:"美食",qlTransport:"交通",qlPlanner:"AI规划",
+  qlCities:"城市",qlMatches:"赛程",qlAttr:"景点",qlDining:"美食",qlTransport:"交通",qlPlanner:"智能规划",
   secMatches:"赛事日程",secMatchesSub:"本场馆的正式赛事",allMatches:"查看全部赛事 →",
   secAttr:"热门景点",secAttrSub:"球场周边必看景点",allAttr:"查看全部 →",
   secDining:"推荐美食",secDiningSub:"世界杯观赛者的本地最爱",allDining:"查看全部 →",
   changeCity:"切换城市 →",
   citiesTitle:"选择你的城市",citiesSub:"美国、加拿大和墨西哥的16个举办城市 · 点击选择",
   fanZonesTitle:"官方球迷区",fanZonesSub:"免费大屏幕观赛",stayTitle:"住宿推荐",
-  aiTitle:"规划你完美的世界杯之旅",aiSub:"告诉我们的AI你的比赛、城市、兴趣和旅行天数——用8种语言生成个性化日程。",aiBtn:"✨ 免费开始规划",
-  plannerTitle:"AI 行程规划助手",plannerSub:"掌握所有比赛、城市、景点和交通信息",liveLabel:"实时",tryAsking:"试试这样问...",
+  aiTitle:"规划你完美的世界杯之旅",aiSub:"告诉我们的规划助手你的比赛、城市、兴趣和旅行天数——用8种语言生成个性化日程。",aiBtn:"✨ 免费开始规划",
+  plannerTitle:"智能行程规划助手",plannerSub:"掌握所有比赛、城市、景点和交通信息",liveLabel:"实时",tryAsking:"试试这样问...",
   chatHint:"Enter发送 · Shift+Enter换行 · 以您选择的语言回复",
   chatPlaceholder:"随便问我——比赛日、推荐餐厅、从机场如何到达...",
   greeting:"你好！我是你的FIFA世界杯2026全球旅行规划助手。🌍\n\n我掌握美国、加拿大和墨西哥16个城市的全部104场比赛信息，以及每个举办城市的最佳景点、餐厅、球迷区和交通方式。\n\n告诉我你要观看哪些比赛、将要访问哪些城市、你的兴趣爱好以及旅行天数——我将为你制定个性化的行程。",
@@ -1027,8 +1027,8 @@ const MONO_DATA=[
 {tier:"tier-2",icon:"✈️",title:"Flight & Transport Affiliates",sub:"Earn per click and per booking",earn:"$0.50–$30 per conversion",link:"Join Skyscanner Affiliate",linkUrl:"https://www.partners.skyscanner.net",items:["Skyscanner API embeds on every city page — compare flights between host cities","Kayak and Google Flights affiliate links","Amtrak affiliate for Boston–NYC–Philadelphia corridor","Car rental: Hertz, Enterprise, and Avis affiliate programs"]},
 {tier:"tier-3",icon:"🎫",title:"Experience & Ticket Affiliates",sub:"Highest commission rates",earn:"8–12% per booking",link:"Join Viator Partner Program",linkUrl:"https://www.viator.com/partner",items:["Viator and GetYourGuide tour affiliate links on all Attractions pages","StubHub and Viagogo secondary ticket market links","FanPass and SeatGeek partner programs for match tickets","Disneyland/Universal Studios experiences near LA, Niagara Falls near Toronto"]},
 {tier:"tier-4",icon:"📢",title:"Sponsored Listings & Ads",sub:"Direct revenue from local businesses",earn:"$200–$2,000/month per sponsor",link:"Contact customercareblackaiser@gmail.com",linkUrl:"mailto:customercareblackaiser@gmail.com",items:["Sponsored restaurant listings in each city's Dining section","Featured hotel placement on city pages","Google AdSense programmatic ads (apply after 3 months traffic)","City-exclusive banner sponsorships for local businesses and tour operators"]},
-{tier:"tier-1",icon:"💎",title:"Premium AI Planner (Freemium)",sub:"Unlimited itinerary generation",earn:"$4.99/trip or $9.99/month",link:"Coming soon — waitlist open",linkUrl:"mailto:customercareblackaiser@gmail.com",items:["Free tier: 3 AI planner messages per session","Premium: Unlimited planning + PDF itinerary export + offline access","Implement via Stripe — $0 setup cost","Target: 5,000 premium users × $4.99 = $25K+ during tournament"]},
-{tier:"tier-2",icon:"📄",title:"PDF Itinerary Export",sub:"One-time purchase, instant download",earn:"$2.99 per download",link:"Coming soon",linkUrl:"mailto:customercareblackaiser@gmail.com",items:["Auto-generate a beautifully formatted PDF from any AI-planned itinerary","Printable, shareable, professional — high perceived value","Implement with jsPDF (free library) + Stripe payment","Estimated: 10,000 downloads × $2.99 = $30K during tournament"]}
+{tier:"tier-1",icon:"💎",title:"Premium Smart Planner (Freemium)",sub:"Unlimited itinerary generation",earn:"$4.99/trip or $9.99/month",link:"Coming soon — waitlist open",linkUrl:"mailto:customercareblackaiser@gmail.com",items:["Free tier: 3 planner messages per session","Premium: Unlimited planning + PDF itinerary export + offline access","Implement via Stripe — $0 setup cost","Target: 5,000 premium users × $4.99 = $25K+ during tournament"]},
+{tier:"tier-2",icon:"📄",title:"PDF Itinerary Export",sub:"One-time purchase, instant download",earn:"$2.99 per download",link:"Coming soon",linkUrl:"mailto:customercareblackaiser@gmail.com",items:["Auto-generate a beautifully formatted PDF from any planned itinerary","Printable, shareable, professional — high perceived value","Implement with jsPDF (free library) + Stripe payment","Estimated: 10,000 downloads × $2.99 = $30K during tournament"]}
 ];
 
 /* ===================================================
