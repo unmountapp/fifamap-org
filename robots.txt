@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Sitemaps
 Sitemap: https://fifamap.org/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
