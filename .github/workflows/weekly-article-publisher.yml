@@ -1,0 +1,49 @@
+name: Weekly Article Publisher
+
+on:
+  schedule:
+    # Every Monday at 16:00 UTC = 9:00 AM PDT
+    - cron: '0 16 * * 1'
+  workflow_dispatch:
+    # Also allows manual trigger from GitHub UI (Actions tab → Run workflow)
+    inputs:
+      force_publish:
+        description: 'Force publish next article even if schedule is complete'
+        required: false
+        default: 'false'
+
+jobs:
+  publish-article:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run article publisher
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: unmountapp
+          REPO_NAME: fifamap-org
+        run: python3 system/github-actions-publisher.py
+
+      - name: Commit schedule update
+        run: |
+          git config user.name "FIFAMap Auto-Publisher"
+          git config user.email "customercareblackaiser@gmail.com"
+          git add system/article-schedule.json
+          git diff --staged --quiet || git commit -m "Auto: Update article schedule after weekly publish"
+          git push
