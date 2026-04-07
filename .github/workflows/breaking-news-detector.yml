@@ -1,0 +1,43 @@
+name: Breaking News Detector (Active Tournament)
+
+on:
+  schedule:
+    # Runs daily at 9AM UTC during tournament season (June-August)
+    # Only does meaningful work if a tournament is active
+    - cron: '0 9 * 6,7,8 *'
+  workflow_dispatch: {}
+
+jobs:
+  check-breaking-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Check for breaking FIFA news
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: unmountapp
+          REPO_NAME: fifamap-org
+        run: python3 system/github-actions-news-checker.py
+
+      - name: Commit any updates
+        run: |
+          git config user.name "FIFAMap News Bot"
+          git config user.email "customercareblackaiser@gmail.com"
+          git add system/ index.html || true
+          git diff --staged --quiet || git commit -m "Auto: Breaking news update applied"
+          git push || true
