@@ -1,0 +1,48 @@
+name: WWC2027 Brazil Research Launch
+
+on:
+  schedule:
+    # October 1st every year at 16:00 UTC
+    - cron: '0 16 1 10 *'
+  workflow_dispatch:
+    inputs:
+      tournament:
+        description: 'Tournament ID to research'
+        required: false
+        default: 'wwc2027'
+
+jobs:
+  research-and-rebuild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run tournament research & rebuild
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: unmountapp
+          REPO_NAME: fifamap-org
+          TOURNAMENT: ${{ github.event.inputs.tournament || 'wwc2027' }}
+        run: python3 system/github-actions-tournament-rebuild.py
+
+      - name: Commit rebuilt site
+        run: |
+          git config user.name "FIFAMap Tournament Builder"
+          git config user.email "customercareblackaiser@gmail.com"
+          git add .
+          git diff --staged --quiet || git commit -m "Auto: Tournament rebuild — ${{ github.event.inputs.tournament || 'wwc2027' }}"
+          git push
