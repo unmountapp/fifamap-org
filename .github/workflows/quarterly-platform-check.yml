@@ -1,0 +1,47 @@
+name: Quarterly FIFA Platform Check
+
+on:
+  schedule:
+    # Jan 1, Apr 1, Jul 1, Oct 1 at 16:00 UTC
+    - cron: '0 16 1 1,4,7,10 *'
+  workflow_dispatch:
+    inputs:
+      tournament_id:
+        description: 'Tournament to research (e.g. wwc2027, wc2030)'
+        required: false
+        default: 'auto'
+
+jobs:
+  platform-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run platform manager
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: unmountapp
+          REPO_NAME: fifamap-org
+        run: python3 system/github-actions-platform-manager.py
+
+      - name: Commit any updates
+        run: |
+          git config user.name "FIFAMap Platform Manager"
+          git config user.email "customercareblackaiser@gmail.com"
+          git add system/ || true
+          git diff --staged --quiet || git commit -m "Auto: Quarterly platform check update"
+          git push || true
