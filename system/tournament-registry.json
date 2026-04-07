@@ -1,0 +1,66 @@
+{
+  "platform": "FIFAMap.org",
+  "mission": "Automatic travel planning platform for every FIFA tournament, forever",
+  "current_tournament": {
+    "id": "wc2026",
+    "name": "FIFA World Cup 2026",
+    "start": "2026-06-11",
+    "end": "2026-07-19",
+    "status": "active",
+    "host_countries": ["USA", "Canada", "Mexico"],
+    "cities": 16
+  },
+  "upcoming_tournaments": [
+    {
+      "id": "wwc2027",
+      "name": "FIFA Women's World Cup 2027",
+      "start": "2027-07-01",
+      "end": "2027-08-14",
+      "status": "upcoming",
+      "host_countries": ["Brazil"],
+      "host_cities_confirmed": ["São Paulo","Rio de Janeiro","Belo Horizonte","Salvador","Porto Alegre","Manaus","Curitiba","Brasília","Recife","Fortaleza"],
+      "research_start_date": "2026-10-01",
+      "site_launch_date": "2027-01-01",
+      "notes": "First Women's World Cup in South America. Portuguese + Spanish primary languages.",
+      "flagship_languages": ["pt","es","en","fr","de","ar","ja","zh"]
+    },
+    {
+      "id": "wc2030",
+      "name": "FIFA World Cup 2030",
+      "start": "2030-06-01",
+      "end": "2030-07-20",
+      "status": "future",
+      "host_countries": ["Spain","Portugal","Morocco","Argentina","Uruguay","Paraguay"],
+      "notes": "6-country tournament for WC centenary. Massive scope. Spain hosts final (Bernabéu or Nou Camp).",
+      "research_start_date": "2029-01-01",
+      "site_launch_date": "2029-06-01",
+      "flagship_languages": ["es","pt","fr","ar","en","de","ja","zh"]
+    },
+    {
+      "id": "wc2034",
+      "name": "FIFA World Cup 2034",
+      "start": "2034-11-01",
+      "end": "2034-12-20",
+      "status": "future",
+      "host_countries": ["Saudi Arabia"],
+      "notes": "Single host nation. Winter tournament (likely Nov-Dec like Qatar 2022). Arabic primary.",
+      "research_start_date": "2033-01-01",
+      "site_launch_date": "2033-06-01",
+      "flagship_languages": ["ar","en","fr","es","ur","hi","zh","de"]
+    },
+    {
+      "id": "cwc2025",
+      "name": "FIFA Club World Cup 2025",
+      "start": "2025-06-14",
+      "end": "2025-07-13",
+      "status": "completed",
+      "host_countries": ["USA"],
+      "notes": "Already completed. 32-team expanded format. Useful case study for fifamap."
+    }
+  ],
+  "monitoring": {
+    "fifa_official_url": "https://www.fifa.com/en/tournaments",
+    "check_frequency": "quarterly",
+    "triggers": ["new tournament announced","host city confirmed","ticket sales open","transport plan confirmed","fan zone announced"]
+  }
+}
