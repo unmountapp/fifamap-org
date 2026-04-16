@@ -44,6 +44,6 @@ jobs:
         run: |
           git config user.name "FIFAMap Auto-Publisher"
           git config user.email "customercareblackaiser@gmail.com"
-          git add system/article-schedule.json
-          git diff --staged --quiet || git commit -m "Auto: Update article schedule after weekly publish"
+          git add index.html system/article-schedule.json
+          git diff --staged --quiet || git commit -m "Auto: Publish weekly article and update schedule"
           git push
