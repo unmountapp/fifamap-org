@@ -1692,140 +1692,314 @@ async function sendChat(){
   renderChatMessages();
   // Hide prompts after first real message
   document.getElementById('quick-prompts').innerHTML='';
-}
+}  function generateFallback(text){
+    var q=text.toLowerCase().trim();
+    var c=CITIES.find(function(x){return x.id===window._city})||CITIES[0];
 
-function generateFallback(text){
-  var q=text.toLowerCase();
-  var c=city();
+    // ── COUNTRY / NATIONAL TEAM TRIP PLANNER ──────────────────────────────
+    var countryMap={
+      'japan':'Japan','japanese':'Japan','jpn':'Japan',
+      'brazil':'Brazil','brazilian':'Brazil','bra':'Brazil',
+      'argentina':'Argentina','argentinian':'Argentina','arg':'Argentina',
+      'germany':'Germany','german':'Germany','ger':'Germany',
+      'france':'France','french':'France','fra':'France',
+      'england':'England','english':'England','eng':'England',
+      'spain':'Spain','spanish':'Spain','esp':'Spain',
+      'portugal':'Portugal','portuguese':'Portugal','por':'Portugal',
+      'netherlands':'Netherlands','dutch':'Netherlands','ned':'Netherlands',
+      'usa':'USA','united states':'USA','usmnt':'USA','american':'USA',
+      'mexico':'Mexico','mexican':'Mexico','mex':'Mexico',
+      'canada':'Canada','canadian':'Canada','can':'Canada',
+      'australia':'Australia','australian':'Australia','aus':'Australia',
+      'south korea':'South Korea','korean':'South Korea','kor':'South Korea',
+      'morocco':'Morocco','moroccan':'Morocco','mar':'Morocco',
+      'senegal':'Senegal','senegalese':'Senegal','sen':'Senegal',
+      'colombia':'Colombia','colombian':'Colombia','col':'Colombia',
+      'uruguay':'Uruguay','uruguayan':'Uruguay','uru':'Uruguay',
+      'belgium':'Belgium','belgian':'Belgium','bel':'Belgium',
+      'croatia':'Croatia','croatian':'Croatia','cro':'Croatia',
+      'switzerland':'Switzerland','swiss':'Switzerland','swi':'Switzerland',
+      'nigeria':'Nigeria','nigerian':'Nigeria','nga':'Nigeria',
+      'egypt':'Egypt','egyptian':'Egypt','egy':'Egypt',
+      'saudi arabia':'Saudi Arabia','saudi':'Saudi Arabia','ksa':'Saudi Arabia',
+      'iran':'Iran','iranian':'Iran','iri':'Iran',
+      'turkey':'Türkiye','türkiye':'Türkiye','turkish':'Türkiye','tur':'Türkiye'
+    };
 
-  // ── FAN ZONES ──
-  if(q.includes('fan zone')||q.includes('fanzone')||q.includes('fan fest')||q.includes('fanfest')||q.includes('free')||q.includes('watch for free')||q.includes('no ticket')||q.includes('without ticket')){
-    var fzLines=c.fanZones.map(function(fz){
-      return '📍 '+fz.name+'\n   Area: '+fz.area+'\n   Open: '+fz.dates;
-    }).join('\n\n');
-    return '⚽ Official Fan Zones in '+c.name+' — FREE entry, no match ticket needed:\n\n'
-      +fzLines
-      +'\n\n💡 Fan zones have big screens, food vendors, live entertainment, and the full match-day atmosphere — perfect if you don\'t have a stadium ticket. Arrive 1-2 hours early for the best spot.';
+    var wantsPlan = q.includes('plan') || q.includes('itinerary') || q.includes('trip') ||
+                    q.includes('travel') || q.includes('follow') || q.includes('all games') ||
+                    q.includes('all matches') || q.includes('schedule') || q.includes('journey') ||
+                    q.includes('cost') || q.includes('budget') || q.includes('cheap') ||
+                    q.includes('fly') || q.includes('flight') || q.includes('book');
+
+    var detectedTeam = null;
+    for (var key in countryMap) {
+      if (q.includes(key)) { detectedTeam = countryMap[key]; break; }
+    }
+
+    // Detect origin country for flight cost estimates
+    var originMap={
+      'japan':'Tokyo (TYO)','japanese':'Tokyo (TYO)',
+      'australia':'Sydney (SYD)','australian':'Sydney (SYD)',
+      'south korea':'Seoul (ICN)','korean':'Seoul (ICN)',
+      'england':'London (LHR)','english':'London (LHR)',
+      'germany':'Frankfurt (FRA)','german':'Frankfurt (FRA)',
+      'france':'Paris (CDG)','french':'Paris (CDG)',
+      'spain':'Madrid (MAD)','spanish':'Madrid (MAD)',
+      'portugal':'Lisbon (LIS)','portuguese':'Lisbon (LIS)',
+      'brazil':'São Paulo (GRU)','brazilian':'São Paulo (GRU)',
+      'argentina':'Buenos Aires (EZE)','argentinian':'Buenos Aires (EZE)',
+      'morocco':'Casablanca (CMN)','moroccan':'Casablanca (CMN)',
+      'egypt':'Cairo (CAI)','egyptian':'Cairo (CAI)',
+      'saudi arabia':'Riyadh (RUH)','saudi':'Riyadh (RUH)',
+      'iran':'Tehran (IKA)','iranian':'Tehran (IKA)'
+    };
+
+    var flightOrigin = null;
+    for (var ok in originMap) {
+      if (q.includes(ok)) { flightOrigin = originMap[ok]; break; }
+    }
+
+    if ((wantsPlan || detectedTeam) && detectedTeam) {
+      // Find all matches for this team across all cities
+      var teamMatches = [];
+      CITIES.forEach(function(city) {
+        if (city.matches) {
+          city.matches.forEach(function(m) {
+            if (m.home === detectedTeam || m.away === detectedTeam) {
+              teamMatches.push({city: city, match: m});
+            }
+          });
+        }
+      });
+
+      if (teamMatches.length === 0) {
+        return '<p>I couldn't find any confirmed group-stage matches for <strong>' + detectedTeam + '</strong> in the current schedule. Group-stage draws may still be pending. Check back closer to the tournament!</p>';
+      }
+
+      // Sort matches by date
+      teamMatches.sort(function(a,b){
+        var dateA = new Date(a.match.date.replace('Fri, ','').replace('Mon, ','').replace('Tue, ','').replace('Wed, ','').replace('Thu, ','').replace('Sat, ','').replace('Sun, ','') + ' 2026');
+        var dateB = new Date(b.match.date.replace('Fri, ','').replace('Mon, ','').replace('Tue, ','').replace('Wed, ','').replace('Thu, ','').replace('Sat, ','').replace('Sun, ','') + ' 2026');
+        return dateA - dateB;
+      });
+
+      // Build flight cost estimate
+      var flightCosts = {
+        'Tokyo (TYO)': {economy: '$800-1,200', business: '$3,500-6,000', note: 'Book via Expedia or Kayak; cheapest in April-May'},
+        'Sydney (SYD)': {economy: '$900-1,400', business: '$4,000-7,000', note: 'Fly via LA or Dallas for best prices'},
+        'Seoul (ICN)': {economy: '$750-1,100', business: '$3,200-5,500', note: 'Korean Air and Asiana offer good deals'},
+        'London (LHR)': {economy: '$300-600', business: '$1,500-3,000', note: 'Many direct flights available'},
+        'Frankfurt (FRA)': {economy: '$350-650', business: '$1,600-3,200', note: 'Lufthansa and United have direct routes'},
+        'Paris (CDG)': {economy: '$320-620', business: '$1,500-3,000', note: 'Air France and Delta good options'},
+        'Madrid (MAD)': {economy: '$380-700', business: '$1,700-3,500', note: 'Iberia offers competitive fares'},
+        'Lisbon (LIS)': {economy: '$400-750', business: '$1,800-3,600', note: 'TAP Portugal and American Airlines'},
+        'São Paulo (GRU)': {economy: '$500-850', business: '$2,200-4,500', note: 'LATAM and American have direct flights'},
+        'Buenos Aires (EZE)': {economy: '$550-900', business: '$2,400-4,800', note: 'Aerolineas Argentinas and American Airlines'},
+        'Casablanca (CMN)': {economy: '$450-800', business: '$2,000-4,000', note: 'Royal Air Maroc via NYC or Miami'},
+        'Cairo (CAI)': {economy: '$600-1,000', business: '$2,500-5,000', note: 'EgyptAir and American Airlines'},
+        'Riyadh (RUH)': {economy: '$650-1,100', business: '$2,800-5,500', note: 'Saudia and connecting flights'},
+        'Tehran (IKA)': {economy: '$700-1,200', business: '$3,000-6,000', note: 'Indirect flights required'}
+      };
+      var fc = flightOrigin ? (flightCosts[flightOrigin] || null) : null;
+
+      // Hotel cost estimates by city tier
+      var hotelCosts = {
+        'los-angeles': {budget: '$80-150', mid: '$180-350', luxury: '$400+'},
+        'new-york': {budget: '$100-200', mid: '$220-450', luxury: '$500+'},
+        'dallas': {budget: '$60-120', mid: '$130-280', luxury: '$350+'},
+        'miami': {budget: '$80-160', mid: '$180-380', luxury: '$450+'},
+        'atlanta': {budget: '$60-110', mid: '$120-250', luxury: '$300+'},
+        'san-francisco': {budget: '$90-170', mid: '$190-380', luxury: '$450+'},
+        'seattle': {budget: '$70-140', mid: '$150-300', luxury: '$380+'},
+        'houston': {budget: '$55-110', mid: '$120-240', luxury: '$300+'},
+        'boston': {budget: '$80-160', mid: '$170-340', luxury: '$400+'},
+        'philadelphia': {budget: '$70-140', mid: '$150-300', luxury: '$350+'},
+        'kansas-city': {budget: '$55-100', mid: '$110-220', luxury: '$280+'},
+        'mexico-city': {budget: '$40-80', mid: '$90-200', luxury: '$250+'},
+        'guadalajara': {budget: '$35-70', mid: '$80-180', luxury: '$220+'},
+        'monterrey': {budget: '$40-80', mid: '$85-190', luxury: '$230+'},
+        'toronto': {budget: '$85-160', mid: '$175-360', luxury: '$420+'},
+        'vancouver': {budget: '$80-150', mid: '$165-340', luxury: '$400+'}
+      };
+
+      var html = '<div style="max-width:720px">';
+      html += '<h3 style="color:var(--accent);margin-bottom:0.75rem">🗓️ ' + detectedTeam + ' — FIFA World Cup 2026 Full Trip Plan</h3>';
+
+      // Flight section
+      if (flightOrigin) {
+        html += '<div style="background:rgba(var(--accent-rgb,0,128,255),0.08);border-left:3px solid var(--accent);padding:0.75rem 1rem;border-radius:0.5rem;margin-bottom:1rem">';
+        html += '<strong>✈️ Flights from ' + flightOrigin + '</strong><br>';
+        if (fc) {
+          html += '• Economy: <strong>' + fc.economy + '</strong> per person (round-trip)<br>';
+          html += '• Business: <strong>' + fc.business + '</strong> per person<br>';
+          html += '• <em>Tip: ' + fc.note + '</em>';
+        } else {
+          html += '• Check Google Flights or Kayak for current prices from your city<br>';
+          html += '• Book 3-6 months in advance for best deals';
+        }
+        html += '</div>';
+      }
+
+      // Matches schedule
+      html += '<p><strong>' + detectedTeam + '</strong> has <strong>' + teamMatches.length + ' confirmed group-stage match' + (teamMatches.length > 1 ? 'es' : '') + '</strong>:</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem">';
+
+      var totalHotelNights = 0;
+      var citiesVisited = [];
+
+      teamMatches.forEach(function(tm, idx) {
+        var m = tm.match;
+        var city = tm.city;
+        var hc = hotelCosts[city.id] || {budget: '$60-120', mid: '$140-280', luxury: '$350+'};
+        var nights = idx === 0 ? 3 : 2; // 3 nights for first city, 2 for each subsequent
+        totalHotelNights += nights;
+        citiesVisited.push(city.name);
+
+        html += '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:0.6rem;padding:0.75rem 1rem">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.25rem">';
+        html += '<strong>' + (m.hf || '') + ' ' + m.home + ' vs ' + (m.af || '') + ' ' + m.away + '</strong>';
+        html += '<span style="background:rgba(var(--accent-rgb,0,128,255),0.15);padding:0.2rem 0.6rem;border-radius:1rem;font-size:0.78rem">' + m.stage + '</span>';
+        html += '</div>';
+        html += '<div style="color:var(--text-muted,#aaa);font-size:0.85rem;margin-top:0.3rem">';
+        html += '📅 ' + m.date + ' &nbsp;⏰ ' + m.time + ' &nbsp;📍 ' + city.name + ' — ' + (city.stadium || 'Stadium TBC');
+        html += '</div>';
+        html += '<div style="margin-top:0.4rem;font-size:0.85rem">';
+        html += '🏨 Stay ' + nights + ' nights — Budget: <strong>' + hc.budget + '</strong>/night · Mid-range: <strong>' + hc.mid + '</strong>/night';
+        html += '</div>';
+        html += '</div>';
+      });
+
+      html += '</div>';
+
+      // Cost summary
+      var avgBudgetNight = 90; // rough average across cities
+      var avgMidNight = 200;
+      var matchTickets = teamMatches.length * 80; // rough group stage price
+      var budgetTotal = (flightOrigin && fc ? 900 : 600) + (totalHotelNights * avgBudgetNight) + matchTickets + (teamMatches.length * 80);
+      var midTotal = (flightOrigin && fc ? 1000 : 700) + (totalHotelNights * avgMidNight) + (matchTickets * 2) + (teamMatches.length * 120);
+
+      html += '<div style="background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.2);padding:0.75rem 1rem;border-radius:0.6rem;margin-bottom:1rem">';
+      html += '<strong>💰 Estimated Total Trip Cost (per person)</strong><br>';
+      html += '• Budget traveler: <strong>~$' + budgetTotal.toLocaleString() + '</strong> (hostels, economy flight, standing fan zones)<br>';
+      html += '• Mid-range: <strong>~$' + midTotal.toLocaleString() + '</strong> (3-star hotels, economy flight, group stage tickets)<br>';
+      html += '• Cities to visit: <strong>' + citiesVisited.join(' → ') + '</strong>';
+      html += '</div>';
+
+      // Travel tips
+      html += '<div style="font-size:0.85rem;color:var(--text-muted,#aaa)">';
+      html += '<strong>💡 Cost-saving tips for ' + detectedTeam + ' fans:</strong><br>';
+      html += '• Book flights NOW — prices rise 40-60% in May/June<br>';
+      html += '• Use Expedia or Hotels.com bundle deals for flight + hotel savings<br>';
+      html += '• Fan zones show every match FREE — great for group stage games you can't ticket<br>';
+      html += '• Get a Wise or Revolut card to avoid foreign transaction fees<br>';
+      html += '• Consider Airbnb for multi-night stays in each city';
+      html += '</div>';
+
+      html += '</div>';
+      return html;
+    }
+
+    // ── SPECIFIC CITY CONTEXT RESPONSES ───────────────────────────────────
+    if(q.includes('fan zone')||q.includes('fanzone')||q.includes('fan fest')||q.includes('fanfest')||q.includes('free')||q.includes('watch free')){
+      var fz='<strong>🎉 Free Fan Zones in '+c.name+'</strong><br><br>'+
+      'FIFA Fan Festival: Official free-entry fan park with live match screenings, entertainment, food & drink. Usually located in the city centre park or waterfront area.<br><br>'+
+      '<strong>📍 What to expect:</strong> Big screens, food stalls, merchandise, live music, capacity ~50,000<br>'+
+      '<strong>🕐 Opens:</strong> 3 hours before kick-off<br>'+
+      '<strong>🎟️ Cost:</strong> FREE entry (some food & beverage purchases)<br><br>'+
+      'Local bars showing all matches are also great options — check local listings closer to June 2026.';
+      return fz;
+    }
+    if(q.includes('attraction')||q.includes('see')||q.includes('visit')||q.includes('sightsee')||q.includes('things to do')||q.includes('tourist')){
+      var tops=c.attractions?c.attractions.slice(0,4).map(function(a){return '• <strong>'+a.name+'</strong> — '+a.desc;}).join('<br>'):'World Cup fan zones, stadium tours, local cultural sites';
+      return '<strong>🏛️ Top Attractions in '+c.name+'</strong><br><br>'+tops+'<br><br>Most visitors combine match days with 1-2 extra days of sightseeing. Check the <a href="/?city='+c.id+'&page=attractions" style="color:var(--accent)">'+c.name+' attractions page</a> for full details.';
+    }
+    if(q.includes('transport')||q.includes('get there')||q.includes('metro')||q.includes('shuttle')||q.includes('how to get')||q.includes('bus')||q.includes('train')||q.includes('uber')||q.includes('lyft')){
+      var tv=c.transport?c.transport.slice(0,3).map(function(t){return '• <strong>'+t.mode+'</strong>: '+t.desc;}).join('<br>'):'Public transit, rideshare (Uber/Lyft), and official FIFA shuttles will be available.';
+      return '<strong>🚇 Getting to '+c.stadium+' in '+c.name+'</strong><br><br>'+tv+'<br><br><a href="/?city='+c.id+'&page=transport" style="color:var(--accent)">Full transport guide →</a>';
+    }
+    if(q.includes('eat')||q.includes('food')||q.includes('restaurant')||q.includes('dining')||q.includes('lunch')||q.includes('dinner')||q.includes('breakfast')||q.includes('cuisine')){
+      var dr=c.dining?c.dining.slice(0,3).map(function(d){return '• <strong>'+d.name+'</strong> — '+d.cuisine+' · '+d.priceRange;}).join('<br>'):'Great local restaurants near the stadium district.';
+      return '<strong>🍽️ Where to Eat in '+c.name+'</strong><br><br>'+dr+'<br><br>Book restaurants in advance during match days — they fill up fast. <a href="/?city='+c.id+'&page=dining" style="color:var(--accent)">Full dining guide →</a>';
+    }
+    if(q.includes('match')||q.includes('game')||q.includes('fixture')||q.includes('schedule')||q.includes('kickoff')||q.includes('kick-off')||q.includes('lineup')||q.includes('who plays')){
+      var ms=c.matches?c.matches.map(function(m){return '⚽ '+m.hf+' '+m.home+' vs '+m.af+' '+m.away+'<br>📅 '+m.date+' · ⏰ '+m.time+' · '+m.stage;}).join('<br><br>'):'No confirmed matches yet for this city.';
+      return '<strong>⚽ '+c.name+' Match Schedule — '+c.stadium+'</strong><br><br>'+ms+'<br><br><a href="/?city='+c.id+'&page=matches" style="color:var(--accent)">Full match guide + transport tips →</a>';
+    }
+    if(q.includes('hotel')||q.includes('stay')||q.includes('accommodation')||q.includes('airbnb')||q.includes('hostel')||q.includes('where to sleep')||q.includes('where to stay')){
+      return '<strong>🏨 Where to Stay in '+c.name+'</strong><br><br>'+
+      '• <strong>Near stadium:</strong> Sell out first — book ASAP via <a href="https://www.expedia.com/Hotels" target="_blank" style="color:var(--accent)">Expedia</a> or <a href="https://www.hotels.com" target="_blank" style="color:var(--accent)">Hotels.com</a><br>'+
+      '• <strong>Budget option:</strong> Hostels $40-90/night, book via Hostelworld<br>'+
+      '• <strong>Mid-range:</strong> 3-star hotels $120-280/night<br>'+
+      '• <strong>Luxury:</strong> 4-5 star from $350/night<br>'+
+      '• <strong>Tip:</strong> Airbnb near metro lines saves money vs. stadium-adjacent hotels<br><br>'+
+      '<a href="/?city='+c.id+'" style="color:var(--accent)">See '+c.name+' city guide →</a>';
+    }
+    if(q.includes('ticket')||q.includes('buy ticket')||q.includes('get ticket')||q.includes('purchase')||q.includes('seat')||q.includes('how much is a ticket')){
+      return '<strong>🎟️ FIFA World Cup 2026 Tickets</strong><br><br>'+
+      '• Official tickets via <a href="https://www.fifa.com/tickets" target="_blank" style="color:var(--accent)">FIFA.com/tickets</a><br>'+
+      '• Group stage: from ~$80 USD (Category 4)<br>'+
+      '• Round of 32: from ~$150 USD<br>'+
+      '• Quarter-finals: from ~$250 USD<br>'+
+      '• Semi-finals: from ~$350 USD<br>'+
+      '• Final (New York): from ~$500 USD<br><br>'+
+      '⚠️ Resale tickets available on StubHub and Viagogo — expect 2-4× face value for popular matches.';
+    }
+    if(q.includes('budget')||q.includes('cheap')||q.includes('affordable')||q.includes('cost')||q.includes('expensive')||q.includes('how much')||q.includes('price')){
+      return '<strong>💰 Budget Guide: FIFA World Cup 2026 in '+c.name+'</strong><br><br>'+
+      '<strong>Daily costs per person:</strong><br>'+
+      '• Budget (hostel + street food): $80-130/day<br>'+
+      '• Mid-range (3-star hotel + restaurants): $180-280/day<br>'+
+      '• Comfortable (4-star + dining): $300-450/day<br><br>'+
+      '<strong>Tickets:</strong> Group stage from $80 · Knockouts from $150+<br>'+
+      '<strong>Flights:</strong> Varies by origin — book 4-6 months early for best prices<br><br>'+
+      'Ask me: <em>"Plan my trip from [your country] following [your team]"</em> for a full personalized itinerary!';
+    }
+    if(q.includes('weather')||q.includes('climate')||q.includes('hot')||q.includes('cold')||q.includes('rain')||q.includes('temperature')){
+      var weather={
+        'los-angeles':'☀️ Warm & dry, 22-28°C (72-82°F). Minimal rain. Light layers for evenings.',
+        'new-york':'🌤️ Warm, 24-30°C (75-86°F). Can be humid. Pack light rain jacket.',
+        'dallas':'🥵 Very hot, 32-38°C (90-100°F). Stay hydrated. Light, breathable clothing.',
+        'miami':'🌡️ Hot & humid, 30-34°C (86-93°F). Afternoon thunderstorms possible.',
+        'atlanta':'☀️ Hot, 29-34°C (84-93°F). Humid. Light clothing + sunscreen.',
+        'san-francisco':'🌫️ Cool & foggy, 15-22°C (59-72°F). Bring a jacket even in summer!',
+        'seattle':'🌧️ Mild & changeable, 18-24°C (64-75°F). Light rain jacket recommended.',
+        'houston':'🥵 Very hot & humid, 32-36°C (90-97°F). Hydration is key.',
+        'boston':'🌤️ Warm, 24-29°C (75-84°F). Can be breezy. Light layers.',
+        'philadelphia':'☀️ Warm, 27-32°C (81-90°F). Humid. Light clothing.',
+        'kansas-city':'🌤️ Warm, 28-35°C (82-95°F). Thunderstorms possible.',
+        'mexico-city':'⛅ Mild, 20-26°C (68-79°F). Afternoon rain showers June-July.',
+        'guadalajara':'⛅ Warm, 24-30°C (75-86°F). Rainy season starts June.',
+        'monterrey':'🥵 Hot, 32-40°C (90-104°F). Very dry heat. Hydrate constantly.',
+        'toronto':'🌤️ Warm, 22-28°C (72-82°F). Can be humid.',
+        'vancouver':'🌧️ Mild, 18-24°C (64-75°F). Some rain likely.'
+      };
+      return '<strong>🌤️ Weather in '+c.name+' during World Cup 2026</strong><br><br>'+(weather[c.id]||'Expect warm summer conditions — check local forecasts closer to match dates.')+'<br><br>Tournament runs June 11 – July 19, 2026.';
+    }
+
+    // Generic trip planning (no specific team mentioned)
+    if(q.includes('plan') || q.includes('itinerary') || q.includes('trip') || q.includes('travel')){
+      return '<strong>🗺️ Plan Your FIFA World Cup 2026 Trip</strong><br><br>'+
+      'Tell me which national team you want to follow! For example:<br><br>'+
+      '• <em>"Plan my trip from Japan following Japan's team"</em><br>'+
+      '• <em>"I'm traveling from England, plan my trip for the England matches"</em><br>'+
+      '• <em>"Budget trip following Brazil from São Paulo"</em><br><br>'+
+      'I'll give you a full itinerary with match dates, cities to visit, hotel costs, flight estimates, and money-saving tips!<br><br>'+
+      'The 2026 World Cup runs <strong>June 11 – July 19, 2026</strong> across 16 cities in the USA 🇺🇸, Canada 🇨🇦 and Mexico 🇲🇽.';
+    }
+
+    // Fallback: general helpful info
+    return '<strong>🌍 FIFAMap — Your World Cup 2026 Trip Planner</strong><br><br>'+
+    'I can help you with:<br>'+
+    '• 🗓️ <strong>Full trip itinerary</strong> — say: <em>"Plan my trip from Japan following Japan"</em><br>'+
+    '• ⚽ <strong>Match schedule</strong> for any city or team<br>'+
+    '• 🏨 <strong>Hotels & accommodation</strong> near each stadium<br>'+
+    '• ✈️ <strong>Flights & transport</strong> from your country<br>'+
+    '• 💰 <strong>Budget estimates</strong> for your trip<br>'+
+    '• 🍽️ <strong>Restaurants & attractions</strong> in each host city<br>'+
+    '• 🎟️ <strong>Ticket buying guide</strong><br><br>'+
+    'Currently showing: <strong>'+c.name+'</strong> · <a href="/?page=cities" style="color:var(--accent)">Browse all 16 cities →</a>';
   }
-
-  // ── ATTRACTIONS / SIGHTSEEING ──
-  if(q.includes('attraction')||q.includes('see')||q.includes('visit')||q.includes('sightsee')||q.includes('things to do')||q.includes('tourist')||q.includes('explore')||q.includes('landmark')||q.includes('museum')||q.includes('park')){
-    var atLines=c.attractions.map(function(a,i){
-      return (i+1)+'. '+a.icon+' '+a.name+' ('+a.category+')\n   '+a.desc+'\n   ⏱ '+a.duration+' | 📍 '+a.distance+'\n   💡 '+a.tip;
-    }).join('\n\n');
-    return '🗺️ Top attractions in '+c.name+' for World Cup visitors:\n\n'+atLines;
-  }
-
-  // ── TRANSPORT / GETTING THERE ──
-  if(q.includes('transport')||q.includes('get there')||q.includes('metro')||q.includes('shuttle')||q.includes('how to get')||q.includes('transit')||q.includes('bus')||q.includes('train')||q.includes('uber')||q.includes('lyft')||q.includes('taxi')||q.includes('drive')||q.includes('parking')||q.includes('airport')){
-    var trLines=c.transport.map(function(tr){
-      return '🚇 '+tr.mode+' ('+tr.badge+')\n   Cost: '+tr.cost+' | Time: '+tr.time+'\n   '+tr.steps.join('\n   ')+'\n   💡 '+tr.tip;
-    }).join('\n\n');
-    return 'Getting to '+c.stadium+' in '+c.name+':\n\n'+trLines;
-  }
-
-  // ── DINING / FOOD / RESTAURANTS ──
-  if(q.includes('eat')||q.includes('food')||q.includes('restaurant')||q.includes('dining')||q.includes('lunch')||q.includes('dinner')||q.includes('breakfast')||q.includes('drink')||q.includes('bar')||q.includes('cafe')||q.includes('bbq')||q.includes('taco')||q.includes('pizza')||q.includes('burger')){
-    var dLines=c.dining.map(function(d,i){
-      return (i+1)+'. '+d.icon+' '+d.name+' ('+d.cuisine+', '+d.price+') — '+d.category+'\n   '+d.desc+'\n   Must try: '+d.mustTry+'\n   💡 '+d.tip;
-    }).join('\n\n');
-    return '🍽️ Best dining in '+c.name+' for World Cup visitors:\n\n'+dLines;
-  }
-
-  // ── MATCHES / SCHEDULE / FIXTURES ──
-  if(q.includes('match')||q.includes('game')||q.includes('fixture')||q.includes('schedule')||q.includes('kickoff')||q.includes('kick off')||q.includes('when')||q.includes('date')||q.includes('time')||q.includes('who plays')||q.includes('teams')){
-    var mLines=c.matches.map(function(m){
-      var flags='';
-      if(m.usmnt)flags=' 🇺🇸 USMNT';
-      if(m.host)flags=' 🏠 Host match';
-      if(m.stage==='FINAL')flags=' 🏆 THE FINAL';
-      return '⚽ '+m.hf+' '+m.home+' vs '+m.af+' '+m.away+flags+'\n   📅 '+m.date+' · 🕐 '+m.time+'\n   Stage: '+m.stage;
-    }).join('\n\n');
-    return c.name+' hosts '+c.matchCount+' matches at '+c.stadium+':\n\n'+mLines;
-  }
-
-  // ── HOTELS / WHERE TO STAY / ACCOMMODATION ──
-  if(q.includes('hotel')||q.includes('stay')||q.includes('accommodation')||q.includes('airbnb')||q.includes('hostel')||q.includes('neighborhood')||q.includes('neighbourhood')||q.includes('area')||q.includes('where to sleep')){
-    var nLines=c.neighborhoods.map(function(n,i){
-      return (i+1)+'. '+n.name+' — '+n.vibe+'\n   🏨 '+n.hotel+'\n   ⚽ '+n.dist+' to stadium';
-    }).join('\n\n');
-    return 'Best neighborhoods to stay in '+c.name+':\n\n'+nLines
-      +'\n\n🔗 Book your hotel:\n'
-      +'• Booking.com: https://www.awin1.com/cread.php?awinmid=6776&awinaffid=2842560&clickref=fifamap-home&ued=https%3A%2F%2Fwww.booking.com\n'
-      +'• Expedia: https://expedia.com/affiliate?siteid=1&landingPage=https%3A%2F%2Fwww.expedia.com&camref=1100l5IH5P\n'
-      +'• Airbnb: https://www.airbnb.com/?af=43720035';
-  }
-
-  // ── TICKETS ──
-  if(q.includes('ticket')||q.includes('buy ticket')||q.includes('get ticket')||q.includes('purchase')||q.includes('seat')||q.includes('how much')||q.includes('price')){
-    return '🎫 FIFA World Cup 2026 Ticket Options:\n\n'
-      +'Official FIFA tickets (primary market):\n'
-      +'→ tickets.fifa.com — check for released tickets\n\n'
-      +'Secondary market (resale):\n'
-      +'→ StubHub: stubhub.com/fifa-world-cup-2026-tickets\n'
-      +'→ SeatGeek: seatgeek.com/fifa-world-cup-tickets\n'
-      +'→ Viagogo: viagogo.com\n'
-      +'→ VividSeats: vividseats.com\n\n'
-      +'💡 Tip: Secondary market prices drop significantly 1-2 weeks before the match, especially if a big team has already been eliminated. Book transport BEFORE buying tickets.';
-  }
-
-  // ── BUDGET / COST / CHEAP ──
-  if(q.includes('budget')||q.includes('cheap')||q.includes('affordable')||q.includes('cost')||q.includes('expensive')||q.includes('money')||q.includes('save')||q.includes('free things')){
-    return '💰 Budget tips for '+c.name+' during World Cup 2026:\n\n'
-      +'FREE things to do:\n'
-      +c.attractions.filter(function(a){return a.tags.indexOf('Free')>-1||a.tags.indexOf('free')>-1;}).map(function(a){return '• '+a.name+' — '+a.desc;}).join('\n')
-      +'\n\nFree fan zones (no ticket needed):\n'
-      +c.fanZones.map(function(fz){return '• '+fz.name+' ('+fz.area+')';}).join('\n')
-      +'\n\nBudget dining picks:\n'
-      +c.dining.filter(function(d){return d.price==='$';}).map(function(d){return '• '+d.icon+' '+d.name+' ('+d.price+') — '+d.mustTry;}).join('\n')
-      +'\n\n🚇 Cheapest transport to stadium: '+c.transport[0].mode+' — '+c.transport[0].cost;
-  }
-
-  // ── WEATHER / CLIMATE ──
-  if(q.includes('weather')||q.includes('temperature')||q.includes('hot')||q.includes('cold')||q.includes('rain')||q.includes('climate')||q.includes('what to wear')||q.includes('pack')){
-    return '⛅ Weather in '+c.name+' during the World Cup (June–July 2026):\n\n'
-      +c.weather+'\n\nTimezone: '+c.tz+'\n\n'
-      +'💡 Packing tips:\n'
-      +'• Bring sunscreen and a refillable water bottle for daytime matches\n'
-      +'• Evening matches can be cooler — bring a light layer\n'
-      +'• All 16 stadiums are cashless — bring a contactless card\n'
-      +'• Small clear bags only — no large backpacks inside stadiums';
-  }
-
-  // ── ITINERARY / PLAN MY TRIP ──
-  if(q.includes('itinerary')||q.includes('plan')||q.includes('trip')||q.includes('days')||q.includes('schedule')||q.includes('what should i do')||q.includes('recommend')){
-    return '✨ Here\'s a suggested itinerary for '+c.name+':\n\n'
-      +'DAY BEFORE MATCH:\n'
-      +(c.attractions[0]?'Morning: '+c.attractions[0].name+' — '+c.attractions[0].desc:'Explore the city')+'\n'
-      +(c.dining[0]?'Lunch: '+c.dining[0].name+' — '+c.dining[0].mustTry:'Try a local restaurant')+'\n'
-      +(c.attractions[1]?'Afternoon: '+c.attractions[1].name:'Walk the neighborhood')+'\n'
-      +(c.dining[1]?'Dinner: '+c.dining[1].name+' — '+c.dining[1].mustTry:'Dine near your hotel')+'\n\n'
-      +'MATCH DAY:\n'
-      +'Morning: Light breakfast, rest, check transport plan\n'
-      +'Transport: '+c.transport[0].mode+' — '+c.transport[0].tip+'\n'
-      +'Arrive: 2-3 hours before kickoff for best atmosphere\n'
-      +'After match: '+c.fanZones[0]?c.fanZones[0].name+' for celebrations':c.dining[2]?c.dining[2].name+' for a post-match meal':'Celebrate with fellow fans!'+'\n\n'
-      +'💡 Want a more detailed day-by-day plan? Tell me how many days you have and I\'ll build one!';
-  }
-
-  // ── CITY OVERVIEW (default — but now actually useful) ──
-  return 'Here\'s everything for '+c.name+' at FIFA World Cup 2026:\n\n'
-    +'🏟️ '+c.stadium+' ('+c.capacity+' capacity) · '+c.matchCount+' matches\n'
-    +'⛅ Weather: '+c.weather+' | 🕒 '+c.tz+'\n'
-    +'🌟 '+c.highlights+'\n\n'
-    +'⚽ MATCHES ('+c.matchCount+'):\n'
-    +c.matches.slice(0,3).map(function(m){return '• '+m.hf+' '+m.home+' vs '+m.af+' '+m.away+' — '+m.date+' '+m.time;}).join('\n')
-    +(c.matches.length>3?'\n... and '+(c.matches.length-3)+' more matches':'')+'\n\n'
-    +'📍 FAN ZONES (FREE — no ticket needed):\n'
-    +c.fanZones.map(function(fz){return '• '+fz.name+' ('+fz.area+') — '+fz.dates;}).join('\n')+'\n\n'
-    +'🗺️ TOP ATTRACTIONS:\n'
-    +c.attractions.slice(0,3).map(function(a){return '• '+a.icon+' '+a.name+' — '+a.desc;}).join('\n')+'\n\n'
-    +'🍽️ BEST DINING:\n'
-    +c.dining.map(function(d){return '• '+d.icon+' '+d.name+' ('+d.price+') — '+d.mustTry;}).join('\n')+'\n\n'
-    +'🚇 GETTING TO STADIUM:\n'
-    +c.transport[0].mode+': '+c.transport[0].steps[0]+' ('+c.transport[0].cost+')\n\n'
-    +'Ask me anything specific — fan zones, matches, dining, transport, hotels, budget tips, itinerary planning!';
-}
 
 function sendPrompt(text){
   document.getElementById('chatInput').value=text;
