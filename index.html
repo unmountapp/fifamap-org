@@ -1774,7 +1774,7 @@ async function sendChat(){
       });
 
       if (teamMatches.length === 0) {
-        return '<p>I couldn't find any confirmed group-stage matches for <strong>' + detectedTeam + '</strong> in the current schedule. Group-stage draws may still be pending. Check back closer to the tournament!</p>';
+        return '<p>I could notfind any confirmed group-stage matches for <strong>' + detectedTeam + '</strong> in the current schedule. Group-stage draws may still be pending. Check back closer to the tournament!</p>';
       }
 
       // Sort matches by date
@@ -1891,7 +1891,7 @@ async function sendChat(){
       html += '<strong>💡 Cost-saving tips for ' + detectedTeam + ' fans:</strong><br>';
       html += '• Book flights NOW — prices rise 40-60% in May/June<br>';
       html += '• Use Expedia or Hotels.com bundle deals for flight + hotel savings<br>';
-      html += '• Fan zones show every match FREE — great for group stage games you can't ticket<br>';
+      html += '• Fan zones show every match FREE — great for group stage games you can not ticket<br>';
       html += '• Get a Wise or Revolut card to avoid foreign transaction fees<br>';
       html += '• Consider Airbnb for multi-night stays in each city';
       html += '</div>';
@@ -1981,10 +1981,10 @@ async function sendChat(){
     if(q.includes('plan') || q.includes('itinerary') || q.includes('trip') || q.includes('travel')){
       return '<strong>🗺️ Plan Your FIFA World Cup 2026 Trip</strong><br><br>'+
       'Tell me which national team you want to follow! For example:<br><br>'+
-      '• <em>"Plan my trip from Japan following Japan's team"</em><br>'+
-      '• <em>"I'm traveling from England, plan my trip for the England matches"</em><br>'+
+      '• <em>"Plan my trip from Japan following Japan national team"</em><br>'+
+      '• <em>"I am traveling from England, plan my trip for the England matches"</em><br>'+
       '• <em>"Budget trip following Brazil from São Paulo"</em><br><br>'+
-      'I'll give you a full itinerary with match dates, cities to visit, hotel costs, flight estimates, and money-saving tips!<br><br>'+
+      'I will give you a full itinerary with match dates, cities to visit, hotel costs, flight estimates, and money-saving tips!<br><br>'+
       'The 2026 World Cup runs <strong>June 11 – July 19, 2026</strong> across 16 cities in the USA 🇺🇸, Canada 🇨🇦 and Mexico 🇲🇽.';
     }
 
