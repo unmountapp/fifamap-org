@@ -1673,7 +1673,8 @@ async function sendChat(){
   typing.innerHTML=`<div class="msg-avatar">⚽</div><div class="typing"><span></span><span></span><span></span></div>`;
   chatBox.appendChild(typing);
   chatBox.scrollTop=chatBox.scrollHeight;
-  try{}catch(e){}
+  try{
+    let reply='';
     // Fallback if no backend
     if(!reply){reply=generateFallback(text);}
     chatMessages.push({role:'assistant',content:reply});
