@@ -1690,6 +1690,10 @@ async function sendChat(){
 }  function generateFallback(text){
   const q = (text||'').toLowerCase();
 
+  // ── Strip "from X" origin so origin country does not get matched as team ──
+  const fromMatch = q.match(/\bfrom\s+([a-z ]+?)(?:\s+(?:for|to|and|,|$))/);
+  const qTeam = fromMatch ? q.replace(fromMatch[0], ' ') : q;
+
   const teamAliases = {
     'japan':'Japan','japanese':'Japan','jpn':'Japan',
     'brazil':'Brazil','brasil':'Brazil','bra':'Brazil',
@@ -1700,11 +1704,16 @@ async function sendChat(){
     'spain':'Spain','spanish':'Spain','esp':'Spain',
     'portugal':'Portugal','portuguese':'Portugal','por':'Portugal',
     'netherlands':'Netherlands','dutch':'Netherlands','ned':'Netherlands',
-    'usa':'USA','united states':'USA','us ':'USA','america':'USA',
+    'usa':'USA','united states':'USA','america':'USA',
     'mexico':'Mexico','mexican':'Mexico','mex':'Mexico',
-    'canada':'Canada','canadian':'Canada','can ':'Canada',
+    'canada':'Canada','canadian':'Canada',
     'morocco':'Morocco','moroccan':'Morocco','mar':'Morocco',
     'south korea':'South Korea','korea':'South Korea','kor':'South Korea',
+    'sweden':'Sweden','swedish':'Sweden','swe':'Sweden',
+    'denmark':'Denmark','danish':'Denmark','den':'Denmark',
+    'poland':'Poland','polish':'Poland','pol':'Poland',
+    'ukraine':'Ukraine','ukrainian':'Ukraine','ukr':'Ukraine',
+    'austria':'Austria','austrian':'Austria','aut':'Austria',
     'belgium':'Belgium','belgian':'Belgium','bel':'Belgium',
     'croatia':'Croatia','croatian':'Croatia','cro':'Croatia',
     'italy':'Italy','italian':'Italy','ita':'Italy',
@@ -1719,17 +1728,59 @@ async function sendChat(){
     'saudi arabia':'Saudi Arabia','saudi':'Saudi Arabia','ksa':'Saudi Arabia',
     'iran':'Iran','iranian':'Iran','irn':'Iran',
     'switzerland':'Switzerland','swiss':'Switzerland','sui':'Switzerland',
-    'denmark':'Denmark','danish':'Denmark','den':'Denmark',
-    'poland':'Poland','polish':'Poland','pol':'Poland',
     'serbia':'Serbia','serbian':'Serbia','srb':'Serbia',
-    'qatar':'Qatar','qatari':'Qatar','qat':'Qatar'
+    'qatar':'Qatar','qatari':'Qatar','qat':'Qatar',
+    'turkey':'Turkey','turkish':'Turkey','tur':'Turkey'
   };
 
   let pickedTeam = null;
   for (const key in teamAliases) {
-    if (q.includes(key)) { pickedTeam = teamAliases[key]; break; }
+    if (qTeam.includes(key)) { pickedTeam = teamAliases[key]; break; }
   }
 
+  // ── Flight origin detection (from the full query including "from X") ──
+  const flightsFrom = {
+    'japan':{label:'Tokyo (NRT)', econ:[1100,1600]},
+    'senegal':{label:'Dakar (DSS)', econ:[900,1500]},
+    'france':{label:'Paris (CDG)', econ:[650,1100]},
+    'germany':{label:'Frankfurt (FRA)', econ:[700,1200]},
+    'sweden':{label:'Stockholm (ARN)', econ:[550,950]},
+    'denmark':{label:'Copenhagen (CPH)', econ:[550,950]},
+    'norway':{label:'Oslo (OSL)', econ:[600,1000]},
+    'finland':{label:'Helsinki (HEL)', econ:[600,1000]},
+    'uk':{label:'London (LHR)', econ:[500,900]},
+    'england':{label:'London (LHR)', econ:[500,900]},
+    'ireland':{label:'Dublin (DUB)', econ:[520,920]},
+    'spain':{label:'Madrid (MAD)', econ:[600,1000]},
+    'portugal':{label:'Lisbon (LIS)', econ:[600,1000]},
+    'italy':{label:'Rome (FCO)', econ:[650,1100]},
+    'netherlands':{label:'Amsterdam (AMS)', econ:[600,1000]},
+    'belgium':{label:'Brussels (BRU)', econ:[580,980]},
+    'poland':{label:'Warsaw (WAW)', econ:[620,1050]},
+    'ukraine':{label:'Warsaw (WAW)', econ:[620,1050]},
+    'austria':{label:'Vienna (VIE)', econ:[620,1050]},
+    'switzerland':{label:'Zurich (ZRH)', econ:[630,1060]},
+    'brazil':{label:'Sao Paulo (GRU)', econ:[800,1400]},
+    'argentina':{label:'Buenos Aires (EZE)', econ:[900,1500]},
+    'morocco':{label:'Casablanca (CMN)', econ:[700,1200]},
+    'south africa':{label:'Johannesburg (JNB)', econ:[1000,1600]},
+    'nigeria':{label:'Lagos (LOS)', econ:[1100,1700]},
+    'ghana':{label:'Accra (ACC)', econ:[1100,1700]},
+    'south korea':{label:'Seoul (ICN)', econ:[1100,1700]},
+    'australia':{label:'Sydney (SYD)', econ:[1400,2000]},
+    'india':{label:'Delhi (DEL)', econ:[1000,1700]},
+    'saudi arabia':{label:'Riyadh (RUH)', econ:[1000,1600]},
+    'uae':{label:'Dubai (DXB)', econ:[900,1500]},
+    'china':{label:'Beijing (PEK)', econ:[1050,1650]},
+    'new zealand':{label:'Auckland (AKL)', econ:[1500,2200]}
+  };
+
+  let originLabel = null, econRange = [700,1200];
+  for (const k in flightsFrom) {
+    if (q.includes(k)) { originLabel = flightsFrom[k].label; econRange = flightsFrom[k].econ; break; }
+  }
+
+  // ── Full group-stage match data (3 per team) ──
   const teamMatches = {
     'Senegal':[
       {date:'Thu, Jun 11', time:'6:00 PM ET', opp:'Saudi Arabia', oppFlag:'🇸🇦', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group I'},
@@ -1740,6 +1791,11 @@ async function sendChat(){
       {date:'Fri, Jun 12', time:'6:00 PM ET', opp:'Paraguay', oppFlag:'🇵🇾', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group D'},
       {date:'Wed, Jun 17', time:'3:00 PM PT', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group D'},
       {date:'Mon, Jun 22', time:'6:00 PM CT', opp:'Croatia', oppFlag:'🇭🇷', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group D'}
+    ],
+    'Sweden':[
+      {date:'Sat, Jun 13', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group C'},
+      {date:'Thu, Jun 19', time:'6:00 PM ET', opp:'South Korea', oppFlag:'🇰🇷', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group C'},
+      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Poland', oppFlag:'🇵🇱', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group C'}
     ],
     'Brazil':[
       {date:'Sat, Jun 13', time:'3:00 PM ET', opp:'Serbia', oppFlag:'🇷🇸', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group G'},
@@ -1772,7 +1828,7 @@ async function sendChat(){
       {date:'Wed, Jun 24', time:'3:00 PM ET', opp:'Ivory Coast', oppFlag:'🇨🇮', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group E'}
     ],
     'Portugal':[
-      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Morocco', oppFlag:'🇲🇦', venue:'San Francisco — Levi Stadium', city:'San Francisco', group:'Group B'},
+      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Morocco', oppFlag:'🇲🇦', venue:'San Francisco — Levis Stadium', city:'San Francisco', group:'Group B'},
       {date:'Fri, Jun 19', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group B'},
       {date:'Wed, Jun 24', time:'6:00 PM ET', opp:'USA', oppFlag:'🇺🇸', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group B'}
     ],
@@ -1788,7 +1844,7 @@ async function sendChat(){
     ],
     'Mexico':[
       {date:'Thu, Jun 11', time:'12:00 PM CT', opp:'New Zealand', oppFlag:'🇳🇿', venue:'Mexico City — Estadio Azteca', city:'Mexico City', group:'Group A'},
-      {date:'Wed, Jun 17', time:'12:00 PM CT', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Guadalajara — Estadio Akron', city:'Guadalajara', group:'Group I'},
+      {date:'Wed, Jun 17', time:'12:00 PM CT', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Guadalajara — Estadio Akron', city:'Guadalajara', group:'Group A'},
       {date:'Sun, Jun 21', time:'9:00 PM ET', opp:'Senegal', oppFlag:'🇸🇳', venue:'Atlanta — Mercedes-Benz Stadium', city:'Atlanta', group:'Group I'}
     ],
     'Canada':[
@@ -1797,39 +1853,38 @@ async function sendChat(){
       {date:'Wed, Jun 24', time:'3:00 PM PT', opp:'New Zealand', oppFlag:'🇳🇿', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group A'}
     ],
     'Morocco':[
-      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Portugal', oppFlag:'🇵🇹', venue:'San Francisco — Levi Stadium', city:'San Francisco', group:'Group B'},
+      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Portugal', oppFlag:'🇵🇹', venue:'San Francisco — Levis Stadium', city:'San Francisco', group:'Group B'},
       {date:'Tue, Jun 16', time:'6:00 PM ET', opp:'USA', oppFlag:'🇺🇸', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group B'},
       {date:'Sun, Jun 21', time:'6:00 PM ET', opp:'Jamaica', oppFlag:'🇯🇲', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group B'}
+    ],
+    'Denmark':[
+      {date:'Sat, Jun 13', time:'9:00 PM ET', opp:'England', oppFlag:'🏴', venue:'Toronto — BMO Field', city:'Toronto', group:'Group H'},
+      {date:'Thu, Jun 18', time:'3:00 PM ET', opp:'Tunisia', oppFlag:'🇹🇳', venue:'Philadelphia — Lincoln Financial Field', city:'Philadelphia', group:'Group H'},
+      {date:'Tue, Jun 23', time:'6:00 PM ET', opp:'Ghana', oppFlag:'🇬🇭', venue:'Houston — NRG Stadium', city:'Houston', group:'Group H'}
+    ],
+    'South Korea':[
+      {date:'Sat, Jun 13', time:'6:00 PM ET', opp:'Germany', oppFlag:'🇩🇪', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group F'},
+      {date:'Thu, Jun 19', time:'6:00 PM ET', opp:'Sweden', oppFlag:'🇸🇪', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group C'},
+      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group F'}
+    ],
+    'Poland':[
+      {date:'Fri, Jun 12', time:'9:00 PM ET', opp:'Argentina', oppFlag:'🇦🇷', venue:'Houston — NRG Stadium', city:'Houston', group:'Group C'},
+      {date:'Wed, Jun 17', time:'6:00 PM ET', opp:'Sweden', oppFlag:'🇸🇪', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group C'},
+      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Nigeria', oppFlag:'🇳🇬', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group C'}
+    ],
+    'Ukraine':[
+      {date:'Sun, Jun 14', time:'3:00 PM ET', opp:'Belgium', oppFlag:'🇧🇪', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group J'},
+      {date:'Fri, Jun 19', time:'6:00 PM ET', opp:'Saudi Arabia', oppFlag:'🇸🇦', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group J'},
+      {date:'Wed, Jun 24', time:'9:00 PM ET', opp:'Panama', oppFlag:'🇵🇦', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group J'}
+    ],
+    'Austria':[
+      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Chile', oppFlag:'🇨🇱', venue:'Houston — NRG Stadium', city:'Houston', group:'Group K'},
+      {date:'Fri, Jun 19', time:'3:00 PM ET', opp:'Paraguay', oppFlag:'🇵🇾', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group K'},
+      {date:'Wed, Jun 24', time:'6:00 PM ET', opp:'Costa Rica', oppFlag:'🇨🇷', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group K'}
     ]
   };
 
-  const flightsFrom = {
-    'japan':{label:'Tokyo (NRT)', econ:[1100,1600]},
-    'senegal':{label:'Dakar (DSS)', econ:[900,1500]},
-    'france':{label:'Paris (CDG)', econ:[650,1100]},
-    'germany':{label:'Frankfurt (FRA)', econ:[700,1200]},
-    'uk':{label:'London (LHR)', econ:[500,900]},
-    'england':{label:'London (LHR)', econ:[500,900]},
-    'spain':{label:'Madrid (MAD)', econ:[600,1000]},
-    'portugal':{label:'Lisbon (LIS)', econ:[600,1000]},
-    'netherlands':{label:'Amsterdam (AMS)', econ:[600,1000]},
-    'italy':{label:'Rome (FCO)', econ:[650,1100]},
-    'brazil':{label:'Sao Paulo (GRU)', econ:[800,1400]},
-    'argentina':{label:'Buenos Aires (EZE)', econ:[900,1500]},
-    'morocco':{label:'Casablanca (CMN)', econ:[700,1200]},
-    'south korea':{label:'Seoul (ICN)', econ:[1100,1700]},
-    'australia':{label:'Sydney (SYD)', econ:[1400,2000]},
-    'india':{label:'Delhi (DEL)', econ:[1000,1700]},
-    'saudi arabia':{label:'Riyadh (RUH)', econ:[1000,1600]},
-    'nigeria':{label:'Lagos (LOS)', econ:[1100,1700]},
-    'uae':{label:'Dubai (DXB)', econ:[900,1500]}
-  };
-
-  let origin = null, originLabel = null, econRange = [700,1200];
-  for (const k in flightsFrom) {
-    if (q.includes(k)) { origin = k; originLabel = flightsFrom[k].label; econRange = flightsFrom[k].econ; break; }
-  }
-
+  // ── Hotel per-night ranges per host city ──
   const hotelRanges = {
     'New York / NJ':{budget:[140,220],mid:[260,520]},
     'Los Angeles':{budget:[120,200],mid:[220,450]},
@@ -1853,34 +1908,34 @@ async function sendChat(){
     const matches = teamMatches[pickedTeam];
     const cities = [...new Set(matches.map(m=>m.city))];
     const totalNights = matches.length * 3;
-    let hotelBudgetLow=0, hotelBudgetHigh=0, hotelMidLow=0, hotelMidHigh=0;
+    let hotelBudgetLow=0, hotelMidHigh=0;
     matches.forEach(m=>{
-      const h = hotelRanges[m.city] || {budget:[100,170],mid:[190,380]};
-      hotelBudgetLow += h.budget[0]*3; hotelBudgetHigh += h.budget[1]*3;
-      hotelMidLow += h.mid[0]*3; hotelMidHigh += h.mid[1]*3;
+      const h = hotelRanges[m.city]||{budget:[100,170],mid:[190,380]};
+      hotelBudgetLow += h.budget[0]*3;
+      hotelMidHigh += h.mid[1]*3;
     });
 
-    const ticketBudget = 360;
-    const ticketMid = 720;
-    const food = 50 * totalNights;
-    const foodMid = 90 * totalNights;
-    const transport = 40 * matches.length;
+    const ticketBudget = 360, ticketMid = 720;
+    const food = 50*totalNights, foodMid = 90*totalNights;
+    const transport = 40*matches.length;
     const flightLow = econRange[0], flightHigh = econRange[1];
     const budgetTotal = Math.round(flightLow + hotelBudgetLow + ticketBudget + food + transport);
     const midTotal = Math.round(flightHigh + hotelMidHigh + ticketMid + foodMid + transport + 200);
 
-    let html = '';
-    html += '<div style="max-width:760px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55">';
+    let html = '<div style="max-width:760px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55">';
+
+    // Header
     html += '<div style="background:linear-gradient(135deg,rgba(0,102,255,0.15),rgba(0,170,102,0.15));border:1px solid rgba(0,102,255,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px">';
     html += '<div style="font-size:1.15rem;font-weight:700;margin-bottom:4px">🗓️ '+pickedTeam+' Fan Itinerary — World Cup 2026</div>';
     html += '<div style="opacity:0.85;font-size:0.9rem">Follow all '+matches.length+' group-stage matches across '+cities.length+' host '+(cities.length>1?'cities':'city')+'.</div>';
     html += '</div>';
 
-    html += '<div style="font-weight:700;margin:14px 0 8px 2px;font-size:1rem">⚽ Your Match Schedule</div>';
-    matches.forEach((m,i)=>{
+    // Matches
+    html += '<div style="font-weight:700;margin:14px 0 8px 2px;font-size:1rem">⚽ Match Schedule</div>';
+    matches.forEach((m,idx)=>{
       html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
       html += '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">';
-      html += '<div style="font-weight:600">Match '+(i+1)+': '+pickedTeam+' vs '+m.oppFlag+' '+m.opp+'</div>';
+      html += '<div style="font-weight:600">Match '+(idx+1)+': '+pickedTeam+' vs '+m.oppFlag+' '+m.opp+'</div>';
       html += '<div style="background:rgba(0,102,255,0.15);border-radius:999px;padding:2px 10px;font-size:0.78rem">'+m.group+'</div>';
       html += '</div>';
       html += '<div style="margin-top:6px;font-size:0.9rem;opacity:0.9">📅 '+m.date+' &nbsp; ⏰ '+m.time+'</div>';
@@ -1888,48 +1943,68 @@ async function sendChat(){
       html += '</div>';
     });
 
+    // Flights
     html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">✈️ Flights</div>';
     html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
     if (originLabel) {
-      html += '<div>From <strong>'+originLabel+'</strong> → first host city ('+cities[0]+')</div>';
-      html += '<div style="font-size:0.9rem;opacity:0.9;margin-top:4px">Economy round-trip: <strong>$'+flightLow+'–$'+flightHigh+'</strong></div>';
+      html += '<div>From <strong>'+originLabel+'</strong> to '+cities[0]+'</div>';
+      html += '<div style="font-size:0.9rem;opacity:0.9;margin-top:4px">Economy round-trip: <strong>$'+flightLow+' – $'+flightHigh+'</strong> per person</div>';
     } else {
-      html += '<div>Tell me your departure city (e.g. "from London", "from Tokyo") for a personalized flight estimate.</div>';
-      html += '<div style="font-size:0.9rem;opacity:0.85;margin-top:4px">Average economy round-trip to the US: $700–$1,200</div>';
+      html += '<div>Add "from [your city]" to get a personalised flight estimate.</div>';
+      html += '<div style="font-size:0.9rem;opacity:0.85;margin-top:4px">Avg economy round-trip to North America: <strong>$700 – $1,200</strong></div>';
     }
     if (cities.length>1) {
-      html += '<div style="font-size:0.88rem;opacity:0.85;margin-top:6px">🚆 Between cities: budget $150–$300 per domestic hop (flight or train).</div>';
+      html += '<div style="font-size:0.88rem;opacity:0.85;margin-top:6px">🚆 Between match cities: budget <strong>$150–$300</strong> per hop (domestic flight or train).</div>';
     }
     html += '</div>';
 
+    // Hotels
     html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">🏨 Hotels ('+totalNights+' nights total)</div>';
     html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
     cities.forEach(c=>{
-      const h = hotelRanges[c] || {budget:[100,170],mid:[190,380]};
-      html += '<div style="display:flex;justify-content:space-between;gap:8px;font-size:0.9rem;padding:4px 0;border-bottom:1px dashed rgba(255,255,255,0.08)"><span>📍 '+c+'</span><span>Budget $'+h.budget[0]+'–$'+h.budget[1]+' · Mid $'+h.mid[0]+'–$'+h.mid[1]+'/night</span></div>';
+      const h = hotelRanges[c]||{budget:[100,170],mid:[190,380]};
+      html += '<div style="display:flex;justify-content:space-between;gap:8px;font-size:0.9rem;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,0.08)">';
+      html += '<span><strong>'+c+'</strong> (3 nights)</span>';
+      html += '<span>Budget <strong>$'+h.budget[0]+'–$'+h.budget[1]+'</strong> · Mid <strong>$'+h.mid[0]+'–$'+h.mid[1]+'</strong>/night</span>';
+      html += '</div>';
     });
     html += '</div>';
 
-    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">💰 Estimated Total Trip Cost (per person)</div>';
+    // Cost summary
+    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">💰 Estimated Cost Per Person</div>';
     html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">';
-    html += '<div style="background:rgba(0,170,102,0.15);border:1px solid rgba(0,170,102,0.35);border-radius:10px;padding:12px 14px"><div style="font-size:0.85rem;opacity:0.85">Budget traveler</div><div style="font-size:1.4rem;font-weight:700;margin-top:2px">~$'+budgetTotal.toLocaleString()+'</div><div style="font-size:0.78rem;opacity:0.8;margin-top:4px">Hostels, economy flight, Cat-3 tickets</div></div>';
-    html += '<div style="background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.35);border-radius:10px;padding:12px 14px"><div style="font-size:0.85rem;opacity:0.85">Mid-range traveler</div><div style="font-size:1.4rem;font-weight:700;margin-top:2px">~$'+midTotal.toLocaleString()+'</div><div style="font-size:0.78rem;opacity:0.8;margin-top:4px">3-star hotels, Cat-2 tickets, meals out</div></div>';
+    html += '<div style="background:rgba(0,170,102,0.15);border:1px solid rgba(0,170,102,0.35);border-radius:10px;padding:12px 14px">';
+    html += '<div style="font-size:0.82rem;opacity:0.8;text-transform:uppercase;letter-spacing:.04em">Budget</div>';
+    html += '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">~$'+budgetTotal.toLocaleString()+'</div>';
+    html += '<div style="font-size:0.78rem;opacity:0.75">Hostel, economy flight, Cat-3 tickets</div></div>';
+    html += '<div style="background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.35);border-radius:10px;padding:12px 14px">';
+    html += '<div style="font-size:0.82rem;opacity:0.8;text-transform:uppercase;letter-spacing:.04em">Mid-range</div>';
+    html += '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">~$'+midTotal.toLocaleString()+'</div>';
+    html += '<div style="font-size:0.78rem;opacity:0.75">3-star hotel, economy flight, Cat-2 tickets</div></div>';
     html += '</div>';
-    html += '<div style="font-size:0.82rem;opacity:0.8;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px">Includes flights, '+totalNights+' nights hotel, 3 match tickets, food, and local transport. Excludes knockout-round tickets and travel insurance.</div>';
+    html += '<div style="font-size:0.82rem;opacity:0.75;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;margin-bottom:14px">';
+    html += 'Includes: flights, '+totalNights+' hotel nights, 3 match tickets, food &amp; local transport. Excludes knockout rounds &amp; travel insurance.';
+    html += '</div>';
 
-    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">💡 Money-Saving Tips</div>';
-    html += '<ul style="margin:0 0 6px 20px;padding:0;font-size:0.9rem;opacity:0.9">';
-    html += '<li>Book flights now — prices rise 40–60% in May/June 2026.</li>';
-    html += '<li>Use Expedia or Hotels.com bundle deals to save on flight+hotel.</li>';
-    html += '<li>Fan zones show every match FREE — great when tickets sell out.</li>';
-    html += '<li>Get a Wise or Revolut card to avoid foreign transaction fees.</li>';
-    html += '<li>Consider Airbnb for multi-night stays in the same city.</li>';
+    // Tips
+    html += '<div style="font-weight:700;margin:4px 0 8px 2px;font-size:1rem">💡 Cost-Saving Tips</div>';
+    html += '<ul style="margin:0 0 6px 18px;padding:0;font-size:0.9rem;line-height:1.7">';
+    html += '<li>Book flights now — prices rise 40–60% after April 2026.</li>';
+    html += '<li>Bundle flight + hotel on Expedia or Hotels.com for extra savings.</li>';
+    html += '<li>Fan zones screen every match FREE — great backup if tickets sell out.</li>';
+    html += '<li>Use a Wise or Revolut card to avoid foreign exchange fees.</li>';
+    html += '<li>Airbnb is often cheaper than hotels for 3-night stays.</li>';
     html += '</ul>';
     html += '</div>';
     return html;
   }
 
-  return '<div style="max-width:720px;line-height:1.55"><h3 style="margin-bottom:8px">⚽ Plan your 2026 World Cup trip</h3><p>Tell me which <strong>team you want to follow</strong> (e.g. "I want to follow Senegal") and where you are travelling <strong>from</strong> (e.g. "from Tokyo"). I will build a full itinerary with matches, flights, hotels and estimated costs.</p><p style="font-size:0.9rem;opacity:0.85">Examples: <em>"Follow Japan all group stage from Tokyo"</em> · <em>"I want to watch all Brazil games from Lisbon"</em></p></div>';
+  // Generic fallback
+  return '<div style="max-width:720px;line-height:1.6"><h3 style="margin:0 0 10px">⚽ Plan Your 2026 World Cup Trip</h3>'
+    + '<p>Tell me <strong>which team to follow</strong> and <strong>where you are coming from</strong>.<br>'
+    + 'Example: <em>"I am coming from Sweden, planning to follow England for all their matches"</em></p>'
+    + '<p style="font-size:0.88rem;opacity:0.8">Teams I know about: Japan · Brazil · Argentina · France · Germany · England · Spain · Portugal · Netherlands · USA · Mexico · Canada · Morocco · Sweden · Senegal · South Korea · Denmark · Poland · Ukraine · Austria · Belgium · Croatia · Italy · Nigeria · Ghana · Uruguay · Colombia · Ecuador · Australia · Saudi Arabia · Switzerland · Serbia · Qatar and more.</p>'
+    + '</div>';
 }
 
 function sendPrompt(text){
@@ -1947,7 +2022,7 @@ function renderChatMessages(){
   box.innerHTML=chatMessages.map(m=>`
     <div class="msg ${m.role==='user'?'user-msg':''}">
       ${m.role==='assistant'?'<div class="msg-avatar">⚽</div>':''}
-      <div class="msg-bubble ${m.role}">${escHtml(m.content)}</div>
+      <div class="msg-bubble ${m.role}">${m.role==='assistant' ? m.content : escHtml(m.content)}</div>
     </div>`).join('');
   box.scrollTop=box.scrollHeight;
 }
