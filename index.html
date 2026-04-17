@@ -1673,13 +1673,7 @@ async function sendChat(){
   typing.innerHTML=`<div class="msg-avatar">⚽</div><div class="typing"><span></span><span></span><span></span></div>`;
   chatBox.appendChild(typing);
   chatBox.scrollTop=chatBox.scrollHeight;
-  try{
-    // Try real API first
-    let reply='';
-    try{
-      const res=await fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatMessages,lang:currentLang})});
-      if(res.ok){const data=await res.json();reply=data.reply;}
-    }catch(e){}
+  try{}catch(e){}
     // Fallback if no backend
     if(!reply){reply=generateFallback(text);}
     chatMessages.push({role:'assistant',content:reply});
