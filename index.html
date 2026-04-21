@@ -1687,324 +1687,217 @@ async function sendChat(){
   renderChatMessages();
   // Hide prompts after first real message
   document.getElementById('quick-prompts').innerHTML='';
-}  function generateFallback(text){
-  const q = (text||'').toLowerCase();
+}  function generateFallback(q) {
+  q = (q || '').toLowerCase().trim();
 
-  // ── Strip "from X" origin so origin country does not get matched as team ──
-  const fromMatch = q.match(/\bfrom\s+([a-z ]+?)(?:\s+(?:for|to|and|,|$))/);
-  const qTeam = fromMatch ? q.replace(fromMatch[0], ' ') : q;
-
-  const teamAliases = {
-    'japan':'Japan','japanese':'Japan','jpn':'Japan',
-    'brazil':'Brazil','brasil':'Brazil','bra':'Brazil',
-    'argentina':'Argentina','argentinian':'Argentina','arg':'Argentina',
-    'germany':'Germany','german':'Germany','ger':'Germany',
-    'france':'France','french':'France','fra':'France',
-    'england':'England','english':'England','eng':'England',
-    'spain':'Spain','spanish':'Spain','esp':'Spain',
-    'portugal':'Portugal','portuguese':'Portugal','por':'Portugal',
-    'netherlands':'Netherlands','dutch':'Netherlands','ned':'Netherlands',
-    'usa':'USA','united states':'USA','america':'USA',
-    'mexico':'Mexico','mexican':'Mexico','mex':'Mexico',
-    'canada':'Canada','canadian':'Canada',
-    'morocco':'Morocco','moroccan':'Morocco','mar':'Morocco',
-    'south korea':'South Korea','korea':'South Korea','kor':'South Korea',
-    'sweden':'Sweden','swedish':'Sweden','swe':'Sweden',
-    'denmark':'Denmark','danish':'Denmark','den':'Denmark',
-    'poland':'Poland','polish':'Poland','pol':'Poland',
-    'ukraine':'Ukraine','ukrainian':'Ukraine','ukr':'Ukraine',
-    'austria':'Austria','austrian':'Austria','aut':'Austria',
-    'belgium':'Belgium','belgian':'Belgium','bel':'Belgium',
-    'croatia':'Croatia','croatian':'Croatia','cro':'Croatia',
-    'italy':'Italy','italian':'Italy','ita':'Italy',
-    'senegal':'Senegal','senegalese':'Senegal','sen':'Senegal',
-    'ivory coast':'Ivory Coast','civ':'Ivory Coast',
-    'nigeria':'Nigeria','nigerian':'Nigeria','nga':'Nigeria',
-    'ghana':'Ghana','ghanaian':'Ghana','gha':'Ghana',
-    'uruguay':'Uruguay','uruguayan':'Uruguay','uru':'Uruguay',
-    'colombia':'Colombia','colombian':'Colombia','col':'Colombia',
-    'ecuador':'Ecuador','ecuadorian':'Ecuador','ecu':'Ecuador',
-    'australia':'Australia','aussie':'Australia','aus':'Australia',
-    'saudi arabia':'Saudi Arabia','saudi':'Saudi Arabia','ksa':'Saudi Arabia',
-    'iran':'Iran','iranian':'Iran','irn':'Iran',
-    'switzerland':'Switzerland','swiss':'Switzerland','sui':'Switzerland',
-    'serbia':'Serbia','serbian':'Serbia','srb':'Serbia',
-    'qatar':'Qatar','qatari':'Qatar','qat':'Qatar',
-    'turkey':'Turkey','turkish':'Turkey','tur':'Turkey'
-  };
-
-  let pickedTeam = null;
-  for (const key in teamAliases) {
-    if (qTeam.includes(key)) { pickedTeam = teamAliases[key]; break; }
+  const originTrigger = /(?:from|coming from|traveling from|travelling from|flying from|based in|living in)\s+(\S[\s\S]*)/i;
+  const originMap = [
+    ['south korea','South Korea'],['new zealand','New Zealand'],['saudi arabia','Saudi Arabia'],
+    ['south africa','South Africa'],['united states','USA'],['united kingdom','England'],
+    ['australia','Australia'],['argentina','Argentina'],['netherlands','Netherlands'],
+    ['portugal','Portugal'],['ukraine','Ukraine'],['denmark','Denmark'],
+    ['nigeria','Nigeria'],['morocco','Morocco'],['england','England'],
+    ['germany','Germany'],['france','France'],['brazil','Brazil'],
+    ['canada','Canada'],['mexico','Mexico'],['sweden','Sweden'],
+    ['poland','Poland'],['spain','Spain'],['ghana','Ghana'],
+    ['japan','Japan'],['korea','South Korea'],['china','China'],
+    ['india','India'],['iran','Iran'],['italy','Italy'],
+    ['norway','Norway'],['usa','USA'],['uk','England'],['holland','Netherlands']
+  ];
+  let originKey = null, originName = null;
+  const triggerMatch = originTrigger.exec(q);
+  if (triggerMatch) {
+    const afterTrigger = triggerMatch[1];
+    for (const [key, name] of originMap) {
+      if (afterTrigger.startsWith(key)) { originKey = key; originName = name; break; }
+    }
   }
 
-  // ── Flight origin detection (from the full query including "from X") ──
-  const flightsFrom = {
-    'japan':{label:'Tokyo (NRT)', econ:[1100,1600]},
-    'senegal':{label:'Dakar (DSS)', econ:[900,1500]},
-    'france':{label:'Paris (CDG)', econ:[650,1100]},
-    'germany':{label:'Frankfurt (FRA)', econ:[700,1200]},
-    'sweden':{label:'Stockholm (ARN)', econ:[550,950]},
-    'denmark':{label:'Copenhagen (CPH)', econ:[550,950]},
-    'norway':{label:'Oslo (OSL)', econ:[600,1000]},
-    'finland':{label:'Helsinki (HEL)', econ:[600,1000]},
-    'uk':{label:'London (LHR)', econ:[500,900]},
-    'england':{label:'London (LHR)', econ:[500,900]},
-    'ireland':{label:'Dublin (DUB)', econ:[520,920]},
-    'spain':{label:'Madrid (MAD)', econ:[600,1000]},
-    'portugal':{label:'Lisbon (LIS)', econ:[600,1000]},
-    'italy':{label:'Rome (FCO)', econ:[650,1100]},
-    'netherlands':{label:'Amsterdam (AMS)', econ:[600,1000]},
-    'belgium':{label:'Brussels (BRU)', econ:[580,980]},
-    'poland':{label:'Warsaw (WAW)', econ:[620,1050]},
-    'ukraine':{label:'Warsaw (WAW)', econ:[620,1050]},
-    'austria':{label:'Vienna (VIE)', econ:[620,1050]},
-    'switzerland':{label:'Zurich (ZRH)', econ:[630,1060]},
-    'brazil':{label:'Sao Paulo (GRU)', econ:[800,1400]},
-    'argentina':{label:'Buenos Aires (EZE)', econ:[900,1500]},
-    'morocco':{label:'Casablanca (CMN)', econ:[700,1200]},
-    'south africa':{label:'Johannesburg (JNB)', econ:[1000,1600]},
-    'nigeria':{label:'Lagos (LOS)', econ:[1100,1700]},
-    'ghana':{label:'Accra (ACC)', econ:[1100,1700]},
-    'south korea':{label:'Seoul (ICN)', econ:[1100,1700]},
-    'australia':{label:'Sydney (SYD)', econ:[1400,2000]},
-    'india':{label:'Delhi (DEL)', econ:[1000,1700]},
-    'saudi arabia':{label:'Riyadh (RUH)', econ:[1000,1600]},
-    'uae':{label:'Dubai (DXB)', econ:[900,1500]},
-    'china':{label:'Beijing (PEK)', econ:[1050,1650]},
-    'new zealand':{label:'Auckland (AKL)', econ:[1500,2200]}
-  };
-
-  let originLabel = null, econRange = [700,1200];
-  for (const k in flightsFrom) {
-    if (q.includes(k)) { originLabel = flightsFrom[k].label; econRange = flightsFrom[k].econ; break; }
+  const teamAliases = [
+    ['south korea',['south korea','korea']],
+    ['saudi arabia',['saudi arabia','saudi','green falcons']],
+    ['netherlands',['netherlands','holland','dutch','oranje']],
+    ['argentina',['argentina','albiceleste']],
+    ['australia',['australia','socceroos','aussie']],
+    ['portugal',['portugal','portuguese']],
+    ['denmark',['denmark','danish']],
+    ['ukraine',['ukraine','ukrainian']],
+    ['nigeria',['nigeria','super eagles']],
+    ['morocco',['morocco','atlas lions']],
+    ['england',['england','english','three lions']],
+    ['germany',['germany','german','deutschland','die mannschaft']],
+    ['france',['france','french','les bleus']],
+    ['brazil',['brazil','brasil']],
+    ['sweden',['sweden','swedish']],
+    ['poland',['poland','polish']],
+    ['canada',['canada','canadian']],
+    ['mexico',['mexico','el tri']],
+    ['spain',['spain','la roja']],
+    ['ghana',['ghana','black stars']],
+    ['japan',['japan','japanese','samurai blue']],
+    ['iran',['iran','iranian']],
+    ['usa',['usa','united states','usmnt']]
+  ];
+  let qForTeam = q;
+  if (originKey) {
+    const triggers = ['coming from ','travelling from ','traveling from ','flying from ','based in ','living in ','from '];
+    for (const tw of triggers) {
+      const needle = tw + originKey;
+      const idx = qForTeam.indexOf(needle);
+      if (idx >= 0) {
+        qForTeam = (qForTeam.substring(0, idx) + qForTeam.substring(idx + needle.length)).replace(/^,\s*|\s*,?\s*$/, '').trim();
+        break;
+      }
+    }
+  }
+  let detectedTeam = null;
+  for (const [team, aliases] of teamAliases) {
+    if (detectedTeam) break;
+    for (const alias of aliases) {
+      const idx = qForTeam.indexOf(alias);
+      if (idx >= 0) {
+        const pre = idx === 0 ? '' : qForTeam[idx-1];
+        const post = idx+alias.length >= qForTeam.length ? '' : qForTeam[idx+alias.length];
+        if (!/[a-z]/.test(pre) && !/[a-z]/.test(post)) { detectedTeam = team; break; }
+      }
+    }
   }
 
-  // ── Full group-stage match data (3 per team) ──
   const teamMatches = {
-    'Senegal':[
-      {date:'Thu, Jun 11', time:'6:00 PM ET', opp:'Saudi Arabia', oppFlag:'🇸🇦', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group I'},
-      {date:'Tue, Jun 16', time:'3:00 PM ET', opp:'France', oppFlag:'🇫🇷', venue:'New York / NJ — MetLife Stadium', city:'New York / NJ', group:'Group I'},
-      {date:'Sun, Jun 21', time:'9:00 PM ET', opp:'Mexico', oppFlag:'🇲🇽', venue:'Atlanta — Mercedes-Benz Stadium', city:'Atlanta', group:'Group I'}
-    ],
-    'Japan':[
-      {date:'Fri, Jun 12', time:'6:00 PM ET', opp:'Paraguay', oppFlag:'🇵🇾', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group D'},
-      {date:'Wed, Jun 17', time:'3:00 PM PT', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group D'},
-      {date:'Mon, Jun 22', time:'6:00 PM CT', opp:'Croatia', oppFlag:'🇭🇷', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group D'}
-    ],
-    'Sweden':[
-      {date:'Sat, Jun 13', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group C'},
-      {date:'Thu, Jun 19', time:'6:00 PM ET', opp:'South Korea', oppFlag:'🇰🇷', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group C'},
-      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Poland', oppFlag:'🇵🇱', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group C'}
-    ],
-    'Brazil':[
-      {date:'Sat, Jun 13', time:'3:00 PM ET', opp:'Serbia', oppFlag:'🇷🇸', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group G'},
-      {date:'Thu, Jun 18', time:'6:00 PM ET', opp:'Switzerland', oppFlag:'🇨🇭', venue:'Atlanta — Mercedes-Benz Stadium', city:'Atlanta', group:'Group G'},
-      {date:'Tue, Jun 23', time:'3:00 PM ET', opp:'Cameroon', oppFlag:'🇨🇲', venue:'Philadelphia — Lincoln Financial Field', city:'Philadelphia', group:'Group G'}
-    ],
-    'Argentina':[
-      {date:'Fri, Jun 12', time:'9:00 PM ET', opp:'Nigeria', oppFlag:'🇳🇬', venue:'Houston — NRG Stadium', city:'Houston', group:'Group C'},
-      {date:'Wed, Jun 17', time:'6:00 PM ET', opp:'Poland', oppFlag:'🇵🇱', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group C'},
-      {date:'Mon, Jun 22', time:'3:00 PM ET', opp:'Australia', oppFlag:'🇦🇺', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group C'}
-    ],
-    'France':[
-      {date:'Thu, Jun 11', time:'3:00 PM ET', opp:'Qatar', oppFlag:'🇶🇦', venue:'New York / NJ — MetLife Stadium', city:'New York / NJ', group:'Group I'},
-      {date:'Tue, Jun 16', time:'3:00 PM ET', opp:'Senegal', oppFlag:'🇸🇳', venue:'New York / NJ — MetLife Stadium', city:'New York / NJ', group:'Group I'},
-      {date:'Sun, Jun 21', time:'3:00 PM ET', opp:'Saudi Arabia', oppFlag:'🇸🇦', venue:'Toronto — BMO Field', city:'Toronto', group:'Group I'}
-    ],
-    'Germany':[
-      {date:'Sat, Jun 13', time:'6:00 PM ET', opp:'South Korea', oppFlag:'🇰🇷', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group F'},
-      {date:'Thu, Jun 18', time:'3:00 PM ET', opp:'Iran', oppFlag:'🇮🇷', venue:'Philadelphia — Lincoln Financial Field', city:'Philadelphia', group:'Group F'},
-      {date:'Tue, Jun 23', time:'6:00 PM ET', opp:'Uruguay', oppFlag:'🇺🇾', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group F'}
-    ],
-    'England':[
-      {date:'Sat, Jun 13', time:'9:00 PM ET', opp:'Denmark', oppFlag:'🇩🇰', venue:'Toronto — BMO Field', city:'Toronto', group:'Group H'},
-      {date:'Thu, Jun 18', time:'9:00 PM ET', opp:'Ghana', oppFlag:'🇬🇭', venue:'Guadalajara — Estadio Akron', city:'Guadalajara', group:'Group H'},
-      {date:'Tue, Jun 23', time:'9:00 PM ET', opp:'Tunisia', oppFlag:'🇹🇳', venue:'Monterrey — Estadio BBVA', city:'Monterrey', group:'Group H'}
-    ],
-    'Spain':[
-      {date:'Sun, Jun 14', time:'3:00 PM ET', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Atlanta — Mercedes-Benz Stadium', city:'Atlanta', group:'Group E'},
-      {date:'Fri, Jun 19', time:'6:00 PM ET', opp:'Australia', oppFlag:'🇦🇺', venue:'Houston — NRG Stadium', city:'Houston', group:'Group E'},
-      {date:'Wed, Jun 24', time:'3:00 PM ET', opp:'Ivory Coast', oppFlag:'🇨🇮', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group E'}
-    ],
-    'Portugal':[
-      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Morocco', oppFlag:'🇲🇦', venue:'San Francisco — Levis Stadium', city:'San Francisco', group:'Group B'},
-      {date:'Fri, Jun 19', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group B'},
-      {date:'Wed, Jun 24', time:'6:00 PM ET', opp:'USA', oppFlag:'🇺🇸', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group B'}
-    ],
-    'Netherlands':[
-      {date:'Sun, Jun 14', time:'9:00 PM ET', opp:'Egypt', oppFlag:'🇪🇬', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group A'},
-      {date:'Fri, Jun 19', time:'9:00 PM ET', opp:'Canada', oppFlag:'🇨🇦', venue:'Toronto — BMO Field', city:'Toronto', group:'Group A'},
-      {date:'Wed, Jun 24', time:'9:00 PM ET', opp:'Mexico', oppFlag:'🇲🇽', venue:'Mexico City — Estadio Azteca', city:'Mexico City', group:'Group A'}
-    ],
-    'USA':[
-      {date:'Thu, Jun 11', time:'8:00 PM ET', opp:'Jamaica', oppFlag:'🇯🇲', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group B'},
-      {date:'Tue, Jun 16', time:'6:00 PM ET', opp:'Morocco', oppFlag:'🇲🇦', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group B'},
-      {date:'Wed, Jun 24', time:'6:00 PM ET', opp:'Portugal', oppFlag:'🇵🇹', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group B'}
-    ],
-    'Mexico':[
-      {date:'Thu, Jun 11', time:'12:00 PM CT', opp:'New Zealand', oppFlag:'🇳🇿', venue:'Mexico City — Estadio Azteca', city:'Mexico City', group:'Group A'},
-      {date:'Wed, Jun 17', time:'12:00 PM CT', opp:'Ecuador', oppFlag:'🇪🇨', venue:'Guadalajara — Estadio Akron', city:'Guadalajara', group:'Group A'},
-      {date:'Sun, Jun 21', time:'9:00 PM ET', opp:'Senegal', oppFlag:'🇸🇳', venue:'Atlanta — Mercedes-Benz Stadium', city:'Atlanta', group:'Group I'}
-    ],
-    'Canada':[
-      {date:'Fri, Jun 12', time:'4:00 PM PT', opp:'Cameroon', oppFlag:'🇨🇲', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group A'},
-      {date:'Fri, Jun 19', time:'9:00 PM ET', opp:'Netherlands', oppFlag:'🇳🇱', venue:'Toronto — BMO Field', city:'Toronto', group:'Group A'},
-      {date:'Wed, Jun 24', time:'3:00 PM PT', opp:'New Zealand', oppFlag:'🇳🇿', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group A'}
-    ],
-    'Morocco':[
-      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Portugal', oppFlag:'🇵🇹', venue:'San Francisco — Levis Stadium', city:'San Francisco', group:'Group B'},
-      {date:'Tue, Jun 16', time:'6:00 PM ET', opp:'USA', oppFlag:'🇺🇸', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group B'},
-      {date:'Sun, Jun 21', time:'6:00 PM ET', opp:'Jamaica', oppFlag:'🇯🇲', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group B'}
-    ],
-    'Denmark':[
-      {date:'Sat, Jun 13', time:'9:00 PM ET', opp:'England', oppFlag:'🏴', venue:'Toronto — BMO Field', city:'Toronto', group:'Group H'},
-      {date:'Thu, Jun 18', time:'3:00 PM ET', opp:'Tunisia', oppFlag:'🇹🇳', venue:'Philadelphia — Lincoln Financial Field', city:'Philadelphia', group:'Group H'},
-      {date:'Tue, Jun 23', time:'6:00 PM ET', opp:'Ghana', oppFlag:'🇬🇭', venue:'Houston — NRG Stadium', city:'Houston', group:'Group H'}
-    ],
-    'South Korea':[
-      {date:'Sat, Jun 13', time:'6:00 PM ET', opp:'Germany', oppFlag:'🇩🇪', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group F'},
-      {date:'Thu, Jun 19', time:'6:00 PM ET', opp:'Sweden', oppFlag:'🇸🇪', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group C'},
-      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Colombia', oppFlag:'🇨🇴', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group F'}
-    ],
-    'Poland':[
-      {date:'Fri, Jun 12', time:'9:00 PM ET', opp:'Argentina', oppFlag:'🇦🇷', venue:'Houston — NRG Stadium', city:'Houston', group:'Group C'},
-      {date:'Wed, Jun 17', time:'6:00 PM ET', opp:'Sweden', oppFlag:'🇸🇪', venue:'Miami — Hard Rock Stadium', city:'Miami', group:'Group C'},
-      {date:'Tue, Jun 24', time:'3:00 PM ET', opp:'Nigeria', oppFlag:'🇳🇬', venue:'Boston — Gillette Stadium', city:'Boston', group:'Group C'}
-    ],
-    'Ukraine':[
-      {date:'Sun, Jun 14', time:'3:00 PM ET', opp:'Belgium', oppFlag:'🇧🇪', venue:'Seattle — Lumen Field', city:'Seattle', group:'Group J'},
-      {date:'Fri, Jun 19', time:'6:00 PM ET', opp:'Saudi Arabia', oppFlag:'🇸🇦', venue:'Los Angeles — SoFi Stadium', city:'Los Angeles', group:'Group J'},
-      {date:'Wed, Jun 24', time:'9:00 PM ET', opp:'Panama', oppFlag:'🇵🇦', venue:'Vancouver — BC Place', city:'Vancouver', group:'Group J'}
-    ],
-    'Austria':[
-      {date:'Sun, Jun 14', time:'6:00 PM ET', opp:'Chile', oppFlag:'🇨🇱', venue:'Houston — NRG Stadium', city:'Houston', group:'Group K'},
-      {date:'Fri, Jun 19', time:'3:00 PM ET', opp:'Paraguay', oppFlag:'🇵🇾', venue:'Kansas City — Arrowhead', city:'Kansas City', group:'Group K'},
-      {date:'Wed, Jun 24', time:'6:00 PM ET', opp:'Costa Rica', oppFlag:'🇨🇷', venue:'Dallas — AT&T Stadium', city:'Dallas', group:'Group K'}
-    ]
+    'england':    [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'SoFi Stadium',city:'Los Angeles, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}],
+    'brazil':     [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 18, 2026',opponent:'Group Stage Opponent B',venue:'Hard Rock Stadium',city:'Miami, FL'},{date:'June 22, 2026',opponent:'Group Stage Opponent C',venue:'Gillette Stadium',city:'Boston, MA'}],
+    'france':     [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Arrowhead Stadium',city:'Kansas City, MO'}],
+    'germany':    [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'MetLife Stadium',city:'New York/NJ'}],
+    'spain':      [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Hard Rock Stadium',city:'Miami, FL'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Rose Bowl',city:'Los Angeles, CA'}],
+    'portugal':   [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Gillette Stadium',city:'Boston, MA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:"Levi's Stadium",city:'San Francisco, CA'}],
+    'netherlands':[{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Arrowhead Stadium',city:'Kansas City, MO'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Hard Rock Stadium',city:'Miami, FL'}],
+    'argentina':  [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 18, 2026',opponent:'Group Stage Opponent B',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 22, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}],
+    'usa':        [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'SoFi Stadium',city:'Los Angeles, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:"Levi's Stadium",city:'San Francisco, CA'}],
+    'mexico':     [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Estadio Azteca',city:'Mexico City'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Rose Bowl',city:'Los Angeles, CA'}],
+    'canada':     [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'BMO Field',city:'Toronto'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'BC Place',city:'Vancouver'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'MetLife Stadium',city:'New York/NJ'}],
+    'sweden':     [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Gillette Stadium',city:'Boston, MA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'MetLife Stadium',city:'New York/NJ'}],
+    'japan':      [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}],
+    'south korea':[{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'Gillette Stadium',city:'Boston, MA'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'Hard Rock Stadium',city:'Miami, FL'}],
+    'australia':  [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'SoFi Stadium',city:'Los Angeles, CA'}],
+    'morocco':    [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'Hard Rock Stadium',city:'Miami, FL'},{date:'June 18, 2026',opponent:'Group Stage Opponent B',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 22, 2026',opponent:'Group Stage Opponent C',venue:'MetLife Stadium',city:'New York/NJ'}],
+    'nigeria':    [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Hard Rock Stadium',city:'Miami, FL'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'Rose Bowl',city:'Los Angeles, CA'}],
+    'denmark':    [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Gillette Stadium',city:'Boston, MA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Arrowhead Stadium',city:'Kansas City, MO'}],
+    'poland':     [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'Gillette Stadium',city:'Boston, MA'}],
+    'ukraine':    [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Arrowhead Stadium',city:'Kansas City, MO'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Hard Rock Stadium',city:'Miami, FL'}],
+    'saudi arabia':[{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 18, 2026',opponent:'Group Stage Opponent B',venue:'AT&T Stadium',city:'Dallas, TX'},{date:'June 22, 2026',opponent:'Group Stage Opponent C',venue:'Hard Rock Stadium',city:'Miami, FL'}],
+    'iran':       [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'SoFi Stadium',city:'Los Angeles, CA'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'Rose Bowl',city:'Los Angeles, CA'}],
+    'ghana':      [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}]
   };
-
-  // ── Hotel per-night ranges per host city ──
   const hotelRanges = {
-    'New York / NJ':{budget:[140,220],mid:[260,520]},
-    'Los Angeles':{budget:[120,200],mid:[220,450]},
-    'Seattle':{budget:[110,190],mid:[210,420]},
-    'Kansas City':{budget:[80,140],mid:[160,320]},
-    'Dallas':{budget:[90,160],mid:[180,360]},
-    'Houston':{budget:[85,150],mid:[170,340]},
-    'Atlanta':{budget:[90,160],mid:[180,360]},
-    'Miami':{budget:[130,210],mid:[250,500]},
-    'Philadelphia':{budget:[100,170],mid:[190,380]},
-    'Boston':{budget:[130,210],mid:[250,500]},
-    'San Francisco':{budget:[140,220],mid:[270,520]},
-    'Toronto':{budget:[110,180],mid:[200,400]},
-    'Vancouver':{budget:[110,190],mid:[210,410]},
-    'Mexico City':{budget:[60,110],mid:[130,260]},
-    'Guadalajara':{budget:[55,100],mid:[120,240]},
-    'Monterrey':{budget:[60,110],mid:[130,260]}
+    'Los Angeles, CA':  {budget:'$120-180',mid:'$200-320',luxury:'$400-700'},
+    'New York/NJ':      {budget:'$150-220',mid:'$250-400',luxury:'$500-900'},
+    'Dallas, TX':       {budget:'$100-160',mid:'$180-280',luxury:'$350-600'},
+    'Miami, FL':        {budget:'$120-190',mid:'$210-340',luxury:'$420-750'},
+    'San Francisco, CA':{budget:'$130-200',mid:'$220-360',luxury:'$450-800'},
+    'Philadelphia, PA': {budget:'$100-160',mid:'$170-270',luxury:'$320-550'},
+    'Kansas City, MO':  {budget:'$90-140', mid:'$150-240',luxury:'$280-480'},
+    'Boston, MA':       {budget:'$120-190',mid:'$200-320',luxury:'$400-700'},
+    'Toronto':          {budget:'$110-170',mid:'$190-300',luxury:'$380-650'},
+    'Vancouver':        {budget:'$110-170',mid:'$190-300',luxury:'$370-630'},
+    'Mexico City':      {budget:'$60-100', mid:'$110-180',luxury:'$220-400'}
+  };
+  const flightsFrom = {
+    'England':     {la:'~$550-900',ny:'~$400-700',dallas:'~$500-850',miami:'~$450-750',sf:'~$580-950',boston:'~$420-700',philly:'~$420-720',kc:'~$520-870',toronto:'~$450-750',vancouver:'~$580-980',mexico:'~$520-860'},
+    'France':      {la:'~$500-850',ny:'~$380-650',dallas:'~$460-800',miami:'~$420-720',sf:'~$530-900',boston:'~$400-680',philly:'~$390-670',kc:'~$480-830',toronto:'~$410-700',vancouver:'~$560-950',mexico:'~$490-830'},
+    'Germany':     {la:'~$520-880',ny:'~$390-660',dallas:'~$470-810',miami:'~$430-730',sf:'~$540-920',boston:'~$410-690',philly:'~$400-680',kc:'~$490-840',toronto:'~$420-710',vancouver:'~$570-960',mexico:'~$500-840'},
+    'Spain':       {la:'~$510-860',ny:'~$385-655',dallas:'~$465-805',miami:'~$425-725',sf:'~$535-910',boston:'~$405-685',philly:'~$395-675',kc:'~$485-835',toronto:'~$415-705',vancouver:'~$565-955',mexico:'~$495-835'},
+    'Portugal':    {la:'~$520-870',ny:'~$390-660',dallas:'~$470-810',miami:'~$430-730',sf:'~$540-920',boston:'~$410-690',philly:'~$400-680',kc:'~$490-840',toronto:'~$420-710',vancouver:'~$570-960',mexico:'~$500-840'},
+    'Netherlands': {la:'~$530-890',ny:'~$395-665',dallas:'~$475-815',miami:'~$435-735',sf:'~$545-925',boston:'~$415-695',philly:'~$405-685',kc:'~$495-845',toronto:'~$425-715',vancouver:'~$575-965',mexico:'~$505-845'},
+    'Sweden':      {la:'~$540-900',ny:'~$400-670',dallas:'~$480-820',miami:'~$440-740',sf:'~$550-930',boston:'~$420-700',philly:'~$410-690',kc:'~$500-850',toronto:'~$430-720',vancouver:'~$580-970',mexico:'~$510-850'},
+    'Denmark':     {la:'~$535-895',ny:'~$398-668',dallas:'~$478-818',miami:'~$438-738',sf:'~$548-928',boston:'~$418-698',philly:'~$408-688',kc:'~$498-848',toronto:'~$428-718',vancouver:'~$578-968',mexico:'~$508-848'},
+    'Poland':      {la:'~$545-905',ny:'~$402-672',dallas:'~$482-822',miami:'~$442-742',sf:'~$552-932',boston:'~$422-702',philly:'~$412-692',kc:'~$502-852',toronto:'~$432-722',vancouver:'~$582-972',mexico:'~$512-852'},
+    'Japan':       {la:'~$700-1100',ny:'~$850-1300',dallas:'~$780-1200',miami:'~$800-1250',sf:'~$650-1050',boston:'~$860-1310',philly:'~$840-1290',kc:'~$790-1210',toronto:'~$820-1270',vancouver:'~$680-1080',mexico:'~$750-1180'},
+    'South Korea': {la:'~$650-1050',ny:'~$800-1250',dallas:'~$730-1150',miami:'~$750-1200',sf:'~$610-1000',boston:'~$810-1260',philly:'~$790-1240',kc:'~$740-1160',toronto:'~$770-1220',vancouver:'~$640-1030',mexico:'~$710-1130'},
+    'Australia':   {la:'~$800-1200',ny:'~$950-1450',dallas:'~$880-1350',miami:'~$900-1380',sf:'~$770-1180',boston:'~$960-1460',philly:'~$940-1440',kc:'~$890-1360',toronto:'~$920-1400',vancouver:'~$790-1200',mexico:'~$860-1320'},
+    'China':       {la:'~$680-1080',ny:'~$820-1280',dallas:'~$760-1180',miami:'~$780-1230',sf:'~$640-1030',boston:'~$830-1290',philly:'~$810-1270',kc:'~$770-1190',toronto:'~$800-1250',vancouver:'~$660-1060',mexico:'~$730-1150'},
+    'India':       {la:'~$750-1150',ny:'~$880-1360',dallas:'~$830-1290',miami:'~$850-1320',sf:'~$720-1130',boston:'~$890-1370',philly:'~$870-1350',kc:'~$840-1300',toronto:'~$870-1340',vancouver:'~$740-1150',mexico:'~$810-1270'},
+    'Brazil':      {la:'~$500-820',ny:'~$420-700',dallas:'~$450-760',miami:'~$350-600',sf:'~$520-840',boston:'~$430-720',philly:'~$415-705',kc:'~$460-780',toronto:'~$440-740',vancouver:'~$530-870',mexico:'~$400-680'},
+    'Argentina':   {la:'~$510-830',ny:'~$430-710',dallas:'~$460-770',miami:'~$360-610',sf:'~$530-850',boston:'~$440-730',philly:'~$425-715',kc:'~$470-790',toronto:'~$450-750',vancouver:'~$540-880',mexico:'~$410-690'},
+    'Mexico':      {la:'~$200-380',ny:'~$280-480',dallas:'~$150-280',miami:'~$220-400',sf:'~$210-390',boston:'~$290-490',philly:'~$275-470',kc:'~$200-360',toronto:'~$270-460',vancouver:'~$230-410',mexico:'local'},
+    'Canada':      {la:'~$250-450',ny:'~$200-380',dallas:'~$220-400',miami:'~$230-410',sf:'~$260-460',boston:'~$210-390',philly:'~$205-385',kc:'~$225-405',toronto:'local',vancouver:'local',mexico:'~$250-430'},
+    'USA':         {la:'$80-200',ny:'$80-200',dallas:'$80-200',miami:'$80-200',sf:'$80-200',boston:'$80-200',philly:'$80-200',kc:'$80-200',toronto:'~$180-320',vancouver:'~$180-320',mexico:'~$120-280'},
+    'Morocco':     {la:'~$680-1080',ny:'~$600-980',dallas:'~$640-1040',miami:'~$620-1000',sf:'~$700-1100',boston:'~$610-990',philly:'~$595-975',kc:'~$650-1050',toronto:'~$625-1005',vancouver:'~$710-1110',mexico:'~$660-1060'},
+    'Nigeria':     {la:'~$720-1120',ny:'~$640-1040',dallas:'~$680-1080',miami:'~$660-1060',sf:'~$740-1140',boston:'~$650-1050',philly:'~$635-1035',kc:'~$690-1090',toronto:'~$665-1065',vancouver:'~$750-1150',mexico:'~$700-1100'},
+    'Saudi Arabia':{la:'~$700-1100',ny:'~$750-1200',dallas:'~$720-1130',miami:'~$740-1160',sf:'~$710-1110',boston:'~$755-1205',philly:'~$745-1195',kc:'~$725-1135',toronto:'~$748-1198',vancouver:'~$718-1118',mexico:'~$730-1150'},
+    'Iran':        {la:'~$750-1200',ny:'~$800-1280',dallas:'~$770-1230',miami:'~$790-1260',sf:'~$760-1210',boston:'~$805-1285',philly:'~$795-1275',kc:'~$775-1235',toronto:'~$798-1278',vancouver:'~$768-1228',mexico:'~$780-1250'},
+    'New Zealand': {la:'~$870-1320',ny:'~$960-1460',dallas:'~$920-1400',miami:'~$940-1430',sf:'~$850-1300',boston:'~$965-1465',philly:'~$955-1455',kc:'~$925-1405',toronto:'~$950-1440',vancouver:'~$860-1310',mexico:'~$910-1390'}
+  };
+  const cityKey = {
+    'Los Angeles, CA':'la','New York/NJ':'ny','Dallas, TX':'dallas',
+    'Miami, FL':'miami','San Francisco, CA':'sf','Boston, MA':'boston',
+    'Philadelphia, PA':'philly','Kansas City, MO':'kc',
+    'Toronto':'toronto','Vancouver':'vancouver','Mexico City':'mexico'
   };
 
-  if (pickedTeam && teamMatches[pickedTeam]) {
-    const matches = teamMatches[pickedTeam];
-    const cities = [...new Set(matches.map(m=>m.city))];
-    const totalNights = matches.length * 3;
-    let hotelBudgetLow=0, hotelMidHigh=0;
-    matches.forEach(m=>{
-      const h = hotelRanges[m.city]||{budget:[100,170],mid:[190,380]};
-      hotelBudgetLow += h.budget[0]*3;
-      hotelMidHigh += h.mid[1]*3;
-    });
-
-    const ticketBudget = 360, ticketMid = 720;
-    const food = 50*totalNights, foodMid = 90*totalNights;
-    const transport = 40*matches.length;
-    const flightLow = econRange[0], flightHigh = econRange[1];
-    const budgetTotal = Math.round(flightLow + hotelBudgetLow + ticketBudget + food + transport);
-    const midTotal = Math.round(flightHigh + hotelMidHigh + ticketMid + foodMid + transport + 200);
-
-    let html = '<div style="max-width:760px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55">';
-
-    // Header
-    html += '<div style="background:linear-gradient(135deg,rgba(0,102,255,0.15),rgba(0,170,102,0.15));border:1px solid rgba(0,102,255,0.3);border-radius:12px;padding:16px 18px;margin-bottom:16px">';
-    html += '<div style="font-size:1.15rem;font-weight:700;margin-bottom:4px">🗓️ '+pickedTeam+' Fan Itinerary — World Cup 2026</div>';
-    html += '<div style="opacity:0.85;font-size:0.9rem">Follow all '+matches.length+' group-stage matches across '+cities.length+' host '+(cities.length>1?'cities':'city')+'.</div>';
-    html += '</div>';
-
-    // Matches
-    html += '<div style="font-weight:700;margin:14px 0 8px 2px;font-size:1rem">⚽ Match Schedule</div>';
-    matches.forEach((m,idx)=>{
-      html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">';
-      html += '<div style="font-weight:600">Match '+(idx+1)+': '+pickedTeam+' vs '+m.oppFlag+' '+m.opp+'</div>';
-      html += '<div style="background:rgba(0,102,255,0.15);border-radius:999px;padding:2px 10px;font-size:0.78rem">'+m.group+'</div>';
-      html += '</div>';
-      html += '<div style="margin-top:6px;font-size:0.9rem;opacity:0.9">📅 '+m.date+' &nbsp; ⏰ '+m.time+'</div>';
-      html += '<div style="font-size:0.9rem;opacity:0.9">📍 '+m.venue+'</div>';
-      html += '</div>';
-    });
-
-    // Flights
-    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">✈️ Flights</div>';
-    html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
-    if (originLabel) {
-      html += '<div>From <strong>'+originLabel+'</strong> to '+cities[0]+'</div>';
-      html += '<div style="font-size:0.9rem;opacity:0.9;margin-top:4px">Economy round-trip: <strong>$'+flightLow+' – $'+flightHigh+'</strong> per person</div>';
-    } else {
-      html += '<div>Add "from [your city]" to get a personalised flight estimate.</div>';
-      html += '<div style="font-size:0.9rem;opacity:0.85;margin-top:4px">Avg economy round-trip to North America: <strong>$700 – $1,200</strong></div>';
-    }
-    if (cities.length>1) {
-      html += '<div style="font-size:0.88rem;opacity:0.85;margin-top:6px">🚆 Between match cities: budget <strong>$150–$300</strong> per hop (domestic flight or train).</div>';
-    }
-    html += '</div>';
-
-    // Hotels
-    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">🏨 Hotels ('+totalNights+' nights total)</div>';
-    html += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px">';
-    cities.forEach(c=>{
-      const h = hotelRanges[c]||{budget:[100,170],mid:[190,380]};
-      html += '<div style="display:flex;justify-content:space-between;gap:8px;font-size:0.9rem;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,0.08)">';
-      html += '<span><strong>'+c+'</strong> (3 nights)</span>';
-      html += '<span>Budget <strong>$'+h.budget[0]+'–$'+h.budget[1]+'</strong> · Mid <strong>$'+h.mid[0]+'–$'+h.mid[1]+'</strong>/night</span>';
-      html += '</div>';
-    });
-    html += '</div>';
-
-    // Cost summary
-    html += '<div style="font-weight:700;margin:18px 0 8px 2px;font-size:1rem">💰 Estimated Cost Per Person</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">';
-    html += '<div style="background:rgba(0,170,102,0.15);border:1px solid rgba(0,170,102,0.35);border-radius:10px;padding:12px 14px">';
-    html += '<div style="font-size:0.82rem;opacity:0.8;text-transform:uppercase;letter-spacing:.04em">Budget</div>';
-    html += '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">~$'+budgetTotal.toLocaleString()+'</div>';
-    html += '<div style="font-size:0.78rem;opacity:0.75">Hostel, economy flight, Cat-3 tickets</div></div>';
-    html += '<div style="background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.35);border-radius:10px;padding:12px 14px">';
-    html += '<div style="font-size:0.82rem;opacity:0.8;text-transform:uppercase;letter-spacing:.04em">Mid-range</div>';
-    html += '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">~$'+midTotal.toLocaleString()+'</div>';
-    html += '<div style="font-size:0.78rem;opacity:0.75">3-star hotel, economy flight, Cat-2 tickets</div></div>';
-    html += '</div>';
-    html += '<div style="font-size:0.82rem;opacity:0.75;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;margin-bottom:14px">';
-    html += 'Includes: flights, '+totalNights+' hotel nights, 3 match tickets, food &amp; local transport. Excludes knockout rounds &amp; travel insurance.';
-    html += '</div>';
-
-    // Tips
-    html += '<div style="font-weight:700;margin:4px 0 8px 2px;font-size:1rem">💡 Cost-Saving Tips</div>';
-    html += '<ul style="margin:0 0 6px 18px;padding:0;font-size:0.9rem;line-height:1.7">';
-    html += '<li>Book flights now — prices rise 40–60% after April 2026.</li>';
-    html += '<li>Bundle flight + hotel on Expedia or Hotels.com for extra savings.</li>';
-    html += '<li>Fan zones screen every match FREE — great backup if tickets sell out.</li>';
-    html += '<li>Use a Wise or Revolut card to avoid foreign exchange fees.</li>';
-    html += '<li>Airbnb is often cheaper than hotels for 3-night stays.</li>';
-    html += '</ul>';
-    html += '</div>';
-    return html;
+  if (!detectedTeam) {
+    return '<div style="font-family:sans-serif;max-width:680px;margin:0 auto"><div style="background:#1a1a2e;color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px"><h2 style="margin:0 0 8px 0;font-size:1.3em">FIFA World Cup 2026 Trip Planner</h2><p style="margin:0;opacity:0.85;font-size:0.95em">I can build a personalised itinerary! Try:</p><ul style="margin:10px 0 0 0;padding-left:20px;opacity:0.9;font-size:0.92em"><li>I am coming from Japan, I want to see all England matches</li><li>Planning to follow Brazil, flying from Germany</li><li>France fan based in Australia - plan my trip</li></ul></div></div>';
   }
 
-  // Generic fallback
-  return '<div style="max-width:720px;line-height:1.6"><h3 style="margin:0 0 10px">⚽ Plan Your 2026 World Cup Trip</h3>'
-    + '<p>Tell me <strong>which team to follow</strong> and <strong>where you are coming from</strong>.<br>'
-    + 'Example: <em>"I am coming from Sweden, planning to follow England for all their matches"</em></p>'
-    + '<p style="font-size:0.88rem;opacity:0.8">Teams I know about: Japan · Brazil · Argentina · France · Germany · England · Spain · Portugal · Netherlands · USA · Mexico · Canada · Morocco · Sweden · Senegal · South Korea · Denmark · Poland · Ukraine · Austria · Belgium · Croatia · Italy · Nigeria · Ghana · Uruguay · Colombia · Ecuador · Australia · Saudi Arabia · Switzerland · Serbia · Qatar and more.</p>'
-    + '</div>';
+  const matches = teamMatches[detectedTeam] || [];
+  const teamDisplay = detectedTeam.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1);}).join(' ');
+  const origin = originName || 'your location';
+  const flights = flightsFrom[origin] || flightsFrom['England'];
+
+  let html = '<div style="font-family:sans-serif;max-width:680px;margin:0 auto">';
+  html += '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px">';
+  html += '<h2 style="margin:0 0 6px 0;font-size:1.4em">Your ' + teamDisplay + ' World Cup 2026 Itinerary</h2>';
+  html += '<p style="margin:0;opacity:0.8;font-size:0.9em">Flying from ' + origin + ' | Group Stage: 3 matches</p>';
+  html += '</div>';
+
+  matches.forEach(function(m, i) {
+    const hotel = hotelRanges[m.city] || {budget:'$100-160',mid:'$170-270',luxury:'$350-600'};
+    const ck = cityKey[m.city] || 'ny';
+    const fp = flights[ck] || '~$400-800';
+    html += '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
+    html += '<span style="background:#e63946;color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0">' + (i+1) + '</span>';
+    html += '<div><strong style="font-size:1.05em">' + teamDisplay + ' vs ' + m.opponent + '</strong>';
+    html += '<div style="font-size:0.85em;color:#555">' + m.date + ' | ' + m.venue + ', ' + m.city + '</div></div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.88em">';
+    html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
+    html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Flight from ' + origin + '</div>';
+    html += '<div style="color:#555">' + fp + ' return</div>';
+    html += '<div style="color:#777;font-size:0.85em;margin-top:2px">Book 3-4 months early for best fares</div></div>';
+    html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
+    html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Hotels in ' + m.city + '</div>';
+    html += '<div style="color:#555">Budget: ' + hotel.budget + '/night</div>';
+    html += '<div style="color:#555">Mid-range: ' + hotel.mid + '/night</div>';
+    html += '<div style="color:#777;font-size:0.85em">Luxury: ' + hotel.luxury + '/night</div></div>';
+    html += '<div style="background:#fff7ed;border-radius:8px;padding:10px;grid-column:1/-1">';
+    html += '<div style="font-weight:600;margin-bottom:4px;color:#c05621">Match Tickets (est.)</div>';
+    html += '<div style="color:#744210;font-size:0.88em">Cat 3 (behind goal): ~$150-200 | Cat 2 (side stand): ~$250-350 | Cat 1 (premium): ~$450-600</div>';
+    html += '<div style="color:#92400e;font-size:0.8em;margin-top:3px">Official tickets via tickets.fifa.com - register for ballot when sales open</div>';
+    html += '</div></div></div>';
+  });
+
+  html += '<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;margin-bottom:14px">';
+  html += '<h3 style="margin:0 0 10px 0;color:#14532d;font-size:1.05em">Estimated Trip Budget (per person)</h3>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.88em">';
+  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Budget</div><div style="color:#555;margin-top:4px">Flights + hotels + Cat-3 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$3,500-5,000</div></div>';
+  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Mid-Range</div><div style="color:#555;margin-top:4px">Comfort travel + Cat-2 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$6,000-9,000</div></div>';
+  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Premium</div><div style="color:#555;margin-top:4px">Business class + Cat-1 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$12,000+</div></div>';
+  html += '</div></div>';
+
+  html += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px 20px;margin-bottom:14px">';
+  html += '<h3 style="margin:0 0 8px 0;color:#1e40af;font-size:1em">Cost-Saving Tips</h3>';
+  html += '<ul style="margin:0;padding-left:18px;color:#1e3a8a;font-size:0.88em;line-height:1.7">';
+  html += '<li>Book flights 3-4 months early - use Google Flights or Skyscanner fare alerts</li>';
+  html += '<li>Stay in nearby suburbs to save 30-40% vs city centre hotel prices</li>';
+  html += '<li>Use Airbnb or shared apartments for multi-night stays in each city</li>';
+  html += '<li>Internal US flights between match cities typically cost $80-200</li>';
+  html += '<li>Register for FIFA ticket ballot early at tickets.fifa.com</li>';
+  html += '<li>Fan zones and public screenings are free with great atmosphere</li>';
+  html += '</ul></div>';
+
+  html += '<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:0.8em;color:#78350f">';
+  html += '<strong>Note:</strong> Match opponents, dates and venues are illustrative estimates based on group assignments and the confirmed 2026 host city list. Official schedules will be confirmed by FIFA after the draw. Ticket and flight costs are estimates only. Verify at <a href="https://www.fifa.com/worldcup" target="_blank" style="color:#92400e">fifa.com</a>.';
+  html += '</div></div>';
+  return html;
 }
 
 function sendPrompt(text){
