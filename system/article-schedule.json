@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 4,
-  "last_published": "April 20, 2026",
+  "next_article_index": 5,
+  "last_published": "April 27, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -59,7 +59,7 @@
       "title": "Atlanta World Cup 2026: Soul Food, MLK History and Spain's Group Stage",
       "category": "City Guide",
       "city": "Atlanta",
-      "date": "May 11, 2026",
+      "date": "April 27, 2026",
       "readTime": "4 min read",
       "excerpt": "Atlanta's Mercedes-Benz Stadium is one of the most architecturally stunning arenas in the world, and the city surrounding it offers a combination of civil rights history, world-class food, and genuine Southern hospitality. Here's your complete guide to Atlanta for FIFA World Cup 2026.",
       "content": "<h2>Mercedes-Benz Stadium and Atlanta's Matches</h2><p>Mercedes-Benz Stadium (75,000 seats) is one of the most impressive venues in American sports — retractable roof, 360-degree halo video board, exceptional acoustics. Atlanta hosts Spain vs Cape Verde on June 15, Spain vs Saudi Arabia on June 21, and a Round of 32 on July 1. Expect both Spain group matches to be fully electric with passionate European support.</p><h2>Getting There</h2><p>MARTA's Red and Gold Lines both stop at Vine City Station, which is a 5-minute walk from the stadium entrance. The fare is $2.50 each way from anywhere in the city. From Hartsfield-Jackson Airport — the world's busiest — MARTA runs directly downtown in about 20 minutes, making Atlanta one of the easiest host cities to navigate without a car.</p><h2>Civil Rights History</h2><p>The Martin Luther King Jr. National Historic Site in Sweet Auburn is one of the most moving places in the United States. Free to visit, it includes Dr. King's birth home, Ebenezer Baptist Church, and his crypt. Ranger-led tours are excellent — arrive early, allow two hours, and it will be the highlight of your trip.</p><h2>World-Class Attractions</h2><p>The Georgia Aquarium is the largest in the Western Hemisphere — whale sharks, manta rays, beluga whales — book ahead as it sells out in summer. The World of Coca-Cola next door lets you taste 100+ sodas from around the world. Ponce City Market, Atlanta's converted 1920s Sears building, houses a stunning food hall with rooftop city views.</p><h2>Where to Eat</h2><p>Slutty Vegan's West End original location draws lines around the block for its viral plant-based burgers — go at an off-peak hour. Busy Bee Cafe has served soul food since 1947 and was a regular spot for Martin Luther King Jr. The lunch-only menu — fried chicken, collard greens, mac and cheese — is as good as soul food gets in the South. Plan lunch here before an evening match.</p><h2>Fan Zone and Weather</h2><p>Centennial Olympic Park, built for the 1996 Atlanta Olympics, serves as the city's free fan zone throughout the tournament. It sits in the heart of downtown, walking distance from most major hotels. Weather in Atlanta during June and July averages 85–92°F with the possibility of afternoon thunderstorms — check the forecast before match day and dress in breathable fabrics. Stay in Midtown or Downtown for the best combination of access, restaurants, and MARTA connectivity.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Miami World Cup 2026: Beach, Latin Energy and Hard Rock Stadium",
+  "last_article_title": "Atlanta World Cup 2026: Soul Food, MLK History and Spain's Group Stage",
   "last_commit": "451b5f8d80"
 }
