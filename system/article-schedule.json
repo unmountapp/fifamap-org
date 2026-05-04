@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 5,
-  "last_published": "April 27, 2026",
+  "next_article_index": 6,
+  "last_published": "May 4, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -71,7 +71,7 @@
       "title": "San Francisco Bay Area World Cup 2026: Golden Gate, Tech Culture and Levi's Stadium",
       "category": "City Guide",
       "city": "San Francisco",
-      "date": "May 18, 2026",
+      "date": "May 4, 2026",
       "readTime": "4 min read",
       "excerpt": "San Francisco brings World Cup 2026 to the heart of Silicon Valley, with matches at Levi's Stadium just 45 minutes south of one of the world's most iconic cities. From the Golden Gate Bridge to James Beard-winning burritos, the Bay Area delivers an unmatched mix of natural beauty, food culture, and easy transit.",
       "content": "<h2>Levi's Stadium: Silicon Valley's World Cup Venue</h2><p>Levi's Stadium in Santa Clara seats 69,391 fans and serves as the Bay Area's World Cup hub. The venue hosts Qatar vs Switzerland on June 13, Austria vs Jordan on June 16, and a Round of 32 match on July 1. One of the most technologically advanced stadiums in North America, it fits perfectly in a region 35 miles from Apple Park and Stanford.</p><h2>Getting to the Stadium</h2><p>Take Caltrain from San Francisco's 4th &amp; King Street station to Santa Clara Station, then catch the VTA shuttle directly to the stadium gates. The trip takes about 45 minutes and costs $3–8. Load a Clipper card before you arrive — it works seamlessly across Caltrain, VTA, BART, and Muni, making it the only transit card you need in the Bay Area.</p><h2>Essential San Francisco Experiences</h2><p>Rent a bike at Fisherman's Wharf, ride across the Golden Gate Bridge into Sausalito, then take the ferry back across the bay — one of the great urban cycling routes in the world. Book Alcatraz Island at least two weeks in advance; the former federal penitentiary sells out consistently and same-day tickets don't exist. Justin Herman Plaza at the Embarcadero hosts the official fan zone, steps from the waterfront. A Napa Valley day trip is just one hour north by car and well worth the journey in June.</p><h2>Where to Eat</h2><p>The Bay Area food scene earns every bit of its reputation. Pick up a sourdough bread bowl with clam chowder from Boudin Bakery at Fisherman's Wharf — a San Francisco ritual since 1849. Arrive at Tartine Bakery in the Mission around 4:30 PM when fresh loaves emerge from the oven; the line moves quickly and the bread is extraordinary. La Taqueria, also in the Mission, holds a James Beard Award for its burritos — bring cash and prepare to understand the hype. Swan Oyster Depot has been shucking since 1912, is cash-only, and runs out most afternoons, so go at opening.</p><h2>Practical Tips</h2><p>June mornings in San Francisco are famously foggy — locals call it June Gloom. Temperatures run 65–75°F with a real wind off the bay, so pack a light jacket regardless of the midday sun. For accommodation, staying Downtown SF or South of Market puts you 35–45 minutes from Levi's Stadium via Caltrain and within walking distance of the waterfront, Union Square, and the Ferry Building.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Atlanta World Cup 2026: Soul Food, MLK History and Spain's Group Stage",
+  "last_article_title": "San Francisco Bay Area World Cup 2026: Golden Gate, Tech Culture and Levi's Stadium",
   "last_commit": "451b5f8d80"
 }
