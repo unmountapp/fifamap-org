@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 6,
-  "last_published": "May 4, 2026",
+  "next_article_index": 7,
+  "last_published": "May 11, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -83,7 +83,7 @@
       "title": "Houston World Cup 2026: Space City, the World's Most Diverse Food Scene and Portugal Matches",
       "category": "City Guide",
       "city": "Houston",
-      "date": "May 25, 2026",
+      "date": "May 11, 2026",
       "readTime": "4 min read",
       "excerpt": "Houston is the most ethnically diverse city in the United States, and its food scene proves it at every turn — from Viet-Cajun boiled crawfish to James Beard-nominated Japanese cuisine, all within reach of NRG Stadium. With five World Cup matches including two Portugal fixtures, Space City is ready to host the world.",
       "content": "<h2>NRG Stadium: Houston's World Cup Home</h2><p>NRG Stadium seats 68,311 and brings one of the World Cup's most loaded match schedules to Houston. Fans can watch Germany vs Curaçao on June 14, Portugal vs IC Play-in Winner on June 17, Netherlands vs UEFA Win B on June 20, Portugal vs Uzbekistan on June 23, and a Round of 32 on June 29. For Cristiano Ronaldo's fan base across the Americas, Houston is a pilgrimage destination this summer.</p><h2>Getting to NRG Stadium</h2><p>The METRORail Red Line runs from downtown to Reliant Park station, where official match-day shuttles connect to NRG Stadium gates. It's fast, air-conditioned — a genuine priority in Houston June heat — and keeps you out of the gridlock that clogs stadium roads on match days. Buy your METRO day pass in advance on the METRO Q app.</p><h2>NASA Johnson Space Center</h2><p>Twenty-five miles southeast of downtown, NASA's Johnson Space Center is where Mission Control directed every American crewed spaceflight from Gemini through the Space Shuttle era. You can stand in the original Apollo-era Mission Control room, handle actual moon rocks, and walk beneath a Saturn V rocket lying on its side. Book tickets early and go in the morning — Houston's afternoon heat in June is not negotiable.</p><h2>Houston's Food Scene</h2><p>Killen's Barbecue in Pearland is widely considered the best brisket in Houston — arrive by 10:30 AM because it sells out. For something that exists almost nowhere else on earth, find a Viet-Cajun boiled seafood restaurant: this fusion of Vietnamese cooking techniques with Louisiana Gulf Coast ingredients was invented in Houston. Crawfish &amp; Noodles is the benchmark. For a dinner splurge, Uchi Houston offers James Beard-nominated modern Japanese cuisine in a converted Montrose bungalow. The Museum of Fine Arts Houston is free on Thursdays; Hermann Park next door connects to the Houston Zoo and rewards an early morning visit.</p><h2>Practical Tips</h2><p>Houston in June means 90–97°F with oppressive humidity. Hydrate constantly, schedule outdoor activities for early mornings, and embrace the air conditioning that defines Houston life. Evening matches at NRG are far more comfortable than afternoon kickoffs. Discovery Green downtown hosts the official fan zone with shade structures and misters. Stay near Discovery Green or Midtown for the best access to both the fan zone and METRORail.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "San Francisco Bay Area World Cup 2026: Golden Gate, Tech Culture and Levi's Stadium",
+  "last_article_title": "Houston World Cup 2026: Space City, the World's Most Diverse Food Scene and Portugal Matches",
   "last_commit": "451b5f8d80"
 }
