@@ -425,26 +425,26 @@ footer a:hover{text-decoration:underline}
     <span>FIFA<span style="color:var(--primary)">Map</span>.org</span>
   </a>
   <div class="nav-links" id="navLinks">
-    <a class="nav-link active" onclick="showPage('home')" data-page="home" href="#" id="nav-home">🏠 <span class="nl-home">Home</span></a>
-    <a class="nav-link" onclick="showPage('cities')" data-page="cities" href="#" id="nav-cities">🌍 <span class="nl-cities">Cities</span></a>
-    <a class="nav-link" onclick="showPage('matches')" data-page="matches" href="#" id="nav-matches">📅 <span class="nl-matches">Matches</span></a>
-    <a class="nav-link" onclick="showPage('attractions')" data-page="attractions" href="#" id="nav-attractions">🗺️ <span class="nl-attractions">Attractions</span></a>
-    <a class="nav-link" onclick="showPage('dining')" data-page="dining" href="#" id="nav-dining">🍽️ <span class="nl-dining">Dining</span></a>
-    <a class="nav-link" onclick="showPage('transport')" data-page="transport" href="#" id="nav-transport">🚇 <span class="nl-transport">Transport</span></a>
-    <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="#" id="nav-planner">✨ <span class="nl-planner">Smart Planner</span></a>
-    <a class="nav-link" onclick="showPage('blog')" data-page="blog" href="#" id="nav-blog">📖 <span class="nl-blog">Guides</span></a>
-    <a class="nav-link" onclick="showPage('nightlife')" data-page="nightlife" href="#" id="nav-nightlife">🍺 <span class="nl-nightlife">Nightlife</span></a>
-<a class="nav-link" onclick="showPage('advertise')" data-page="advertise" href="#" id="nav-advertise">📢 <span class="nl-advertise">Advertise</span></a>
+    <a class="nav-link active" onclick="showPage('home')" data-page="home" href="javascript:void(0)" id="nav-home">🏠 <span class="nl-home">Home</span></a>
+    <a class="nav-link" onclick="showPage('cities')" data-page="cities" href="javascript:void(0)" id="nav-cities">🌍 <span class="nl-cities">Cities</span></a>
+    <a class="nav-link" onclick="showPage('matches')" data-page="matches" href="javascript:void(0)" id="nav-matches">📅 <span class="nl-matches">Matches</span></a>
+    <a class="nav-link" onclick="showPage('attractions')" data-page="attractions" href="javascript:void(0)" id="nav-attractions">🗺️ <span class="nl-attractions">Attractions</span></a>
+    <a class="nav-link" onclick="showPage('dining')" data-page="dining" href="javascript:void(0)" id="nav-dining">🍽️ <span class="nl-dining">Dining</span></a>
+    <a class="nav-link" onclick="showPage('transport')" data-page="transport" href="javascript:void(0)" id="nav-transport">🚇 <span class="nl-transport">Transport</span></a>
+    <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="javascript:void(0)" id="nav-planner">✨ <span class="nl-planner">Smart Planner</span></a>
+    <a class="nav-link" onclick="showPage('blog')" data-page="blog" href="javascript:void(0)" id="nav-blog">📖 <span class="nl-blog">Guides</span></a>
+    <a class="nav-link" onclick="showPage('nightlife')" data-page="nightlife" href="javascript:void(0)" id="nav-nightlife">🍺 <span class="nl-nightlife">Nightlife</span></a>
+<a class="nav-link" onclick="showPage('advertise')" data-page="advertise" href="javascript:void(0)" id="nav-advertise">📢 <span class="nl-advertise">Advertise</span></a>
   </div>
   <div class="nav-right">
     <!-- City dropdown -->
     <div class="dropdown" id="cityDropdown">
-      <button class="nav-btn" id="cityBtnLabel">🌴 <span id="cityBtnName">Los Angeles</span> ▾</button>
+      <button class="nav-btn" id="cityBtnLabel" onclick="toggleDropdown('cityDropdown')">🌴 <span id="cityBtnName">Los Angeles</span> ▾</button>
       <div class="dropdown-menu" id="cityDropMenu" style="max-height:350px;overflow-y:auto;min-width:220px"></div>
     </div>
     <!-- Language dropdown -->
     <div class="dropdown" id="langDropdown">
-      <button class="nav-btn">🌐 <span id="langLabel">English</span> ▾</button>
+      <button class="nav-btn" id="langBtnEl" onclick="toggleDropdown('langDropdown')">🌐 <span id="langLabel">English</span> ▾</button>
       <div class="dropdown-menu" id="langMenu"></div>
     </div>
     <!-- Theme toggle -->
@@ -1585,7 +1585,7 @@ function renderCities(){
       <div class="country-title">${flags[country]} ${country} — ${citiesOfCountry.length} host ${citiesOfCountry.length===1?'city':'cities'}</div>
       <div class="cities-cards">
         ${citiesOfCountry.map(c=>`
-          <button class="city-card-full ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}')">
+          <button class="city-card-full ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}');closDropdowns();showPage('home')">
             <div class="city-top">
               <span class="city-emoji">${c.emoji}</span>
               <div>
@@ -1646,6 +1646,7 @@ function renderMonetize(){
    PAGE NAVIGATION
 =================================================== */
 function showPage(page){
+  window.scrollTo({top:0,behavior:'smooth'});
   document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(l=>{
@@ -1681,10 +1682,25 @@ function setCity(id){
   closDropdowns();
 }
 
+
+function toggleDropdown(id){
+  const el=document.getElementById(id);
+  const wasOpen=el.classList.contains('open');
+  // Close all dropdowns first
+  document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  if(!wasOpen)el.classList.add('open');
+}
+// Close dropdowns when clicking outside
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.dropdown')){
+    document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('open'));
+  }
+});
+
 function buildCityDropdown(){
   const menu=document.getElementById('cityDropMenu');
   menu.innerHTML=CITIES.map(c=>`
-    <button class="dd-item ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}')">
+    <button class="dd-item ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}');closDropdowns();showPage('home')">
       <span>${c.flag} ${c.emoji} ${c.name}</span>
       <span class="dd-sub">${c.matchCount} matches</span>
     </button>`).join('');
