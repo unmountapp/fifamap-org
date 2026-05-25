@@ -1948,7 +1948,238 @@ async function sendChat(){
   };
 
   if (!detectedTeam) {
-    return '<div style="font-family:sans-serif;max-width:680px;margin:0 auto"><div style="background:#1a1a2e;color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px"><h2 style="margin:0 0 8px 0;font-size:1.3em">FIFA World Cup 2026 Trip Planner</h2><p style="margin:0;opacity:0.85;font-size:0.95em">I can build a personalised itinerary! Try:</p><ul style="margin:10px 0 0 0;padding-left:20px;opacity:0.9;font-size:0.92em"><li>I am coming from Japan, I want to see all England matches</li><li>Planning to follow Brazil, flying from Germany</li><li>France fan based in Australia - plan my trip</li></ul></div></div>';
+    // Smart Q&A using the CITIES data already on the page
+    var c = city(); // current active city
+    var allCities = CITIES;
+    
+    // Detect which city the user is asking about (or default to active city)
+    var askedCity = c;
+    for (var ci = 0; ci < allCities.length; ci++) {
+      var cn = allCities[ci].name.toLowerCase();
+      if (q.indexOf(cn) >= 0 || q.indexOf(allCities[ci].id) >= 0) {
+        askedCity = allCities[ci]; break;
+      }
+    }
+    // Also check shorthand names
+    var cityShorts = {la:'los-angeles',nyc:'new-york',ny:'new-york',sf:'san-francisco',kc:'kansas-city',cdmx:'mexico-city',philly:'philadelphia',dallas:'dallas',miami:'miami',houston:'houston',boston:'boston',seattle:'seattle',atlanta:'atlanta',toronto:'toronto',vancouver:'vancouver',guadalajara:'guadalajara',monterrey:'monterrey'};
+    for (var sh in cityShorts) {
+      if (q.indexOf(sh) >= 0 && sh.length > 1) {
+        var found = allCities.find(function(x){return x.id===cityShorts[sh];});
+        if (found) { askedCity = found; break; }
+      }
+    }
+
+    // Keyword detection for intent
+    var isRestaurant = /restaurant|food|eat|dining|dinner|lunch|breakfast|taco|bbq|pizza|best place to eat|where to eat|hungry/i.test(q);
+    var isTransport = /transport|metro|train|bus|shuttle|uber|lyft|drive|parking|get to|how to get|airport|transit|subway|getting there|ride/i.test(q);
+    var isAttraction = /attraction|see|visit|thing.?to do|sightseeing|museum|beach|park|landmark|tourist|explore|activities/i.test(q);
+    var isMatch = /match|game|schedule|fixture|play|kick.?off|who plays|when.*(play|match)|next game|group stage|final|semi|quarter/i.test(q);
+    var isFanZone = /fan.?zone|fan.?fest|watch.?part|free.*screen|big.*screen|where.*watch|watch.*free/i.test(q);
+    var isHotel = /hotel|stay|accommodation|where.*sleep|airbnb|hostel|lodge|book.*room|neighborhood|area.*stay/i.test(q);
+    var isNightlife = /nightlife|bar|club|pub|drink|beer|party|after.*match|celebrate|night.?out/i.test(q);
+    var isWeather = /weather|temperature|hot|cold|rain|sun|humid|pack|wear|cloth|jacket|umbrella/i.test(q);
+    var isVisa = /visa|passport|enter|entry|immigration|esta|eta|border|document|permit/i.test(q);
+    var isBudget = /budget|cheap|cost|price|expensive|afford|money|how much|save|dollar|peso/i.test(q);
+    var isTicket = /ticket|buy.*ticket|get.*ticket|where.*ticket|how.*ticket|official.*ticket|resale|stubhub/i.test(q);
+    var isFinal = /\bfinal\b|championship|last.*match|metlife|july 19|big.*game/i.test(q);
+    var isFamily = /family|kid|child|children|baby|stroller|age|safe.*for/i.test(q);
+    var isGeneral = !isRestaurant && !isTransport && !isAttraction && !isMatch && !isFanZone && !isHotel && !isNightlife && !isWeather && !isVisa && !isBudget && !isTicket;
+
+    var reply = '';
+    var ac = askedCity; // shorthand
+
+    if (isRestaurant) {
+      reply = '🍽️ **Best Dining in ' + ac.name + ':**\n\n';
+      ac.dining.forEach(function(d, i) {
+        reply += (i+1) + '. **' + d.name + '** (' + d.cuisine + ' · ' + d.price + ')\n';
+        reply += d.desc + '\n';
+        reply += '🔥 Must try: ' + d.mustTry + '\n';
+        reply += '💡 Tip: ' + d.tip + '\n\n';
+      });
+      if (isFinal || q.indexOf('final') >= 0) {
+        var nycCity = allCities.find(function(x){return x.id==='new-york';});
+        if (nycCity && ac.id !== 'new-york') {
+          reply += '\n📍 The **Final is in New York/NJ** (MetLife Stadium, July 19). For restaurants near MetLife:\n\n';
+          nycCity.dining.forEach(function(d, i) {
+            reply += '• **' + d.name + '** — ' + d.mustTry + ' (' + d.price + ')\n';
+          });
+        }
+      }
+      reply += '\n🏨 Book hotels near these restaurants: Booking.com (booking.com)';
+    }
+    else if (isTransport) {
+      reply = '🚇 **Getting to ' + ac.stadium + ' in ' + ac.name + ':**\n\n';
+      ac.transport.forEach(function(t) {
+        reply += '**' + t.mode + '** ' + (t.badge ? '(' + t.badge + ')' : '') + '\n';
+        reply += '💰 Cost: ' + t.cost + ' · ⏱ Time: ' + t.time + '\n';
+        t.steps.forEach(function(s, i) { reply += (i+1) + '. ' + s + '\n'; });
+        reply += '💡 ' + t.tip + '\n\n';
+      });
+    }
+    else if (isAttraction) {
+      reply = '🗺️ **Top Attractions in ' + ac.name + ':**\n\n';
+      ac.attractions.forEach(function(a, i) {
+        reply += (i+1) + '. **' + a.name + '** ' + a.icon + ' (' + a.category + ')\n';
+        reply += a.desc + '\n';
+        reply += '⏱ ' + a.duration + ' · 📍 ' + a.distance + ' from stadium\n';
+        reply += '💡 ' + a.tip + '\n\n';
+      });
+    }
+    else if (isMatch) {
+      if (isFinal) {
+        reply = '🏆 **The FIFA World Cup 2026 Final:**\n\n';
+        reply += '📅 **Sunday, July 19, 2026 at 3:00 PM ET**\n';
+        reply += '🏟️ **MetLife Stadium**, East Rutherford, NJ (near New York City)\n';
+        reply += '👥 Capacity: 82,500\n\n';
+        reply += 'Getting there: Take NJ Transit from Penn Station (Midtown Manhattan) — 20-30 min, $7-12. Do NOT drive.\n\n';
+        reply += 'The two finalists won\'t be known until the Semi-Finals on July 14-15.\n\n';
+        reply += '🎫 Tickets: Official at tickets.fifa.com | Resale at StubHub, Viagogo, SeatGeek';
+      } else {
+        reply = '📅 **Match Schedule at ' + ac.stadium + ', ' + ac.name + ':**\n\n';
+        ac.matches.forEach(function(m) {
+          reply += '**Match ' + m.id + '** — ' + m.date + ' · ' + m.time + '\n';
+          reply += m.hf + ' ' + m.home + ' vs ' + m.af + ' ' + m.away + '\n';
+          reply += '📋 ' + m.stage + (m.usmnt ? ' 🇺🇸 USMNT' : '') + (m.host ? ' 🏠 Host' : '') + '\n\n';
+        });
+      }
+    }
+    else if (isFanZone) {
+      reply = '⚽ **Fan Zones in ' + ac.name + '** (FREE — no ticket needed!):\n\n';
+      ac.fanZones.forEach(function(fz, i) {
+        reply += (i+1) + '. **' + fz.name + '**\n';
+        reply += '📍 ' + fz.area + '\n';
+        reply += '📅 ' + fz.dates + '\n\n';
+      });
+      reply += '💡 Fan zones have big screens, food vendors, live music, and full match atmosphere — completely free!';
+    }
+    else if (isHotel) {
+      reply = '🏨 **Where to Stay in ' + ac.name + ':**\n\n';
+      ac.neighborhoods.forEach(function(n, i) {
+        reply += (i+1) + '. **' + n.name + '** — ' + n.vibe + '\n';
+        reply += '🏨 Hotels: ' + n.hotel + '\n';
+        reply += '⚽ To stadium: ' + n.dist + '\n\n';
+      });
+      reply += '🔗 Book on Booking.com for best rates near stadiums.\n';
+      reply += '💡 Tip: Book EARLY — World Cup weeks sell out months in advance.';
+    }
+    else if (isNightlife) {
+      reply = '🍺 **Nightlife & Watch Parties in ' + ac.name + ':**\n\n';
+      var wp = (typeof WATCH_PARTIES !== 'undefined') ? WATCH_PARTIES[ac.id] : null;
+      if (wp) {
+        reply += wp.intro + '\n\n';
+        wp.areas.forEach(function(a, i) {
+          reply += (i+1) + '. **' + a.name + '**\n';
+          reply += '🎶 Vibe: ' + a.vibe + '\n';
+          reply += '🍻 Best: ' + a.best + '\n\n';
+        });
+      } else {
+        reply += 'Watch party guide for ' + ac.name + ' coming soon!\n\n';
+      }
+      reply += 'Check the Nightlife section on FIFAMap.org for full venue listings.';
+    }
+    else if (isWeather) {
+      reply = '⛅ **Weather in ' + ac.name + ' during the World Cup (June-July):**\n\n';
+      reply += '🌡️ **' + ac.weather + '**\n';
+      reply += '🕒 Timezone: ' + ac.tz + '\n\n';
+      var hotCities = ['dallas','miami','houston','atlanta','monterrey'];
+      var mildCities = ['seattle','san-francisco','vancouver'];
+      if (hotCities.indexOf(ac.id) >= 0) {
+        reply += '🥵 **This is a HOT city during World Cup season.** Key tips:\n';
+        reply += '• Hydrate constantly — drink more water than you think you need\n';
+        reply += '• Wear lightweight, breathable clothing and sunscreen\n';
+        reply += '• Evening matches are much more comfortable than afternoon\n';
+        reply += '• Seek air-conditioned spaces during peak afternoon heat\n';
+      } else if (mildCities.indexOf(ac.id) >= 0) {
+        reply += '😎 **This city has mild, pleasant weather in summer.** Tips:\n';
+        reply += '• Bring a light jacket for evenings — it can cool down\n';
+        reply += '• ' + (ac.id === 'san-francisco' ? 'June mornings are famously foggy (June Gloom)' : 'Mostly dry with comfortable temperatures') + '\n';
+      }
+      reply += '\n💡 Check the forecast the morning of your match day.';
+    }
+    else if (isVisa) {
+      reply = '🛂 **Visa Requirements for World Cup 2026:**\n\n';
+      reply += '**USA (11 cities):**\n';
+      reply += '• ESTA (visa waiver) for 41 countries including UK, EU, Japan, Australia, S. Korea — apply at esta.cbp.dhs.gov ($21, approved in minutes)\n';
+      reply += '• All others need a B-1/B-2 tourist visa — apply at your nearest US embassy\n\n';
+      reply += '**Canada (Toronto, Vancouver):**\n';
+      reply += '• eTA for visa-exempt countries — apply at canada.ca/eta ($7 CAD)\n';
+      reply += '• Others need a visitor visa from IRCC\n\n';
+      reply += '**Mexico (CDMX, Guadalajara, Monterrey):**\n';
+      reply += '• Visa-free for most nationalities up to 180 days\n';
+      reply += '• Citizens of some countries need a visa — check SRE.gob.mx\n\n';
+      reply += '💡 Apply 3+ months before travel. A valid US visa often waives the Mexico visa requirement.';
+    }
+    else if (isBudget) {
+      reply = '💰 **Budget Guide for World Cup 2026:**\n\n';
+      reply += '**Cheapest host cities:**\n';
+      reply += '1. 🇲🇽 Mexico City — Metro $0.25, tacos $1-2, hotels from $40/night\n';
+      reply += '2. 🤠 Kansas City — Hotels $90-140/night, BBQ meals under $20\n';
+      reply += '3. ☕ Seattle — Most walkable, $3 transit, great food trucks\n\n';
+      reply += '**Most expensive:**\n';
+      reply += '1. 🗽 New York — Hotels $300-600/night (especially Final week Jul 14-20)\n';
+      reply += '2. 🌊 Miami — Hotels $200-400/night during matches\n\n';
+      reply += '**Budget tips:**\n';
+      reply += '• Fan zones are completely FREE — real atmosphere, no ticket needed\n';
+      reply += '• Airbnb runs 30-40% cheaper than hotels in most cities\n';
+      reply += '• Group stage tickets for smaller teams = best value\n';
+      reply += '• Amtrak Boston→NYC→Philly from $35 (faster than flying with airport time)\n';
+      reply += '• Book flights 6+ weeks early on Southwest (free changes)\n';
+    }
+    else if (isTicket) {
+      reply = '🎫 **How to Get World Cup 2026 Tickets:**\n\n';
+      reply += '**Official (safest):**\n';
+      reply += '• tickets.fifa.com — FIFA official portal\n';
+      reply += '• Check the FIFA+ app on match morning for last-minute releases\n\n';
+      reply += '**Secondary market (resale):**\n';
+      reply += '• StubHub — stubhub.com/fifa-world-cup-2026-tickets\n';
+      reply += '• Viagogo — viagogo.com\n';
+      reply += '• SeatGeek — seatgeek.com/fifa-world-cup-tickets\n';
+      reply += '• VividSeats — vividseats.com\n\n';
+      reply += '**Pricing (estimated):**\n';
+      reply += '• Group Stage: from $80\n';
+      reply += '• Round of 32: from $150\n';
+      reply += '• Quarter-Final: from $250\n';
+      reply += '• Semi-Final: from $350\n';
+      reply += '• Final: from $500+\n\n';
+      reply += '💡 Best time to buy resale: 2-3 weeks before the match — prices drop as sellers get motivated.';
+    }
+    else if (isFamily) {
+      reply = '👨‍👩‍👧‍👦 **Family-Friendly World Cup Cities:**\n\n';
+      reply += '1. **Seattle** — Most walkable, mild weather, Pike Place Market, Space Needle, no car needed\n';
+      reply += '2. **Toronto** — CN Tower, Niagara Falls day trip, diverse food, very safe\n';
+      reply += '3. **San Francisco** — Alcatraz, Golden Gate, great transit, cool weather\n';
+      reply += '4. **Vancouver** — Stanley Park, beaches + mountains, family-oriented culture\n';
+      reply += '5. **Atlanta** — Georgia Aquarium (largest in Western Hemisphere), World of Coca-Cola\n\n';
+      reply += '**Tips for families:**\n';
+      reply += '• All stadiums are cashless — bring contactless cards\n';
+      reply += '• Clear bag policy at all venues — check size limits\n';
+      reply += '• Arrive 2+ hours early for smooth security with kids\n';
+      reply += '• Fan zones are free, all ages, and a great alternative to packed stadiums\n';
+      reply += '• Avoid Dallas/Houston/Miami for afternoon matches with young kids (extreme heat)';
+    }
+    else {
+      // General question — give an overview of the current city
+      reply = '⚽ **' + ac.name + ' — World Cup 2026 Quick Guide:**\n\n';
+      reply += '🏟️ **Stadium:** ' + ac.stadium + ' (Capacity: ' + ac.capacity + ')\n';
+      reply += '⚽ **Matches:** ' + ac.matchCount + ' games\n';
+      reply += '⛅ **Weather:** ' + ac.weather + '\n';
+      reply += '🕒 **Timezone:** ' + ac.tz + '\n';
+      reply += '🌟 **Highlights:** ' + ac.highlights + '\n\n';
+      reply += '**Next match:** ' + ac.matches[0].hf + ' ' + ac.matches[0].home + ' vs ' + ac.matches[0].af + ' ' + ac.matches[0].away + ' — ' + ac.matches[0].date + '\n\n';
+      reply += 'I can help with:\n';
+      reply += '• 🍽️ **Restaurants** — "best restaurants in ' + ac.name + '"\n';
+      reply += '• 🚇 **Transport** — "how to get to ' + ac.stadium + '"\n';
+      reply += '• 🗺️ **Attractions** — "things to do in ' + ac.name + '"\n';
+      reply += '• 📅 **Matches** — "match schedule ' + ac.name + '"\n';
+      reply += '• ⚽ **Fan Zones** — "where to watch for free in ' + ac.name + '"\n';
+      reply += '• 🏨 **Hotels** — "where to stay in ' + ac.name + '"\n';
+      reply += '• 🍺 **Nightlife** — "best bars in ' + ac.name + '"\n';
+      reply += '• 🎫 **Tickets** — "how to get World Cup tickets"\n';
+      reply += '• 🛂 **Visas** — "visa requirements for World Cup"\n';
+      reply += '• 💰 **Budget** — "cheapest World Cup cities"\n';
+      reply += '• 👨‍👩‍👧‍👦 **Family** — "family-friendly cities"';
+    }
+    return reply;
   }
 
   const matches = teamMatches[detectedTeam] || [];
@@ -2028,9 +2259,21 @@ function renderChatMessages(){
   box.innerHTML=chatMessages.map(m=>`
     <div class="msg ${m.role==='user'?'user-msg':''}">
       ${m.role==='assistant'?'<div class="msg-avatar">⚽</div>':''}
-      <div class="msg-bubble ${m.role}">${m.role==='assistant' ? m.content : escHtml(m.content)}</div>
+      <div class="msg-bubble ${m.role}">${m.role==='assistant' ? formatAIResponse(m.content) : escHtml(m.content)}</div>
     </div>`).join('');
   box.scrollTop=box.scrollHeight;
+}
+
+function formatAIResponse(text){
+  if(!text) return '';
+  // If it already contains HTML tags (legacy team itineraries), return as-is
+  if(text.indexOf('<div') === 0 || text.indexOf('<h2') >= 0) return text;
+  // Convert markdown-style formatting to HTML
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n\n/g,'<br/><br/>')
+    .replace(/\n/g,'<br/>');
 }
 
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');}
