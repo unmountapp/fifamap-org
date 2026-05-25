@@ -31,16 +31,14 @@
 <link rel="alternate" hreflang="x-default" href="https://fifamap.org"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" as="style"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet"/>
 <link rel="preconnect" href="https://pagead2.googlesyndication.com"/>
+<link rel="preconnect" href="https://api.web3forms.com"/>
 <link rel="dns-prefetch" href="https://www.booking.com"/>
 <link rel="dns-prefetch" href="https://www.skyscanner.com/?associateid=AFF_TRA_19354_00001"/>
 <link rel="dns-prefetch" href="https://www.awin1.com/cread.php?awinmid=24789&awinaffid=2842560&clickref=fifamap-viator&ued=https%3A%2F%2Fwww.viator.com"/>
 <!-- Google AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1026717787101822" crossorigin="anonymous"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet"/>
-<!-- Google AdSense pub-1026717787101822 -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1026717787101822" crossorigin="anonymous"></script>
 <style>
 /* ======= RESET & BASE ======= */
@@ -417,8 +415,8 @@ footer a:hover{text-decoration:underline}
 <nav>
 <div class="container">
 <div class="nav-inner">
-  <a href="#" onclick="showPage('home')" class="nav-logo">
-    <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+  <a href="#" onclick="showPage('home')" class="nav-logo" aria-label="FIFAMap.org homepage">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" aria-hidden="true" role="img">
       <circle cx="20" cy="20" r="18" stroke="#e63946" stroke-width="2"/>
       <polygon points="20,6 23,16 33,16 25,22 28,32 20,26 12,32 15,22 7,16 17,16" fill="#e63946" opacity=".9"/>
     </svg>
@@ -485,11 +483,8 @@ footer a:hover{text-decoration:underline}
 
 <!-- AdSense Slot 1 (Banner) -->
 <div class="container">
-<div class="ad-slot" id="ad-top">
-  <div>
-    <div style="font-size:.8rem;margin-bottom:.3rem">📢 Advertisement</div>
-    <div style="font-size:.7rem">Book your World Cup hotel &amp; flights early — <a href="https://www.awin1.com/cread.php?awinmid=6776&awinaffid=2842560&clickref=fifamap-home&ued=https%3A%2F%2Fwww.booking.com" target="_blank" rel="noopener" style="color:var(--primary)">Booking.com</a> · <a href="https://www.airbnb.com/?af=43720035&c=.pi57.pkch_0&cv=46849428&medium=affiliate&sem_position=1&sem_target=&siteid=3093706&sitetar=d&targetid=aud-&c=.pi57.pkch_0" target="_blank" rel="noopener" style="color:var(--primary)">Airbnb</a> · <a href="https://www.hotels.com/affiliate/vhgQfID" target="_blank" rel="noopener" style="color:var(--primary)">Hotels.com</a></div>
-  </div>
+<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.75rem 1rem;text-align:center;margin:1.5rem 0">
+  <div style="font-size:.7rem;color:var(--muted)">🏨 Book your World Cup hotel &amp; flights early — <a href="https://www.awin1.com/cread.php?awinmid=6776&awinaffid=2842560&clickref=fifamap-home&ued=https%3A%2F%2Fwww.booking.com" target="_blank" rel="noopener" style="color:var(--primary)">Booking.com</a> · <a href="https://www.airbnb.com/?af=43720035&c=.pi57.pkch_0&cv=46849428&medium=affiliate&sem_position=1&sem_target=&siteid=3093706&sitetar=d&targetid=aud-&c=.pi57.pkch_0" target="_blank" rel="noopener" style="color:var(--primary)">Airbnb</a> · <a href="https://www.hotels.com/affiliate/vhgQfID" target="_blank" rel="noopener" style="color:var(--primary)">Hotels.com</a></div>
 </div>
 </div>
 
@@ -673,8 +668,8 @@ footer a:hover{text-decoration:underline}
 <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)"><a href="https://www.awin1.com/cread.php?awinmid=6776&awinaffid=2842560&clickref=fifamap-planner&ued=https%3A%2F%2Fwww.booking.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.3rem;padding:.35rem .7rem;background:var(--navy3);border:1px solid var(--border);border-radius:.5rem;font-size:.7rem;font-weight:600;color:var(--text2);text-decoration:none">🏨 Book Hotels</a><a href="#" onclick="showPage('nightlife')" style="display:flex;align-items:center;gap:.3rem;padding:.35rem .7rem;background:var(--navy3);border:1px solid var(--border);border-radius:.5rem;font-size:.7rem;font-weight:600;color:var(--text2);text-decoration:none">🍺 Watch Parties</a><a href="#" onclick="showPage('transport')" style="display:flex;align-items:center;gap:.3rem;padding:.35rem .7rem;background:var(--navy3);border:1px solid var(--border);border-radius:.5rem;font-size:.7rem;font-weight:600;color:var(--text2);text-decoration:none">🚇 Transport</a><a href="https://www.awin1.com/cread.php?awinmid=24789&awinaffid=2842560&clickref=fifamap-planner&ued=https%3A%2F%2Fwww.viator.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.3rem;padding:.35rem .7rem;background:var(--navy3);border:1px solid var(--border);border-radius:.5rem;font-size:.7rem;font-weight:600;color:var(--text2);text-decoration:none">🗺️ Tours</a></div>
 
   <!-- AdSense Slot 2 (In-planner) -->
-  <div class="ad-slot" style="min-height:60px;margin-top:1rem">
-    <div style="font-size:.7rem">🎫 Get your World Cup tickets via <a href="https://www.viagogo.com/?aff=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">Viagogo</a> · <a href="https://www.stubhub.com/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">StubHub</a></div>
+  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.6rem 1rem;text-align:center;margin-top:1rem">
+    <div style="font-size:.7rem;color:var(--muted)">🎫 Get your World Cup tickets via <a href="https://www.viagogo.com/?aff=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">Viagogo</a> · <a href="https://www.stubhub.com/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">StubHub</a></div>
   </div>
 </div>
 </div>
@@ -2262,7 +2257,6 @@ function downloadPDF(text, c) {
 
 /* ── BLOG ARTICLES DATA ── */
 var ARTICLES = [
-{"id": "article-16", "slug": "kansas-city-world-cup-2026-guide", "title": "Kansas City World Cup 2026: The BBQ Capital of the World Hosts 5 Matches", "category": "City Guide", "city": "Kansas City", "date": "May 25, 2026", "readTime": "4 min read", "excerpt": "Kansas City is the barbecue capital of the world and it is hosting five World Cup matches, including Argentina on the Fourth of July — a combination that may produce the most electric atmosphere of the entire tournament. The KC Streetcar is free, the brisket is legendary, and the jazz history runs deep.", "content": "<h2>Arrowhead Stadium: Home of the Chiefs, Stage of the World</h2><p>Arrowhead Stadium seats 73,000 and is consistently rated among the loudest venues in professional sports. For World Cup 2026, it hosts Argentina vs Algeria on June 16, Ecuador vs Curaçao on June 20, Tunisia vs Netherlands on June 25, Algeria vs Austria on June 27, and a Round of 32 match on July 4 — Independence Day. Argentina playing knockout football in Kansas City with fireworks overhead is a scheduling gift the tournament did not plan but absolutely should have.</p><h2>Getting to Arrowhead</h2><p>The KC Streetcar runs through downtown Kansas City and is completely free — no fare, no card required. On match days, official shuttles connect Streetcar stops to Arrowhead Stadium. The Power &amp; Light District fan zone sits directly on the Streetcar line, making the pre-match and post-match experience genuinely effortless.</p><h2>Kansas City Barbecue: A Pilgrimage</h2><p>Kansas City has more barbecue restaurants per capita than any city in the world. The style — slow-smoked over hickory, finished with thick sweet-tangy sauce — is its own tradition. Joe's Kansas City BBQ operates out of a functioning gas station and consistently ranks among the best barbecue on the planet. Order the Z-Man: smoked brisket, smoked provolone, onion rings on a Kaiser roll. Arrive before 11 AM or risk missing out entirely. Q39 offers competition-circuit barbecue in a real restaurant and takes reservations — a practical rarity in Kansas City BBQ and a smart call before a match.</p><h2>Jazz, History, and Culture</h2><p>The 18th &amp; Vine Jazz District is where the Kansas City sound developed in the 1930s and 40s — Charlie Parker grew up here. The American Jazz Museum on the district is world-class, and the Green Lady Lounge nearby hosts live jazz seven nights a week in an atmosphere unchanged for decades. The National WWI Museum, built over a glass floor suspended above 9,000 Flanders Field poppies, is one of the most striking museum experiences in the country. Country Club Plaza, Kansas City's Spanish-inspired outdoor dining and shopping district modeled on Seville, makes for a relaxed afternoon between matches.</p><h2>Practical Tips</h2><p>Kansas City runs 87–95°F in summer — hot, but manageable with hydration and air conditioning. Evening matches are far more comfortable than afternoon kickoffs. Stay in the Country Club Plaza area for walkable dining and about 20 minutes to Arrowhead by shuttle. Book early: Kansas City's hotel inventory is limited, and the July 4 weekend will see premium pricing across every neighborhood.</p>", "publish_iso": "2026-06-08"},
 {"id": "article-15", "slug": "boston-world-cup-2026-guide", "title": "Boston World Cup 2026: Freedom Trail, Lobster Rolls and England Matches", "category": "City Guide", "city": "Boston", "date": "May 18, 2026", "readTime": "4 min read", "excerpt": "Boston is the best World Cup city for history lovers — you'll walk the same streets as American Revolutionaries between matches at Gillette Stadium. With England, Scotland, France, and Norway all playing in Foxborough, Boston will feel more European than any other city at the tournament.", "content": "<h2>Gillette Stadium: New England's World Cup Venue</h2><p>Gillette Stadium in Foxborough seats 65,000 and hosts five matches: Haiti vs Scotland on June 13, IC Play-in Winner vs Norway on June 16, Scotland vs Morocco on June 19, England vs Ghana on June 23, and Norway vs France on June 26. The England fixture will draw massive transatlantic support — expect Gillette to feel like a Premier League ground at full noise.</p><h2>Getting to Gillette Stadium</h2><p>Take the MBTA Commuter Rail Providence Line from South Station to Foxboro Station — a 40-minute ride costing $10–12 roundtrip. Buy tickets in advance on the MBTA app; the train fills fast on match days. The station is a short walk from the stadium gates. This is the right way to travel — the highway from Boston to Foxborough becomes a parking lot after final whistles.</p><h2>The Freedom Trail</h2><p>The Freedom Trail is a 1.6-mile walking route through 16 American Revolution sites, marked by a red brick line embedded in Boston's sidewalks. It is completely free and self-guided. You'll pass the site of the Boston Massacre, walk through Paul Revere's neighborhood, and reach the USS Constitution — the world's oldest commissioned warship still afloat. Allow two to three hours. Nothing prepares you for how compact and walkable Boston's revolutionary history actually is.</p><p>Fenway Park, America's oldest major league ballpark (opened 1912), offers daily tours regardless of the Red Sox schedule. The Harvard and MIT campuses are a 20-minute Red Line subway ride into Cambridge; the Harvard Art Museums offer free admission and are considerably better than their campus-attraction reputation suggests.</p><h2>Where to Eat</h2><p>Neptune Oyster in the North End serves Boston's best lobster roll — warm, butter-drenched, packed with claw and knuckle meat. Arrive at 11:30 AM when they open; no reservations, line builds fast. Two blocks away, Regina Pizzeria has been firing coal-oven pizzas since 1926. It's cash only, service is no-nonsense, and the pizza is excellent. The North End is Boston's Italian neighborhood; wander its narrow streets and stop for cannoli at Mike's Pastry before any match.</p><h2>Practical Tips</h2><p>Boston in late June offers the most pleasant weather in any World Cup host city — 70–82·F, low humidity, long evenings. Boston Common hosts the official fan zone. Stay in Back Bay or Copley Square for easy commuter rail access from Back Bay Station and proximity to restaurants and the Public Garden. Boston is genuinely walkable; you don't need a car for any of its best experiences.</p>", "publish_iso": "2026-06-01"},
 {"id": "article-14", "slug": "houston-world-cup-2026-guide", "title": "Houston World Cup 2026: Space City, the World's Most Diverse Food Scene and Portugal Matches", "category": "City Guide", "city": "Houston", "date": "May 11, 2026", "readTime": "4 min read", "excerpt": "Houston is the most ethnically diverse city in the United States, and its food scene proves it at every turn — from Viet-Cajun boiled crawfish to James Beard-nominated Japanese cuisine, all within reach of NRG Stadium. With five World Cup matches including two Portugal fixtures, Space City is ready to host the world.", "content": "<h2>NRG Stadium: Houston's World Cup Home</h2><p>NRG Stadium seats 68,311 and brings one of the World Cup's most loaded match schedules to Houston. Fans can watch Germany vs Cura·ao on June 14, Portugal vs IC Play-in Winner on June 17, Netherlands vs UEFA Win B on June 20, Portugal vs Uzbekistan on June 23, and a Round of 32 on June 29. For Cristiano Ronaldo's fan base across the Americas, Houston is a pilgrimage destination this summer.</p><h2>Getting to NRG Stadium</h2><p>The METRORail Red Line runs from downtown to Reliant Park station, where official match-day shuttles connect to NRG Stadium gates. It's fast, air-conditioned — a genuine priority in Houston June heat — and keeps you out of the gridlock that clogs stadium roads on match days. Buy your METRO day pass in advance on the METRO Q app.</p><h2>NASA Johnson Space Center</h2><p>Twenty-five miles southeast of downtown, NASA's Johnson Space Center is where Mission Control directed every American crewed spaceflight from Gemini through the Space Shuttle era. You can stand in the original Apollo-era Mission Control room, handle actual moon rocks, and walk beneath a Saturn V rocket lying on its side. Book tickets early and go in the morning — Houston's afternoon heat in June is not negotiable.</p><h2>Houston's Food Scene</h2><p>Killen's Barbecue in Pearland is widely considered the best brisket in Houston — arrive by 10:30 AM because it sells out. For something that exists almost nowhere else on earth, find a Viet-Cajun boiled seafood restaurant: this fusion of Vietnamese cooking techniques with Louisiana Gulf Coast ingredients was invented in Houston. Crawfish &amp; Noodles is the benchmark. For a dinner splurge, Uchi Houston offers James Beard-nominated modern Japanese cuisine in a converted Montrose bungalow. The Museum of Fine Arts Houston is free on Thursdays; Hermann Park next door connects to the Houston Zoo and rewards an early morning visit.</p><h2>Practical Tips</h2><p>Houston in June means 90–97·F with oppressive humidity. Hydrate constantly, schedule outdoor activities for early mornings, and embrace the air conditioning that defines Houston life. Evening matches at NRG are far more comfortable than afternoon kickoffs. Discovery Green downtown hosts the official fan zone with shade structures and misters. Stay near Discovery Green or Midtown for the best access to both the fan zone and METRORail.</p>", "publish_iso": "2026-05-25"},
 {"id": "article-13", "slug": "san-francisco-bay-area-world-cup-2026-guide", "title": "San Francisco Bay Area World Cup 2026: Golden Gate, Tech Culture and Levi's Stadium", "category": "City Guide", "city": "San Francisco", "date": "May 4, 2026", "readTime": "4 min read", "excerpt": "San Francisco brings World Cup 2026 to the heart of Silicon Valley, with matches at Levi's Stadium just 45 minutes south of one of the world's most iconic cities. From the Golden Gate Bridge to James Beard-winning burritos, the Bay Area delivers an unmatched mix of natural beauty, food culture, and easy transit.", "content": "<h2>Levi's Stadium: Silicon Valley's World Cup Venue</h2><p>Levi's Stadium in Santa Clara seats 69,391 fans and serves as the Bay Area's World Cup hub. The venue hosts Qatar vs Switzerland on June 13, Austria vs Jordan on June 16, and a Round of 32 match on July 1. One of the most technologically advanced stadiums in North America, it fits perfectly in a region 35 miles from Apple Park and Stanford.</p><h2>Getting to the Stadium</h2><p>Take Caltrain from San Francisco's 4th &amp; King Street station to Santa Clara Station, then catch the VTA shuttle directly to the stadium gates. The trip takes about 45 minutes and costs $3–8. Load a Clipper card before you arrive — it works seamlessly across Caltrain, VTA, BART, and Muni, making it the only transit card you need in the Bay Area.</p><h2>Essential San Francisco Experiences</h2><p>Rent a bike at Fisherman's Wharf, ride across the Golden Gate Bridge into Sausalito, then take the ferry back across the bay — one of the great urban cycling routes in the world. Book Alcatraz Island at least two weeks in advance; the former federal penitentiary sells out consistently and same-day tickets don't exist. Justin Herman Plaza at the Embarcadero hosts the official fan zone, steps from the waterfront. A Napa Valley day trip is just one hour north by car and well worth the journey in June.</p><h2>Where to Eat</h2><p>The Bay Area food scene earns every bit of its reputation. Pick up a sourdough bread bowl with clam chowder from Boudin Bakery at Fisherman's Wharf — a San Francisco ritual since 1849. Arrive at Tartine Bakery in the Mission around 4:30 PM when fresh loaves emerge from the oven; the line moves quickly and the bread is extraordinary. La Taqueria, also in the Mission, holds a James Beard Award for its burritos — bring cash and prepare to understand the hype. Swan Oyster Depot has been shucking since 1912, is cash-only, and runs out most afternoons, so go at opening.</p><h2>Practical Tips</h2><p>June mornings in San Francisco are famously foggy — locals call it June Gloom. Temperatures run 65–75·F with a real wind off the bay, so pack a light jacket regardless of the midday sun. For accommodation, staying Downtown SF or South of Market puts you 35–45 minutes from Levi's Stadium via Caltrain and within walking distance of the waterfront, Union Square, and the Ferry Building.</p>", "publish_iso": "2026-05-18"},
@@ -2329,7 +2323,7 @@ function renderPartnerCard(p){return '<div class="partner-card'+(p.tier==='featu
 function renderNightlife(){var c=city(),id=c.id;var lbl=document.getElementById('nightlife-city-label');if(lbl)lbl.innerHTML=c.emoji+' '+c.name+' '+c.flag+' — Match-Day Scene';var wp=(typeof WATCH_PARTIES!=='undefined')?WATCH_PARTIES[id]:null;var iEl=document.getElementById('nightlife-intro'),aEl=document.getElementById('nightlife-areas');if(wp){if(iEl)iEl.textContent=wp.intro;if(aEl)aEl.innerHTML=wp.areas.map(function(a){return '<div class="nightlife-area"><div class="nightlife-area-name">📍 '+a.name+'</div><div class="nightlife-area-vibe">'+a.vibe+'</div><div class="nightlife-area-best"><strong>Best spots:</strong> '+a.best+'</div></div>';}).join('');}else{if(iEl)iEl.textContent='Watch party guide coming soon for '+c.name+'.';if(aEl)aEl.innerHTML='<p style="font-size:.8rem;color:var(--muted)">Coming soon.</p>';}var fz=(typeof PARTNERS!=='undefined')?PARTNERS.filter(function(p){return p.city===id&&p.category==='fan-zone';}):[];var cv=(typeof PARTNERS!=='undefined')?PARTNERS.filter(function(p){return p.city===id&&p.category==='bars';}):[];var fzEl=document.getElementById('nightlife-fanzones'),fEl=document.getElementById('nightlife-featured'),vEl=document.getElementById('nightlife-venues');if(fzEl)fzEl.innerHTML=fz.length?'<div class="section-sub-header">🇺🇸 Official Fan Zones — Federation-run fan experiences — free entry</div><div class="partner-strip">'+fz.map(renderPartnerCard).join('')+'</div>':'';if(cv.length){var fv=cv.filter(function(v){return v.badge;});var rv=cv.filter(function(v){return !v.badge;});if(fEl)fEl.innerHTML=fv.length?'<div class="partner-strip">'+fv.map(renderPartnerCard).join('')+'</div>':'';if(vEl)vEl.innerHTML=(rv.length?rv:cv).map(renderPartnerCard).join('');}else{if(fEl)fEl.innerHTML='';if(vEl)vEl.innerHTML='<p style="font-size:.8rem;color:var(--muted)">Venue listings for '+c.name+' coming soon. <a href="#" onclick="showPage(\'advertise\')" style="color:var(--primary)">List your venue →</a></p>';}}
 
 function handleEmailCapture(ctx){
-  var WEB3FORMS_KEY='82857485-4fd0-4838-a04d-1a0731eb3f27';// PASTE YOUR KEY FROM web3forms.com HERE
+  var WEB3FORMS_KEY='82857485-4fd0-4838-a04d-1a0731eb3f27';
   var ids={home:'homeEmailInput',nightlife:'nightlifeEmailInput',advertiser:'advEmailInput',city:'cityEmailInput'};
   var inp=document.getElementById(ids[ctx]||'homeEmailInput');
   if(!inp)return;
@@ -2337,35 +2331,46 @@ function handleEmailCapture(ctx){
   if(!em||!em.includes('@')){alert('Please enter a valid email address.');return;}
   var d={email:em,context:ctx,city:currentCity,lang:currentLang,plannerUsed:freeUsed>0,timestamp:new Date().toISOString()};
   if(ctx==='advertiser'){var ci=document.getElementById('advCompanyInput');if(ci)d.company=ci.value.trim();}
-  // Save to localStorage as backup
   try{var ex=JSON.parse(localStorage.getItem('fifamap_captures')||'[]');ex.push(d);localStorage.setItem('fifamap_captures',JSON.stringify(ex));}catch(e){}
-  // Send to Web3Forms (delivers to customercareblackaiser@gmail.com)
+  inp.value='';
+  var btn=inp.nextElementSibling||inp.parentElement.querySelector('.capture-submit');
+  var origText=btn?btn.textContent:'';
+  if(btn){btn.textContent='Sending...';btn.disabled=true;}
   if(WEB3FORMS_KEY){
     fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
         access_key:WEB3FORMS_KEY,
-        subject:'FIFAMap Advertiser Inquiry — '+ctx+' ('+currentCity+')',
-        from_name:'FIFAMap Website',
+        subject:'FIFAMap — '+ctx+' inquiry from '+em,
+        from_name:'FIFAMap.org',
+        name:d.company||em,
         email:em,
-        company:d.company||'',
-        context:ctx,
-        city:currentCity,
-        language:currentLang,
-        planner_used:d.plannerUsed?'Yes':'No',
-        submitted_at:d.timestamp
+        message:'New '+ctx+' signup on FIFAMap.org\n\nEmail: '+em+'\nSection: '+ctx+'\nCity: '+currentCity+'\nLanguage: '+currentLang+'\nPlanner used: '+(d.plannerUsed?'Yes':'No')+'\nTime: '+d.timestamp+(d.company?'\nCompany: '+d.company:'')
       })
-    }).catch(function(){});
-  } else {
-    // Fallback: open mailto if no key set yet
+    })
+    .then(function(r){return r.json();})
+    .then(function(data){
+      console.log('Web3Forms response:',data);
+      if(data.success){
+        if(btn){btn.textContent='\u2713 Sent!';btn.style.background='#22c55e';btn.style.color='#fff';btn.disabled=false;setTimeout(function(){btn.textContent=origText;btn.style.background='';btn.style.color='';},4000);}
+      }else{
+        console.error('Web3Forms rejected:',data.message||data);
+        alert('Submission error: '+(data.message||'Please email customercareblackaiser@gmail.com directly.'));
+        if(btn){btn.textContent=origText;btn.disabled=false;}
+      }
+    })
+    .catch(function(err){
+      console.error('Web3Forms network error:',err);
+      alert('Network error. Please email customercareblackaiser@gmail.com directly.');
+      if(btn){btn.textContent=origText;btn.disabled=false;}
+    });
+  }else{
     var sub=encodeURIComponent('FIFAMap Inquiry — '+ctx);
-    var body=encodeURIComponent('Email: '+em+'\nContext: '+ctx+'\nCity: '+currentCity+'\nTime: '+d.timestamp+(d.company?'\nCompany: '+d.company:''));
-    window.open('mailto:customercareblackaiser@gmail.com?subject='+sub+'&body='+body,'_blank');
+    var mbody=encodeURIComponent('Email: '+em+'\nContext: '+ctx+'\nCity: '+currentCity+'\nTime: '+d.timestamp+(d.company?'\nCompany: '+d.company:''));
+    window.open('mailto:customercareblackaiser@gmail.com?subject='+sub+'&body='+mbody,'_blank');
+    if(btn){btn.textContent=origText;btn.disabled=false;}
   }
-  inp.value='';
-  var btn=inp.nextElementSibling||inp.parentElement.querySelector('.capture-submit');
-  if(btn){var t=btn.textContent;btn.textContent='\u2713 Sent!';setTimeout(function(){btn.textContent=t;},3000);}
 }
 
 var _origRenderHome=renderHome;renderHome=function(){_origRenderHome();renderIntentGrid();renderFeaturedPartners();renderHomeGuideCards();};
