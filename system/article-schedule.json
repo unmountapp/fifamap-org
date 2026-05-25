@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 8,
-  "last_published": "May 18, 2026",
+  "next_article_index": 9,
+  "last_published": "May 25, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -107,7 +107,7 @@
       "title": "Kansas City World Cup 2026: The BBQ Capital of the World Hosts 5 Matches",
       "category": "City Guide",
       "city": "Kansas City",
-      "date": "June 8, 2026",
+      "date": "May 25, 2026",
       "readTime": "4 min read",
       "excerpt": "Kansas City is the barbecue capital of the world and it is hosting five World Cup matches, including Argentina on the Fourth of July — a combination that may produce the most electric atmosphere of the entire tournament. The KC Streetcar is free, the brisket is legendary, and the jazz history runs deep.",
       "content": "<h2>Arrowhead Stadium: Home of the Chiefs, Stage of the World</h2><p>Arrowhead Stadium seats 73,000 and is consistently rated among the loudest venues in professional sports. For World Cup 2026, it hosts Argentina vs Algeria on June 16, Ecuador vs Curaçao on June 20, Tunisia vs Netherlands on June 25, Algeria vs Austria on June 27, and a Round of 32 match on July 4 — Independence Day. Argentina playing knockout football in Kansas City with fireworks overhead is a scheduling gift the tournament did not plan but absolutely should have.</p><h2>Getting to Arrowhead</h2><p>The KC Streetcar runs through downtown Kansas City and is completely free — no fare, no card required. On match days, official shuttles connect Streetcar stops to Arrowhead Stadium. The Power &amp; Light District fan zone sits directly on the Streetcar line, making the pre-match and post-match experience genuinely effortless.</p><h2>Kansas City Barbecue: A Pilgrimage</h2><p>Kansas City has more barbecue restaurants per capita than any city in the world. The style — slow-smoked over hickory, finished with thick sweet-tangy sauce — is its own tradition. Joe's Kansas City BBQ operates out of a functioning gas station and consistently ranks among the best barbecue on the planet. Order the Z-Man: smoked brisket, smoked provolone, onion rings on a Kaiser roll. Arrive before 11 AM or risk missing out entirely. Q39 offers competition-circuit barbecue in a real restaurant and takes reservations — a practical rarity in Kansas City BBQ and a smart call before a match.</p><h2>Jazz, History, and Culture</h2><p>The 18th &amp; Vine Jazz District is where the Kansas City sound developed in the 1930s and 40s — Charlie Parker grew up here. The American Jazz Museum on the district is world-class, and the Green Lady Lounge nearby hosts live jazz seven nights a week in an atmosphere unchanged for decades. The National WWI Museum, built over a glass floor suspended above 9,000 Flanders Field poppies, is one of the most striking museum experiences in the country. Country Club Plaza, Kansas City's Spanish-inspired outdoor dining and shopping district modeled on Seville, makes for a relaxed afternoon between matches.</p><h2>Practical Tips</h2><p>Kansas City runs 87–95°F in summer — hot, but manageable with hydration and air conditioning. Evening matches are far more comfortable than afternoon kickoffs. Stay in the Country Club Plaza area for walkable dining and about 20 minutes to Arrowhead by shuttle. Book early: Kansas City's hotel inventory is limited, and the July 4 weekend will see premium pricing across every neighborhood.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Boston World Cup 2026: Freedom Trail, Lobster Rolls and England Matches",
+  "last_article_title": "Kansas City World Cup 2026: The BBQ Capital of the World Hosts 5 Matches",
   "last_commit": "451b5f8d80"
 }
