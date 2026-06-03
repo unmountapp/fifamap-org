@@ -1673,6 +1673,7 @@ function showPage(page){
 =================================================== */
 function setCity(id){
   currentCity=id;
+  localStorage.setItem('fifamap_city',id);
   const c=CITIES.find(x=>x.id===id);
   document.getElementById('cityBtnName').textContent=c.name;
   document.getElementById('cityBtnLabel').children[0].textContent=c.emoji+' ';
@@ -1721,6 +1722,7 @@ function buildLangMenu(){
 
 function setLang(code){
   currentLang=code;
+  localStorage.setItem('fifamap_lang',code);
   const l=LANGS[code];
   document.getElementById('langLabel').textContent=l.native;
   document.documentElement.lang=code;
@@ -2329,6 +2331,33 @@ document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
    INIT
 =================================================== */
 (function init(){
+  // Read URL parameters
+  var params = new URLSearchParams(window.location.search);
+  var urlLang = params.get('lang');
+  var urlCity = params.get('city');
+  var urlSection = params.get('section');
+
+  // Apply language from URL or localStorage
+  if(urlLang && LANGS[urlLang]){ currentLang = urlLang; }
+  else {
+    var savedLang = localStorage.getItem('fifamap_lang');
+    if(savedLang && LANGS[savedLang]) currentLang = savedLang;
+  }
+  var l = LANGS[currentLang];
+  document.getElementById('langLabel').textContent = l.native;
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = l.rtl ? 'rtl' : 'ltr';
+
+  // Apply city from URL or localStorage
+  if(urlCity && CITIES.find(function(c){return c.id===urlCity;})){
+    currentCity = urlCity;
+  } else {
+    var savedCity = localStorage.getItem('fifamap_city');
+    if(savedCity && CITIES.find(function(c){return c.id===savedCity;})) currentCity = savedCity;
+  }
+  var c = CITIES.find(function(x){return x.id===currentCity;});
+  if(c){ document.getElementById('cityBtnName').textContent = c.name; }
+
   // Init chat
   chatMessages=[{role:'assistant',content:LANGS[currentLang].t.greeting}];
   // Build dropdowns
@@ -2337,8 +2366,12 @@ document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
   // Start countdown
   updateCountdown();
   setInterval(updateCountdown,1000);
-  // Render home
-  renderHome();
+  // Navigate to section from URL, or default to home
+  if(urlSection && document.getElementById('page-'+urlSection)){
+    showPage(urlSection);
+  } else {
+    renderHome();
+  }
 })();
 
 
