@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 10,
-  "last_published": "June 1, 2026",
+  "next_article_index": 11,
+  "last_published": "June 8, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -131,7 +131,7 @@
       "title": "Philadelphia World Cup 2026: Cheesesteaks, Rocky Steps and Brazil's Group Stage",
       "category": "City Guide",
       "city": "Philadelphia",
-      "date": "June 22, 2026",
+      "date": "June 8, 2026",
       "readTime": "4 min read",
       "excerpt": "Philadelphia brings World Cup football to the birthplace of American democracy, with Lincoln Financial Field hosting Brazil, France, and Croatia. From Pat's cheesesteaks to the Rocky Steps, Philly delivers one of the most character-rich host city experiences of the tournament.",
       "content": "<h2>Lincoln Financial Field</h2><p>Lincoln Financial Field (65,827) in South Philadelphia hosts six World Cup matches: Ivory Coast vs Ecuador (June 14), Brazil vs Haiti (June 19), France vs IC Winner 2 (June 22), Curaçao vs Ivory Coast (June 25), Croatia vs Ghana (June 27), and a Round of 32 fixture (June 29). Brazil and France in the same building makes this one of the most star-studded schedules in the tournament — expect a sea of yellow-and-green on match days.</p><h2>Getting to the Linc</h2><p>SEPTA's Broad Street Line (Orange Line) to NRG Station is a five-minute walk from the gates. The fare is $2.50 and trains run frequently on match days, making this one of the easiest stadium commutes in North America. Rideshare works too but plan for significant access-road congestion.</p><h2>History Worth Stepping Into</h2><p>Independence Hall is where the Declaration of Independence was signed and the Constitution debated. Free timed entry tickets are available at Recreation.gov — reserve well in advance as slots fill quickly during the World Cup window. The surrounding Independence National Historical Park is walkable and free.</p><h2>The Rocky Steps and Reading Terminal Market</h2><p>Run the 72 steps of the Philadelphia Museum of Art — the Rocky Steps — and get your photo with the Rocky statue at the bottom. Reading Terminal Market, operating since 1892, is essential for food: DiNic's roast pork sandwich, Amish goods stalls, and enough variety to fill an afternoon.</p><h2>The Cheesesteak Debate</h2><p>Pat's King of Steaks and Geno's Steaks sit literally across the street from each other in South Philly. Get one from each and form your own opinion. Order \"wit Whiz\" — with Cheez Whiz — to do it the authentic Philadelphia way. Both are open late.</p><h2>Where to Eat Beyond Cheesesteaks</h2><p>Zahav, James Beard Award winner for Best Restaurant in America, serves extraordinary Israeli food — the laffa bread with lamb shoulder is exceptional. Book four to six weeks ahead; walk-ins during the World Cup are not realistic. Federal Donuts offers creative donuts and excellent fried chicken; arrive early as they sell out by mid-morning.</p><h2>Fan Zones and Where to Stay</h2><p>Penn's Landing fan zone stretches along the Delaware River waterfront and anchors the social scene between matches. Center City and Rittenhouse Square hotels put you 20 to 30 minutes from the stadium via SEPTA. Summer weather runs 78–87°F. Philadelphia rewards slow walking and spontaneous discovery — give yourself at least two days.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Guadalajara World Cup 2026: Tequila, Mariachi and Mexico's Second City",
+  "last_article_title": "Philadelphia World Cup 2026: Cheesesteaks, Rocky Steps and Brazil's Group Stage",
   "last_commit": "451b5f8d80"
 }
