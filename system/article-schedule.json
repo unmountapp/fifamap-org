@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 11,
-  "last_published": "June 8, 2026",
+  "next_article_index": 12,
+  "last_published": "June 15, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -143,7 +143,7 @@
       "title": "Monterrey World Cup 2026: Mountain Backdrops, Cabrito and Mexico's Business Capital",
       "category": "City Guide",
       "city": "Monterrey",
-      "date": "June 29, 2026",
+      "date": "June 15, 2026",
       "readTime": "4 min read",
       "excerpt": "Monterrey is Mexico's most underrated World Cup host city — a place of dramatic mountain canyons, legendary roasted goat, and a sophisticated urban culture that surprises nearly every visitor. This is the Mexican World Cup experience for fans who want to go beyond the obvious.",
       "content": "<h2>Estadio BBVA</h2><p>Estadio BBVA (53,500) in Guadalupe is one of the most visually striking stadiums in North America — the Sierra Madre Oriental mountains rise dramatically beyond the open end of the ground, creating one of sport's great natural backdrops. The stadium hosts UEFA Win B vs Tunisia (June 14), Tunisia vs Japan (June 20), South Africa vs South Korea (June 24), and two Round of 32 matches. Plan your stadium photographs for golden hour before kickoff.</p><h2>Getting Around</h2><p>Monterrey's metro system covers the city efficiently. Uber is exceptionally reliable here and affordable — most city journeys cost $4 to $10. The metro-plus-rideshare combination handles everything comfortably without needing a rental car, making Monterrey one of the easier host cities to navigate independently.</p><h2>Huasteca Canyon: The Essential Day Trip</h2><p>Parque Nacional Cumbres de Monterrey contains Huasteca Canyon — towering limestone cliffs and narrow gorges that feel genuinely otherworldly. Trail markings are minimal; hire a local guide near the park entrance. Plan this excursion for early morning only: June temperatures reach 88–96°F and all outdoor activity should wrap before noon. The canyon is one of the genuinely unmissable natural experiences near any World Cup venue in the tournament.</p><h2>MARCO and Macroplaza</h2><p>MARCO, the Museum of Contemporary Art, occupies a landmark Paolo Soleri building in central Monterrey and is free every Wednesday — a world-class institution that most visitors overlook entirely. Macroplaza, one of the largest civic plazas in Latin America, serves as the main fan zone hub and is surrounded by notable public art and architecture worth exploring even on non-match days.</p><h2>Eating in Monterrey</h2><p>Cabrito — whole roasted baby goat — is Monterrey's defining dish. El Rey del Cabrito is the institution: order for the table and eat slowly. For breakfast, head to Mercado Juárez at 8am for machacado con huevo (dried beef with scrambled eggs) — Norteño morning food is legendary across Mexico for good reason. Barrio Antiguo, the bohemian historic neighborhood, concentrates the city's mezcal bars and live music in a walkable few blocks ideal for evenings after matches.</p><h2>Where to Stay</h2><p>San Pedro Garza García, the upscale suburb immediately to the west of the city center, is the most comfortable base for visiting fans. The Fiesta Americana and other international hotels are here; the area is considered the safest and most visitor-friendly. Monterrey rewards curious travelers enormously — this is off-the-beaten-path Mexico at its very best.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Philadelphia World Cup 2026: Cheesesteaks, Rocky Steps and Brazil's Group Stage",
+  "last_article_title": "Monterrey World Cup 2026: Mountain Backdrops, Cabrito and Mexico's Business Capital",
   "last_commit": "451b5f8d80"
 }
