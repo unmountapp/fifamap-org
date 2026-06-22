@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 12,
-  "last_published": "June 15, 2026",
+  "next_article_index": 13,
+  "last_published": "June 22, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -155,7 +155,7 @@
       "title": "Toronto World Cup 2026: Canada's Multicultural City Hosts the National Team",
       "category": "City Guide",
       "city": "Toronto",
-      "date": "July 6, 2026",
+      "date": "June 22, 2026",
       "readTime": "4 min read",
       "excerpt": "Toronto is hosting the FIFA World Cup for the first time while simultaneously cheering on Canada — making the atmosphere here unlike anywhere else in the tournament. From the waterfront fan zone to a peameal bacon sandwich at St. Lawrence Market, Toronto earns its place on every World Cup itinerary.",
       "content": "<h2>BMO Field and Toronto's Matches</h2><p>BMO Field (44,315) sits on the Lake Ontario waterfront in Exhibition Place. Toronto hosts Canada vs UEFA Win A (June 12 — Canada's opener), Ghana vs Panama (June 17), Germany vs Ivory Coast (June 20), Panama vs Croatia (June 23), Senegal vs Iraq (June 26), and a Round of 32 match (July 4). The June 12 Canadian opener will be one of the most emotionally charged matches in the tournament — Canada has never hosted the World Cup and has never fielded a side this strong.</p><h2>Getting to BMO Field</h2><p>Take the TTC subway to Union Station, then walk 10 to 15 minutes along the waterfront or board the 509 or 511 streetcar for a direct connection. BMO Field is also a 10-minute walk from the CN Tower, making this the most walkable World Cup venue in Canada. No car needed.</p><h2>The CN Tower</h2><p>The CN Tower held the record as the world's tallest freestanding structure for over 30 years. The glass floor is worth doing and the EdgeWalk — walking around the outside of the tower's top pod on a hands-free harness — is one of the more memorable experiences in any host city. Book both in advance.</p><h2>Niagara Falls: A Non-Negotiable Day Trip</h2><p>Niagara Falls is 90 minutes from Union Station by GO Train — one of the most straightforward day trips in the tournament. The Canadian side dwarfs the American view, and the Maid of the Mist boat experience is essential. Travel on a non-match morning and you'll have time to return for evening activities in the city.</p><h2>Food and Markets</h2><p>St. Lawrence Market, operating since 1803, is home to the peameal bacon sandwich at Carousel Bakery — a genuine Toronto rite of passage. Kensington Market and adjacent Chinatown are best on Saturdays, with global street food that reflects Toronto's extraordinary cultural diversity. Pai Northern Thai Kitchen serves khao soi that regulars travel across the city for — walk-in only, so arrive early or after the dinner rush.</p><h2>Fan Zones and Where to Stay</h2><p>The Exhibition Place Celebration Zone on the lakefront is the largest fan gathering space in Canada during the tournament. Stay in Harbourfront or King West for a 10 to 15 minute walk to the stadium. Weather is 72–82°F — among the most pleasant in the entire host city lineup. With Canada in the tournament for the first time on home soil, the energy in this city is unlike anything it has experienced before.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Monterrey World Cup 2026: Mountain Backdrops, Cabrito and Mexico's Business Capital",
+  "last_article_title": "Toronto World Cup 2026: Canada's Multicultural City Hosts the National Team",
   "last_commit": "451b5f8d80"
 }
