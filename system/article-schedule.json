@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 13,
-  "last_published": "June 22, 2026",
+  "next_article_index": 14,
+  "last_published": "June 29, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -167,7 +167,7 @@
       "title": "The FIFA World Cup 2026 Knockout Stage: How the Tournament Reaches Its Climax",
       "category": "Tournament Guide",
       "city": "All Cities",
-      "date": "July 13, 2026",
+      "date": "June 29, 2026",
       "readTime": "4 min read",
       "excerpt": "The group stage is finished and the World Cup has entered its decisive knockout rounds — the first time in history that 32 teams compete in an elimination bracket. Here is how the rounds work, which cities host them, and how to get yourself to the matches that matter most.",
       "content": "<h2>A New Format, Higher Stakes</h2><p>After 12 days of group stage football (June 11–26), FIFA World Cup 2026 enters historic territory: a Round of 32, the first in World Cup history. This expanded format means more teams, more upsets, and more chances for fans to attend genuinely decisive matches. Every round from here is win or go home.</p><h2>Round of 32: June 28 – July 3</h2><p>All 16 host cities remain active for the Round of 32, with 32 matches spread across six days. This is the most geographically accessible round of the tournament — if you are based in any host city during this window, a knockout match is within reach. Tickets for less-fancied matchups are often available even close to match day.</p><h2>Round of 16: July 4–8</h2><p>The tournament narrows to eight cities: Dallas, Atlanta, Los Angeles, Seattle, Houston, Boston, Philadelphia, and Kansas City. Sixteen teams remain and the matches regularly feature well-known national sides facing elimination. This round historically produces some of the tournament's most dramatic moments — two-goal comebacks, extra time, penalty shootouts in front of 70,000 fans.</p><h2>Quarter-Finals: July 9–12</h2><p>Four cities host the Quarter-Finals: Dallas, Los Angeles, Seattle, and Miami. The Quarter-Finals are the best round of the World Cup to attend: the field is down to eight elite teams, stakes are maximum, and tickets — while significant — represent better value than the Semi-Finals or Final. If you can attend one knockout match, make it a Quarter-Final.</p><h2>Semi-Finals, Third Place, and the Final</h2><p>The Semi-Finals take place July 14 and 15 at AT&T Stadium in Dallas and MetLife Stadium in New Jersey. The Third Place match follows July 18 in Miami. Then on July 19, MetLife Stadium hosts the FIFA World Cup Final — the largest single sporting event staged in the United States since the 1994 World Cup. Book everything for that week as early as possible.</p><h2>How to Get Knockout Tickets</h2><p>Check the FIFA official ticketing app immediately after each round's results are confirmed — additional allocation tickets appear within 24 hours. On the secondary market, StubHub and SeatGeek are the primary platforms; prices drop when a major nation is eliminated, creating real buying opportunities. For travel between cities, Amtrak handles Boston–New York–Philadelphia efficiently. Delta, United, and Southwest cover all other host city routes with multiple daily flights.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "Toronto World Cup 2026: Canada's Multicultural City Hosts the National Team",
+  "last_article_title": "The FIFA World Cup 2026 Knockout Stage: How the Tournament Reaches Its Climax",
   "last_commit": "451b5f8d80"
 }
