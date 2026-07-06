@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 14,
-  "last_published": "June 29, 2026",
+  "next_article_index": 15,
+  "last_published": "July 6, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -179,7 +179,7 @@
       "title": "FIFA World Cup 2026 — It's Over. Here's What Just Happened.",
       "category": "Recap & Reflection",
       "city": "All Cities",
-      "date": "July 20, 2026",
+      "date": "July 6, 2026",
       "readTime": "4 min read",
       "excerpt": "The final whistle has blown at MetLife Stadium and FIFA World Cup 2026 is history — the first tournament held across three nations, with 48 teams, 104 matches, and an estimated five million international visitors. Here is how to make sense of what just happened.",
       "content": "<h2>The Tournament by Numbers</h2><p>FIFA World Cup 2026 was the largest in the competition's history: 48 teams, 16 host cities across the United States, Canada, and Mexico, 104 total matches over 39 days, and an estimated five million international visitors. The projected direct economic impact is $6 billion across host cities. Sixteen stadiums. Three national anthems on home soil. One winner.</p><h2>What the Tournament Delivered</h2><p>The Round of 32 — the most debated innovation before the tournament — produced genuine drama and multiple upsets that reshaped the bracket in ways no one predicted. The Quarter-Finals were widely considered the best single round of matches in recent World Cup history. The Semi-Finals at Dallas and MetLife drew combined attendances close to 160,000 across two nights. The Final on July 19 at MetLife Stadium was, by any measure, one of the great evenings in the history of sport on American soil.</p><h2>Which Cities Surprised Everyone</h2><p>Every World Cup produces host cities that exceed expectations. The smaller or less obviously football-mad host cities tend to steal the show — fans converge in tighter spaces, communities embrace the tournament more visibly, and stadium atmospheres overperform. In 1994, the surprise cities were the ones nobody expected to become football towns. In 2026, history repeated itself. The post-tournament city rankings will confirm what many fans already sensed on the ground.</p><h2>What Comes Next</h2><p>FIFA World Cup 2030 is confirmed: primary hosting in Morocco, Spain, and Portugal, with centenary celebration matches in Argentina, Uruguay, and Paraguay — four continents, six nations, and the 100th anniversary of the first World Cup. All 16 stadiums from 2026 are transitioning back to primary uses; temporary FIFA infrastructure is being removed over the coming months. The 200,000 jobs created for the tournament are shifting into legacy roles across tourism, hospitality, and transit.</p><h2>Last Call for World Cup Deals</h2><p>This is the window. Hotels near all 16 host cities are seeing immediate rate drops of 30 to 50 percent from World Cup peaks — book now if you want to extend your stay or return in August. Flights are similarly deflated in the two to four weeks following a major event, as booking algorithms overcorrect on demand. The best cities to visit right now while still in peak summer mode: Vancouver, Seattle, and San Francisco — all spectacular in late July, all transformed by World Cup investment. Follow FIFAMap.org as 2030 planning begins.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "The FIFA World Cup 2026 Knockout Stage: How the Tournament Reaches Its Climax",
+  "last_article_title": "FIFA World Cup 2026 — It's Over. Here's What Just Happened.",
   "last_commit": "451b5f8d80"
 }
