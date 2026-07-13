@@ -2,8 +2,8 @@
   "total_articles": 17,
   "schedule_start": "2026-04-13",
   "schedule_end": "2026-08-09",
-  "next_article_index": 15,
-  "last_published": "July 6, 2026",
+  "next_article_index": 16,
+  "last_published": "July 13, 2026",
   "articles": [
     {
       "id": "article-8",
@@ -191,7 +191,7 @@
       "title": "Post-World Cup Summer: The Best Time to Visit FIFA Host Cities (Without the Crowds)",
       "category": "Travel Tips",
       "city": "All Cities",
-      "date": "July 27, 2026",
+      "date": "July 13, 2026",
       "readTime": "4 min read",
       "excerpt": "The World Cup is over, the crowds have dispersed, and the host cities are entering their best travel window of the year — peak summer with no match-day congestion and hotel rates 30 to 50 percent below their tournament peaks. Here is how to take advantage of it right now.",
       "content": "<h2>Why Right Now Is the Best Time</h2><p>The best time to visit a World Cup host city is immediately after the tournament ends. Hotels drop rates aggressively the moment demand disappears — the same algorithms that drove prices to record highs during the World Cup reverse just as sharply. Discounts of 30 to 50 percent off peak rates are standard in the first two to four weeks. Restaurants that required weeks of advance booking now take same-day reservations. The World Cup infrastructure — new transit, renovated parks, improved signage — is all still operational. The crowds are gone. The city is not.</p><h2>Vancouver and Seattle: Peak Summer</h2><p>Vancouver is in its best condition through August — beaches, hiking in Garibaldi Provincial Park, and Whistler under two hours away. Hotel rates have normalized quickly. Seattle is at its finest in August, one of the driest and warmest months in a city better known for rain. The waterfront, Pike Place Market, and easy access to Olympic National Park make it one of the best summer destinations in North America. Both cities received significant World Cup investment and it shows.</p><h2>San Francisco and the Northeast Corridor</h2><p>The San Francisco Bay Area enters wine country harvest season in August — an ideal base for Napa and Sonoma day trips alongside the city's own attractions. In the Northeast, Boston's summer festival calendar runs through August and the harbor sailing scene is excellent. With Amtrak running on its World Cup-enhanced schedule through summer, the Boston–New York–Philadelphia triangle is still the most efficient multi-city trip in the country.</p><h2>Mexico City and Kansas City</h2><p>Mexico City in August means rainy season — afternoon showers, cheaper flights, reduced hotel rates, and the city's extraordinary food and museums without the competition. Kansas City's legendary BBQ joints — the ones with hours-long lines during the World Cup — are finally manageable again. Joe's Kansas City and Q39 are worth a trip on their own merits.</p><h2>What to Book Right Now</h2><p>Booking engines overcorrect on post-event demand forecasts, pushing fares to near off-season lows in the two to four weeks after a major tournament. Book now for late-August travel. Toronto's summer festivals run through August, and Niagara Falls from Toronto is spectacular on a clear summer day. If you want one final World Cup memory, check local city sites — some fan zones may remain operational for a few weeks post-tournament and stadiums are offering post-event tours as they transition back to regular use. There has never been a better or cheaper moment to be in a FIFA host city than right now.</p>",
@@ -210,6 +210,6 @@
       "publish_iso": "2026-08-03"
     }
   ],
-  "last_article_title": "FIFA World Cup 2026 — It's Over. Here's What Just Happened.",
+  "last_article_title": "Post-World Cup Summer: The Best Time to Visit FIFA Host Cities (Without the Crowds)",
   "last_commit": "451b5f8d80"
 }
