@@ -1,11 +1,5 @@
 [
   {
-    "date": "2026-06-01",
-    "crisis": [],
-    "accuracy_updates": [],
-    "status": "clear"
-  },
-  {
     "date": "2026-06-02",
     "crisis": [],
     "accuracy_updates": [],
@@ -535,6 +529,12 @@
   },
   {
     "date": "2026-08-29",
+    "crisis": [],
+    "accuracy_updates": [],
+    "status": "clear"
+  },
+  {
+    "date": "2026-08-30",
     "crisis": [],
     "accuracy_updates": [],
     "status": "clear"
