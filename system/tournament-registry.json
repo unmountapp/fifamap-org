@@ -124,6 +124,9 @@
       "fan zone announced"
     ]
   },
-  "last_platform_check": "2026-07-01",
-  "last_platform_actions": []
+  "last_platform_check": "2026-10-01",
+  "last_platform_actions": [
+    "TOURNAMENT_ENDED: FIFA World Cup 2026 ended 2026-07-19",
+    "RESEARCH_PHASE_ACTIVE: FIFA Women's World Cup 2027 \u2014 host countries: Brazil"
+  ]
 }
