@@ -468,12 +468,13 @@ footer a:hover{text-decoration:underline}
     <a class="nav-link planner-link" onclick="showPage('planner')" data-page="planner" href="javascript:void(0)" id="nav-planner">✨ <span class="nl-planner">Smart Planner</span></a>
     <a class="nav-link" onclick="showPage('blog')" data-page="blog" href="javascript:void(0)" id="nav-blog">📖 <span class="nl-blog">Guides</span></a>
     <a class="nav-link" onclick="showPage('nightlife')" data-page="nightlife" href="javascript:void(0)" id="nav-nightlife">🍺 <span class="nl-nightlife">Nightlife</span></a>
+<a class="nav-link" onclick="showPage('archive')" data-page="archive" href="javascript:void(0)" id="nav-archive">📁 <span>Archive</span></a>
 <a class="nav-link" onclick="showPage('advertise')" data-page="advertise" href="javascript:void(0)" id="nav-advertise">📢 <span class="nl-advertise">Advertise</span></a>
   </div>
   <div class="nav-right">
     <!-- City dropdown -->
     <div class="dropdown" id="cityDropdown">
-      <button class="nav-btn" id="cityBtnLabel" onclick="toggleDropdown('cityDropdown')">🌴 <span id="cityBtnName">Los Angeles</span> ▾</button>
+      <button class="nav-btn" id="cityBtnLabel" onclick="toggleDropdown('cityDropdown')">🕌 <span id="cityBtnName">Rabat</span> ▾</button>
       <div class="dropdown-menu" id="cityDropMenu" style="max-height:350px;overflow-y:auto;min-width:220px"></div>
     </div>
     <!-- Language dropdown -->
@@ -512,7 +513,7 @@ footer a:hover{text-decoration:underline}
 
   <div class="hero-btns">
     <a href="#" onclick="showPage('tournaments')" class="btn btn-primary" id="cta1">🌍 Tournament Hub</a>
-    <a href="#" onclick="showPage('cities')" class="btn btn-outline" id="cta2">🏟️ WC 2026 Archive</a>
+    <a href="#" onclick="showPage('cities')" class="btn btn-outline" id="cta2">🏟️ Explore Host Cities</a>
   </div>
 </div>
 </div>
@@ -536,8 +537,8 @@ footer a:hover{text-decoration:underline}
 <div class="city-bar">
   <div class="city-bar-top">
     <div>
-      <div class="city-current" id="cur-city-name">🌴 Los Angeles <span style="font-size:.75rem;font-weight:400;color:var(--muted)">🇺🇸</span></div>
-      <div class="city-sub" id="cur-city-sub">SoFi Stadium · 8 matches · 72–85·F sunny</div>
+      <div class="city-current" id="cur-city-name">🕌 Rabat <span style="font-size:.75rem;font-weight:400;color:var(--muted)">🇲🇦</span></div>
+      <div class="city-sub" id="cur-city-sub">Moulay El Hassan Stadium · 24 matches · 68–77°F pleasant</div>
     </div>
     <a href="#" onclick="showPage('cities')" class="sec-link" id="change-city-link">Change city →</a>
   </div>
@@ -610,6 +611,34 @@ footer a:hover{text-decoration:underline}
   <!-- Timeline view -->
   <h2 style="font-size:1.1rem;font-weight:800;margin-top:2.5rem;margin-bottom:.5rem">📅 FIFA World Cup Timeline</h2>
   <div id="tournamentTimeline" class="tournament-timeline"></div>
+</div>
+</div>
+
+<!-- ============ ARCHIVE PAGE ============ -->
+<div id="page-archive" class="page-section">
+<div class="container section">
+  <h1 class="sec-title" style="font-size:1.5rem;margin-bottom:.4rem">📁 Tournament Archive</h1>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.5rem">Explore past FIFA World Cup host cities, matches, and travel guides.</p>
+
+  <!-- WC2026 Archive Card -->
+  <div style="background:var(--navy2);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem">
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem">
+      <span style="font-size:2rem">⚽</span>
+      <div>
+        <div style="font-size:1.1rem;font-weight:800">FIFA World Cup 2026™</div>
+        <div style="font-size:.82rem;color:var(--muted)">🇺🇸🇨🇦🇲🇽 USA, Canada & Mexico · 16 cities · 48 teams · 104 matches</div>
+        <div style="font-size:.75rem;color:var(--muted)">June 11 – July 19, 2026 · Completed</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <button class="btn btn-primary" style="font-size:.82rem" onclick="renderCities('wc2026');showPage('cities')">🌍 View 16 Host Cities</button>
+      <button class="btn btn-outline" style="font-size:.82rem" onclick="showPage('blog')">📖 Travel Guides</button>
+    </div>
+  </div>
+
+  <!-- Archive Cities Grid -->
+  <h2 style="font-size:1rem;font-weight:700;margin-bottom:.75rem">WC2026 Host Cities</h2>
+  <div id="archive-cities-grid" class="cities-cards"></div>
 </div>
 </div>
 
@@ -877,7 +906,7 @@ footer a:hover{text-decoration:underline}
 <div class="container">
   <p>FIFAMap.org — Your home for every FIFA World Cup · Past · Present · Future</p>
   <p style="margin-top:.3rem;font-size:.68rem">FIFAMap.org is an independent fan planning resource. </p>
-  <div class="footer-links"><a href="#" onclick="showPage('cities')">Host Cities</a><a href="#" onclick="showPage('planner')">Smart Planner</a><a href="#" onclick="showPage('nightlife')">Watch Parties</a><a href="#" onclick="showPage('blog')">Travel Guides</a><a href="#" onclick="showPage('advertise')">Advertise</a><a href="mailto:customercareblackaiser@gmail.com">Partnerships</a><a href="https://fifa.com" target="_blank" rel="noopener">Official FIFA Site</a></div>
+  <div class="footer-links"><a href="#" onclick="showPage('cities')">Host Cities</a><a href="#" onclick="showPage('planner')">Smart Planner</a><a href="#" onclick="showPage('nightlife')">Watch Parties</a><a href="#" onclick="showPage('blog')">Travel Guides</a><a href="#" onclick="showPage('archive')">Archive</a><a href="#" onclick="showPage('advertise')">Advertise</a><a href="mailto:customercareblackaiser@gmail.com">Partnerships</a><a href="https://fifa.com" target="_blank" rel="noopener">Official FIFA Site</a></div>
 </div>
 </footer>
 
@@ -896,11 +925,11 @@ const TOURNAMENTS=[
    hasLocalData:true},
   // LIVE NOW
   {id:"u17wwc2026",name:"FIFA U-17 Women's World Cup 2026™",shortName:"U-17 Women's WC",category:"U-17 Women",status:"live",
-   host:"Morocco",hostFlag:"🇲🇦",cities:1,teams:16,matches:32,
+   host:"Morocco",hostFlag:"🇲🇦",cities:2,teams:24,matches:32,
    startDate:"2026-10-17",endDate:"2026-11-07",
    logo:"⚽",color:"#22c55e",
-   desc:"16 nations compete in Rabat, Morocco for the U-17 women's crown.",
-   venueCity:"Rabat",hasLocalData:false},
+   desc:"24 nations compete in Rabat & Salé, Morocco for the U-17 women's crown.",
+   venueCity:"Rabat",hasLocalData:true},
   // UPCOMING
   {id:"u17wc2026",name:"FIFA U-17 World Cup 2026™",shortName:"U-17 World Cup",category:"U-17 Men",status:"upcoming",
    host:"Qatar",hostFlag:"🇶🇦",cities:3,teams:48,matches:52,
@@ -955,7 +984,7 @@ function getFutureTournaments(){return TOURNAMENTS.filter(t=>t.status==='upcomin
    DATA — 16 CITIES (World Cup 2026 Archive)
 =================================================== */
 const CITIES=[
-{id:"los-angeles",name:"Los Angeles",country:"USA",flag:"🇺🇸",emoji:"🌴",stadium:"SoFi Stadium",addr:"1001 Stadium Dr, Inglewood, CA 90301",capacity:"70,240",matchCount:8,weather:"72–85·F sunny",tz:"PT (UTC-7)",highlights:"Beaches, Hollywood, world-class dining, perfect weather",
+{id:"los-angeles",tournamentId:"wc2026",name:"Los Angeles",country:"USA",flag:"🇺🇸",emoji:"🌴",stadium:"SoFi Stadium",addr:"1001 Stadium Dr, Inglewood, CA 90301",capacity:"70,240",matchCount:8,weather:"72–85·F sunny",tz:"PT (UTC-7)",highlights:"Beaches, Hollywood, world-class dining, perfect weather",
 matches:[
   {id:4,date:"Fri, Jun 12",time:"6:00 PM PT",home:"USA",hf:"🇺🇸",away:"Paraguay",af:"🇵🇾",stage:"Group D",usmnt:true},
   {id:15,date:"Mon, Jun 15",time:"6:00 PM PT",home:"Iran",hf:"🇮🇷",away:"New Zealand",af:"🇳🇿",stage:"Group G"},
@@ -999,7 +1028,7 @@ neighborhoods:[
   {name:"Santa Monica",vibe:"Beach, upscale, relaxed",hotel:"Fairmont Miramar, Shutters on Beach",dist:"40–50 min via Metro"}
 ]
 },
-{id:"new-york",name:"New York / NJ",country:"USA",flag:"🇺🇸",emoji:"🗽",stadium:"MetLife Stadium",addr:"1 MetLife Stadium Dr, East Rutherford, NJ",capacity:"82,500",matchCount:9,weather:"75–88·F, humid",tz:"ET (UTC-4)",highlights:"The FINAL, world's greatest city, diverse cuisine, iconic skyline",
+{id:"new-york",tournamentId:"wc2026",name:"New York / NJ",country:"USA",flag:"🇺🇸",emoji:"🗽",stadium:"MetLife Stadium",addr:"1 MetLife Stadium Dr, East Rutherford, NJ",capacity:"82,500",matchCount:9,weather:"75–88·F, humid",tz:"ET (UTC-4)",highlights:"The FINAL, world's greatest city, diverse cuisine, iconic skyline",
 matches:[
   {id:7,date:"Sat, Jun 13",time:"6:00 PM ET",home:"Brazil",hf:"🇧🇷",away:"Morocco",af:"🇲🇦",stage:"Group C"},
   {id:17,date:"Tue, Jun 16",time:"3:00 PM ET",home:"France",hf:"🇫🇷",away:"Senegal",af:"🇸🇳",stage:"Group I"},
@@ -1026,7 +1055,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Midtown Manhattan",vibe:"Center of everything",hotel:"Times Square hotels, Marriott Marquis",dist:"30–40 min via NJ Transit"},{name:"Hoboken / Jersey City",vibe:"Closest to MetLife, great NYC views",hotel:"W Hoboken, Westin Jersey City",dist:"15–20 min via shuttle"}]
 },
-{id:"dallas",name:"Dallas",country:"USA",flag:"🇺🇸",emoji:"🤠",stadium:"AT&T Stadium",addr:"1 AT&T Way, Arlington, TX 76011",capacity:"94,000",matchCount:9,weather:"88–96·F hot & sunny",tz:"CT (UTC-5)",highlights:"Most matches of any city, BBQ capital, biggest stadium in the world",seatsunUrl:"https://seatsun.com/stadiums/att?utm_source=fifamap&utm_medium=referral",
+{id:"dallas",tournamentId:"wc2026",name:"Dallas",country:"USA",flag:"🇺🇸",emoji:"🤠",stadium:"AT&T Stadium",addr:"1 AT&T Way, Arlington, TX 76011",capacity:"94,000",matchCount:9,weather:"88–96·F hot & sunny",tz:"CT (UTC-5)",highlights:"Most matches of any city, BBQ capital, biggest stadium in the world",seatsunUrl:"https://seatsun.com/stadiums/att?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:11,date:"Sun, Jun 14",time:"4:00 PM CT",home:"Netherlands",hf:"🇳🇱",away:"Japan",af:"🇯🇵",stage:"Group F"},
   {id:22,date:"Tue, Jun 17",time:"4:00 PM CT",home:"England",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",away:"Croatia",af:"🇭🇷",stage:"Group L"},
@@ -1052,7 +1081,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Uptown Dallas",vibe:"Walkable, bars, restaurants",hotel:"W Dallas, The Crescent Court",dist:"20–30 min via rideshare"},{name:"Arlington (Near Stadium)",vibe:"Closest, sports district",hotel:"Loews Arlington, Sheraton",dist:"5–15 min walk"}]
 },
-{id:"miami",name:"Miami",country:"USA",flag:"🇺🇸",emoji:"🌊",stadium:"Hard Rock Stadium",addr:"347 Don Shula Dr, Miami Gardens, FL",capacity:"65,000",matchCount:6,weather:"87–92·F, humid",tz:"ET (UTC-4)",highlights:"Beach party culture, Latin energy, vibrant nightlife, Cuban food",seatsunUrl:"https://seatsun.com/stadiums/hard-rock?utm_source=fifamap&utm_medium=referral",
+{id:"miami",tournamentId:"wc2026",name:"Miami",country:"USA",flag:"🇺🇸",emoji:"🌊",stadium:"Hard Rock Stadium",addr:"347 Don Shula Dr, Miami Gardens, FL",capacity:"65,000",matchCount:6,weather:"87–92·F, humid",tz:"ET (UTC-4)",highlights:"Beach party culture, Latin energy, vibrant nightlife, Cuban food",seatsunUrl:"https://seatsun.com/stadiums/hard-rock?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:13,date:"Mon, Jun 15",time:"6:00 PM ET",home:"Saudi Arabia",hf:"🇸🇦",away:"Uruguay",af:"🇺🇾",stage:"Group H"},
   {id:49,date:"Wed, Jun 24",time:"6:00 PM ET",home:"Scotland",hf:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",away:"Brazil",af:"🇧🇷",stage:"Group C"},
@@ -1074,7 +1103,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"South Beach",vibe:"Party, beach, Art Deco",hotel:"Fontainebleau, 1 Hotel South Beach",dist:"25–35 min via Metrorail"},{name:"Brickell / Downtown",vibe:"Financial district, walkable",hotel:"InterContinental, EAST Miami",dist:"20–30 min via Metrorail"}]
 },
-{id:"atlanta",name:"Atlanta",country:"USA",flag:"🇺🇸",emoji:"🍑",stadium:"Mercedes-Benz Stadium",addr:"1 AMB Dr NW, Atlanta, GA 30313",capacity:"75,000",matchCount:6,weather:"85–92·F, warm",tz:"ET (UTC-4)",highlights:"MLK birthplace, thriving food scene, Coca-Cola, Georgia Aquarium",seatsunUrl:"https://seatsun.com/stadiums/mercedes-benz?utm_source=fifamap&utm_medium=referral",
+{id:"atlanta",tournamentId:"wc2026",name:"Atlanta",country:"USA",flag:"🇺🇸",emoji:"🍑",stadium:"Mercedes-Benz Stadium",addr:"1 AMB Dr NW, Atlanta, GA 30313",capacity:"75,000",matchCount:6,weather:"85–92·F, warm",tz:"ET (UTC-4)",highlights:"MLK birthplace, thriving food scene, Coca-Cola, Georgia Aquarium",seatsunUrl:"https://seatsun.com/stadiums/mercedes-benz?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:14,date:"Mon, Jun 15",time:"2:00 PM ET",home:"Spain",hf:"🇪🇸",away:"Cape Verde",af:"🇨🇻",stage:"Group H"},
   {id:38,date:"Sun, Jun 21",time:"12:00 PM ET",home:"Spain",hf:"🇪🇸",away:"Saudi Arabia",af:"🇸🇦",stage:"Group H"},
@@ -1095,7 +1124,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Midtown / Downtown",vibe:"Walkable, hotels, food",hotel:"W Atlanta, Loews Atlanta",dist:"20–30 min via MARTA"},{name:"Buckhead",vibe:"Upscale, great dining",hotel:"Four Seasons, InterContinental",dist:"30–40 min via MARTA"}]
 },
-{id:"san-francisco",name:"San Francisco",country:"USA",flag:"🇺🇸",emoji:"🌁",stadium:"Levi's Stadium",addr:"4900 Marie P DeBartolo Way, Santa Clara, CA",capacity:"69,391",matchCount:6,weather:"65–75·F, foggy mornings",tz:"PT (UTC-7)",highlights:"Golden Gate, tech culture, incredible food, wine country nearby",
+{id:"san-francisco",tournamentId:"wc2026",name:"San Francisco",country:"USA",flag:"🇺🇸",emoji:"🌁",stadium:"Levi's Stadium",addr:"4900 Marie P DeBartolo Way, Santa Clara, CA",capacity:"69,391",matchCount:6,weather:"65–75·F, foggy mornings",tz:"PT (UTC-7)",highlights:"Golden Gate, tech culture, incredible food, wine country nearby",
 matches:[
   {id:8,date:"Sat, Jun 13",time:"12:00 PM PT",home:"Qatar",hf:"🇶🇦",away:"Switzerland",af:"🇨🇭",stage:"Group B"},
   {id:20,date:"Mon, Jun 16",time:"9:00 PM PT",home:"Austria",hf:"🇦🇹",away:"Jordan",af:"🇯🇴",stage:"Group J"},
@@ -1116,7 +1145,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Downtown SF",vibe:"Central, hotels, shopping",hotel:"Marriott Marquis SF, Westin St. Francis",dist:"35–45 min via Caltrain"},{name:"Santa Clara (Near Stadium)",vibe:"Tech hub, closest",hotel:"Marriott Santa Clara, Hyatt Centric",dist:"10–20 min via shuttle"}]
 },
-{id:"seattle",name:"Seattle",country:"USA",flag:"🇺🇸",emoji:"☕",stadium:"Lumen Field",addr:"800 Occidental Ave S, Seattle, WA 98134",capacity:"65,123",matchCount:6,weather:"65–75·F, mild",tz:"PT (UTC-7)",highlights:"Coffee capital, Pike Place Market, Space Needle, most walkable stadium",
+{id:"seattle",tournamentId:"wc2026",name:"Seattle",country:"USA",flag:"🇺🇸",emoji:"☕",stadium:"Lumen Field",addr:"800 Occidental Ave S, Seattle, WA 98134",capacity:"65,123",matchCount:6,weather:"65–75·F, mild",tz:"PT (UTC-7)",highlights:"Coffee capital, Pike Place Market, Space Needle, most walkable stadium",
 matches:[
   {id:16,date:"Mon, Jun 15",time:"3:00 PM PT",home:"Belgium",hf:"🇧🇪",away:"Egypt",af:"🇪🇬",stage:"Group G"},
   {id:32,date:"Fri, Jun 19",time:"12:00 PM PT",home:"USA",hf:"🇺🇸",away:"Australia",af:"🇦🇺",stage:"Group D",usmnt:true},
@@ -1139,7 +1168,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Downtown / Pike Place",vibe:"Walking distance to Lumen",hotel:"Fairmont Olympic, Hyatt Regency",dist:"10–20 min walk"},{name:"Capitol Hill",vibe:"Vibrant, food, nightlife",hotel:"Loews Seattle, Inn at Market",dist:"15–20 min via Light Rail"}]
 },
-{id:"houston",name:"Houston",country:"USA",flag:"🇺🇸",emoji:"🚀",stadium:"NRG Stadium",addr:"NRG Pkwy, Houston, TX 77054",capacity:"68,311",matchCount:5,weather:"90–97·F, very humid",tz:"CT (UTC-5)",highlights:"Space Center NASA, most diverse city in America, incredible food scene",seatsunUrl:"https://seatsun.com/stadiums/nrg?utm_source=fifamap&utm_medium=referral",
+{id:"houston",tournamentId:"wc2026",name:"Houston",country:"USA",flag:"🇺🇸",emoji:"🚀",stadium:"NRG Stadium",addr:"NRG Pkwy, Houston, TX 77054",capacity:"68,311",matchCount:5,weather:"90–97·F, very humid",tz:"CT (UTC-5)",highlights:"Space Center NASA, most diverse city in America, incredible food scene",seatsunUrl:"https://seatsun.com/stadiums/nrg?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:10,date:"Sun, Jun 14",time:"1:00 PM CT",home:"Germany",hf:"🇩🇪",away:"Cura·ao",af:"🏝️",stage:"Group E"},
   {id:23,date:"Tue, Jun 17",time:"1:00 PM CT",home:"Portugal",hf:"🇵🇹",away:"IC Winner 1",af:"⚽",stage:"Group K"},
@@ -1154,7 +1183,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Downtown Houston",vibe:"Central, business district",hotel:"Post Oak Hotel, Marriott Marquis",dist:"20–30 min via METRORail"}]
 },
-{id:"boston",name:"Boston",country:"USA",flag:"🇺🇸",emoji:"🦞",stadium:"Gillette Stadium",addr:"1 Patriot Pl, Foxborough, MA 02035",capacity:"65,000",matchCount:5,weather:"70–82·F, pleasant",tz:"ET (UTC-4)",highlights:"America's most historic city, seafood paradise, Freedom Trail, college energy",
+{id:"boston",tournamentId:"wc2026",name:"Boston",country:"USA",flag:"🇺🇸",emoji:"🦞",stadium:"Gillette Stadium",addr:"1 Patriot Pl, Foxborough, MA 02035",capacity:"65,000",matchCount:5,weather:"70–82·F, pleasant",tz:"ET (UTC-4)",highlights:"America's most historic city, seafood paradise, Freedom Trail, college energy",
 matches:[
   {id:5,date:"Sat, Jun 13",time:"9:00 PM ET",home:"Haiti",hf:"🇭🇹",away:"Scotland",af:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",stage:"Group C"},
   {id:45,date:"Tue, Jun 23",time:"4:00 PM ET",home:"England",hf:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",away:"Ghana",af:"🇬🇭",stage:"Group L"},
@@ -1169,7 +1198,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Back Bay / Copley",vibe:"Central, shopping, Newbury St",hotel:"Fairmont Copley, Marriott Copley",dist:"35–45 min via commuter rail"}]
 },
-{id:"philadelphia",name:"Philadelphia",country:"USA",flag:"🇺🇸",emoji:"🔔",stadium:"Lincoln Financial Field",addr:"1 Lincoln Financial Field Way, Philadelphia, PA",capacity:"65,827",matchCount:6,weather:"78–87·F",tz:"ET (UTC-4)",highlights:"Independence Hall, Rocky steps, incredible cheesesteaks, art museums",
+{id:"philadelphia",tournamentId:"wc2026",name:"Philadelphia",country:"USA",flag:"🇺🇸",emoji:"🔔",stadium:"Lincoln Financial Field",addr:"1 Lincoln Financial Field Way, Philadelphia, PA",capacity:"65,827",matchCount:6,weather:"78–87·F",tz:"ET (UTC-4)",highlights:"Independence Hall, Rocky steps, incredible cheesesteaks, art museums",
 matches:[
   {id:9,date:"Sun, Jun 14",time:"7:00 PM ET",home:"Ivory Coast",hf:"🇨🇮",away:"Ecuador",af:"🇪🇨",stage:"Group E"},
   {id:29,date:"Fri, Jun 19",time:"9:00 PM ET",home:"Brazil",hf:"🇧🇷",away:"Haiti",af:"🇭🇹",stage:"Group C"},
@@ -1184,7 +1213,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Center City / Rittenhouse",vibe:"Walkable, parks, dining",hotel:"Four Seasons Philly, Loews Philly",dist:"20–30 min via SEPTA"}]
 },
-{id:"kansas-city",name:"Kansas City",country:"USA",flag:"🇺🇸",emoji:"🎷",stadium:"Arrowhead Stadium",addr:"1 Arrowhead Dr, Kansas City, MO 64129",capacity:"73,000",matchCount:5,weather:"87–95·F",tz:"CT (UTC-5)",highlights:"BBQ capital of the world, jazz heritage, Chiefs stadium, surprise gem city",seatsunUrl:"https://seatsun.com/stadiums/arrowhead?utm_source=fifamap&utm_medium=referral",
+{id:"kansas-city",tournamentId:"wc2026",name:"Kansas City",country:"USA",flag:"🇺🇸",emoji:"🎷",stadium:"Arrowhead Stadium",addr:"1 Arrowhead Dr, Kansas City, MO 64129",capacity:"73,000",matchCount:5,weather:"87–95·F",tz:"CT (UTC-5)",highlights:"BBQ capital of the world, jazz heritage, Chiefs stadium, surprise gem city",seatsunUrl:"https://seatsun.com/stadiums/arrowhead?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:19,date:"Tue, Jun 16",time:"8:00 PM CT",home:"Argentina",hf:"🇦🇷",away:"Algeria",af:"🇩🇿",stage:"Group J"},
   {id:58,date:"Thu, Jun 25",time:"7:00 PM CT",home:"Tunisia",hf:"🇹🇳",away:"Netherlands",af:"🇳🇱",stage:"Group F"},
@@ -1199,7 +1228,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Country Club Plaza",vibe:"Upscale, beautiful, walkable",hotel:"InterContinental KC, Raphael Hotel",dist:"20 min via shuttle"}]
 },
-{id:"mexico-city",name:"Mexico City",country:"Mexico",flag:"🇲🇽",emoji:"🌮",stadium:"Estadio Azteca",addr:"Calzada de Tlalpan 3465, Mexico City",capacity:"83,000",matchCount:5,weather:"60–75·F, mild (high altitude)",tz:"CT (UTC-5)",highlights:"Tournament OPENER, most iconic stadium in World Cup history, incredible culture",
+{id:"mexico-city",tournamentId:"wc2026",name:"Mexico City",country:"Mexico",flag:"🇲🇽",emoji:"🌮",stadium:"Estadio Azteca",addr:"Calzada de Tlalpan 3465, Mexico City",capacity:"83,000",matchCount:5,weather:"60–75·F, mild (high altitude)",tz:"CT (UTC-5)",highlights:"Tournament OPENER, most iconic stadium in World Cup history, incredible culture",
 matches:[
   {id:1,date:"Thu, Jun 11",time:"3:00 PM CT",home:"Mexico",hf:"🇲🇽",away:"South Africa",af:"🇿🇦",stage:"TOURNAMENT OPENER — Group A",host:true},
   {id:53,date:"Wed, Jun 24",time:"9:00 PM CT",home:"UEFA Win D",hf:"🇪🇺",away:"Mexico",af:"🇲🇽",stage:"Group A",host:true},
@@ -1222,7 +1251,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Polanco",vibe:"Upscale, restaurants, safe",hotel:"Four Seasons CDMX, Camino Real",dist:"20–30 min via Metro"},{name:"Roma Norte / Condesa",vibe:"Hip, trees, cafes, nightlife",hotel:"Condesa DF, Red Tree House",dist:"25–35 min via Metro"}]
 },
-{id:"guadalajara",name:"Guadalajara",country:"Mexico",flag:"🇲🇽",emoji:"🎺",stadium:"Estadio Akron",addr:"Av. de las Rosas, Zapopan, Jalisco, Mexico",capacity:"48,000",matchCount:5,weather:"75–85·F, pleasant",tz:"CT (UTC-5)",highlights:"Birthplace of mariachi & tequila, colonial architecture, vibrant culture",seatsunUrl:"https://seatsun.com/stadiums/akron?utm_source=fifamap&utm_medium=referral",
+{id:"guadalajara",tournamentId:"wc2026",name:"Guadalajara",country:"Mexico",flag:"🇲🇽",emoji:"🎺",stadium:"Estadio Akron",addr:"Av. de las Rosas, Zapopan, Jalisco, Mexico",capacity:"48,000",matchCount:5,weather:"75–85·F, pleasant",tz:"CT (UTC-5)",highlights:"Birthplace of mariachi & tequila, colonial architecture, vibrant culture",seatsunUrl:"https://seatsun.com/stadiums/akron?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:28,date:"Thu, Jun 18",time:"9:00 PM CT",home:"Mexico",hf:"🇲🇽",away:"South Korea",af:"🇰🇷",stage:"Group A",host:true},
   {id:66,date:"Fri, Jun 26",time:"8:00 PM CT",home:"Uruguay",hf:"🇺🇾",away:"Spain",af:"🇪🇸",stage:"Group H"},
@@ -1234,7 +1263,7 @@ transport:[{mode:"Uber / Cabify",icon:"🚗",badge:"Easy",badgeColor:"blue",cost
 fanZones:[{name:"Parque Ávila Camacho",area:"Guadalajara Center",dates:"All matches"}],
 neighborhoods:[{name:"Historic Center",vibe:"Colonial, cultural, walkable",hotel:"Hotel Demetria, One Guadalajara Centro",dist:"20–30 min"},{name:"Zapopan (Near Stadium)",vibe:"Suburban, modern, safe",hotel:"Marriott Guadalajara, Hilton Garden Inn",dist:"10 min"}]
 },
-{id:"monterrey",name:"Monterrey",country:"Mexico",flag:"🇲🇽",emoji:"⛰️",stadium:"Estadio BBVA",addr:"Av. Pablo Livas 2011, Guadalupe, Nuevo Le·n",capacity:"53,500",matchCount:5,weather:"88–96·F hot, dry",tz:"CT (UTC-5)",highlights:"Stunning mountain backdrop, Mexico's business capital, incredible cabrito",seatsunUrl:"https://seatsun.com/stadiums/bbva?utm_source=fifamap&utm_medium=referral",
+{id:"monterrey",tournamentId:"wc2026",name:"Monterrey",country:"Mexico",flag:"🇲🇽",emoji:"⛰️",stadium:"Estadio BBVA",addr:"Av. Pablo Livas 2011, Guadalupe, Nuevo Le·n",capacity:"53,500",matchCount:5,weather:"88–96·F hot, dry",tz:"CT (UTC-5)",highlights:"Stunning mountain backdrop, Mexico's business capital, incredible cabrito",seatsunUrl:"https://seatsun.com/stadiums/bbva?utm_source=fifamap&utm_medium=referral",
 matches:[
   {id:12,date:"Sun, Jun 14",time:"10:00 PM CT",home:"UEFA Win B",hf:"🇪🇺",away:"Tunisia",af:"🇹🇳",stage:"Group F"},
   {id:36,date:"Sat, Jun 20",time:"10:00 PM CT",home:"Tunisia",hf:"🇹🇳",away:"Japan",af:"🇯🇵",stage:"Group F"},
@@ -1249,7 +1278,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"San Pedro Garza Garc·a",vibe:"Upscale, international, safe",hotel:"Fiesta Americana, Camino Real",dist:"20–25 min"},{name:"Centro / Barrio Antiguo",vibe:"Historic, nightlife",hotel:"Krystal Monterrey, Holiday Inn Centro",dist:"25–35 min"}]
 },
-{id:"toronto",name:"Toronto",country:"Canada",flag:"🇨🇦",emoji:"🍁",stadium:"BMO Field",addr:"170 Princes' Blvd, Toronto, ON M6K 3C3",capacity:"44,315",matchCount:6,weather:"72–82·F, pleasant",tz:"ET (UTC-4)",highlights:"Canada's opener, most multicultural city on Earth, Niagara Falls nearby, CN Tower walk",
+{id:"toronto",tournamentId:"wc2026",name:"Toronto",country:"Canada",flag:"🇨🇦",emoji:"🍁",stadium:"BMO Field",addr:"170 Princes' Blvd, Toronto, ON M6K 3C3",capacity:"44,315",matchCount:6,weather:"72–82·F, pleasant",tz:"ET (UTC-4)",highlights:"Canada's opener, most multicultural city on Earth, Niagara Falls nearby, CN Tower walk",
 matches:[
   {id:3,date:"Fri, Jun 12",time:"3:00 PM ET",home:"Canada",hf:"🇨🇦",away:"UEFA Win A",af:"🇪🇺",stage:"Group B — Canada Opener",host:true},
   {id:21,date:"Tue, Jun 17",time:"4:00 PM ET",home:"Ghana",hf:"🇬🇭",away:"Panama",af:"🇵🇦",stage:"Group L"},
@@ -1271,7 +1300,7 @@ fanZones:[
 ],
 neighborhoods:[{name:"Downtown / King West",vibe:"Walkable to stadium, vibrant",hotel:"Shangri-La Toronto, Thompson",dist:"15–20 min walk"},{name:"Harbourfront",vibe:"Closest to BMO Field",hotel:"Radisson Blu, Westin Harbour Castle",dist:"10–15 min walk"}]
 },
-{id:"vancouver",name:"Vancouver",country:"Canada",flag:"🇨🇦",emoji:"🏔️",stadium:"BC Place",addr:"777 Pacific Blvd, Vancouver, BC V6B 4Y8",capacity:"54,500",matchCount:7,weather:"65–75·F, mild",tz:"PT (UTC-7)",highlights:"Most scenic setting, mountains + ocean, outdoor paradise, multicultural food scene",
+{id:"vancouver",tournamentId:"wc2026",name:"Vancouver",country:"Canada",flag:"🇨🇦",emoji:"🏔️",stadium:"BC Place",addr:"777 Pacific Blvd, Vancouver, BC V6B 4Y8",capacity:"54,500",matchCount:7,weather:"65–75·F, mild",tz:"PT (UTC-7)",highlights:"Most scenic setting, mountains + ocean, outdoor paradise, multicultural food scene",
 matches:[
   {id:6,date:"Sat, Jun 13",time:"9:00 PM PT",home:"Australia",hf:"🇦🇺",away:"UEFA Win C",af:"🇪🇺",stage:"Group D"},
   {id:27,date:"Thu, Jun 18",time:"3:00 PM PT",home:"Canada",hf:"🇨🇦",away:"Qatar",af:"🇶🇦",stage:"Group B",host:true},
@@ -1293,8 +1322,71 @@ fanZones:[
   {name:"Neighbourhood Fan Zones (TBC)",area:"Greater Vancouver",dates:"Match days"}
 ],
 neighborhoods:[{name:"Downtown / Yaletown",vibe:"Walking distance to BC Place",hotel:"Fairmont Pacific Rim, JW Marriott Parq",dist:"5–15 min walk"},{name:"Gastown / Chinatown",vibe:"Historic, food, artsy",hotel:"L'Hermitage, Skwach·ys Lodge",dist:"10–20 min walk"}]
+},
+/* U-17 Women's World Cup 2026 — Morocco */
+{id:"rabat",tournamentId:"u17wwc2026",name:"Rabat",country:"Morocco",flag:"🇲🇦",emoji:"🕌",stadium:"Moulay El Hassan Stadium",addr:"Nahda District, Rabat, Morocco",capacity:"22,000",matchCount:24,weather:"68–77°F pleasant",tz:"GMT+1",highlights:"Capital city, UNESCO medina, Atlantic coastline, gateway to Morocco",
+matches:[
+  {id:1,date:"Fri, Oct 17",time:"5:00 PM GMT+1",home:"Morocco",hf:"🇲🇦",away:"New Zealand",af:"🇳🇿",stage:"Group A (Opening Match)",host:true},
+  {id:2,date:"Fri, Oct 17",time:"8:00 PM GMT+1",home:"Germany",hf:"🇩🇪",away:"Argentina",af:"🇦🇷",stage:"Group A"},
+  {id:3,date:"Sat, Oct 18",time:"2:00 PM GMT+1",home:"North Korea",hf:"🇰🇵",away:"Puerto Rico",af:"🇵🇷",stage:"Group B"},
+  {id:4,date:"Sat, Oct 18",time:"5:00 PM GMT+1",home:"Poland",hf:"🇵🇱",away:"Nigeria",af:"🇳🇬",stage:"Group B"},
+  {id:5,date:"Sat, Oct 18",time:"8:00 PM GMT+1",home:"Brazil",hf:"🇧🇷",away:"Canada",af:"🇨🇦",stage:"Group C"},
+  {id:6,date:"Sun, Oct 19",time:"2:00 PM GMT+1",home:"Norway",hf:"🇳🇴",away:"Ghana",af:"🇬🇭",stage:"Group C"},
+  {id:7,date:"Sun, Oct 19",time:"5:00 PM GMT+1",home:"Japan",hf:"🇯🇵",away:"Zambia",af:"🇿🇲",stage:"Group D"},
+  {id:8,date:"Sun, Oct 19",time:"8:00 PM GMT+1",home:"France",hf:"🇫🇷",away:"Venezuela",af:"🇻🇪",stage:"Group D"},
+  {id:9,date:"Mon, Oct 20",time:"5:00 PM GMT+1",home:"USA",hf:"🇺🇸",away:"Kenya",af:"🇰🇪",stage:"Group E"},
+  {id:10,date:"Mon, Oct 20",time:"8:00 PM GMT+1",home:"China",hf:"🇨🇳",away:"Samoa",af:"🇼🇸",stage:"Group E"},
+  {id:11,date:"Tue, Oct 21",time:"5:00 PM GMT+1",home:"Spain",hf:"🇪🇸",away:"Chile",af:"🇨🇱",stage:"Group F"},
+  {id:12,date:"Tue, Oct 21",time:"8:00 PM GMT+1",home:"Mexico",hf:"🇲🇽",away:"Australia",af:"🇦🇺",stage:"Group F"}
+],
+attractions:[
+  {name:"Kasbah of the Udayas",category:"History",icon:"🏛️",desc:"12th-century fortified kasbah overlooking the Atlantic — whitewashed streets and Andalusian gardens.",duration:"2–3 hrs",distance:"2 mi",tip:"Go at sunset for stunning ocean views from the ramparts.",tags:["History","UNESCO"]},
+  {name:"Hassan Tower & Mausoleum",category:"Landmark",icon:"🕌",desc:"Iconic 12th-century minaret and the stunning Mausoleum of Mohammed V with intricate tilework.",duration:"1–2 hrs",distance:"1.5 mi",tip:"Free entry to the mausoleum. Dress modestly (knees and shoulders covered).",tags:["Landmark","Free"]},
+  {name:"Chellah Necropolis",category:"History",icon:"🏛️",desc:"Roman-era ruins and medieval necropolis with lush gardens — one of Rabat's hidden gems.",duration:"1–2 hrs",distance:"2 mi",tip:"Visit in the afternoon when storks nest on the ancient columns.",tags:["History","Nature"]},
+  {name:"Rabat Medina",category:"Culture",icon:"🛍️",desc:"Authentic walled medina with traditional crafts, spices, and carpets — less hectic than Marrakech or Fez.",duration:"2–3 hrs",distance:"1 mi",tip:"Bargain to about 60% of the first asking price. Leather goods and pottery are the best buys.",tags:["Culture","Shopping"]}
+],
+dining:[
+  {name:"Café Maure (Kasbah)",cuisine:"Traditional Moroccan",price:"$",icon:"☕",desc:"Atmospheric café inside the Kasbah with mint tea overlooking the Bou Regreg river and Atlantic.",mustTry:"Mint tea + Moroccan pastries (cornes de gazelle)",tip:"Come for sunset. Cash only. The views alone are worth the visit.",category:"Iconic"},
+  {name:"Dar Zaki",cuisine:"Moroccan",price:"$$",icon:"🫕",desc:"Beloved local restaurant in the medina — authentic tagines and couscous in a traditional riad setting.",mustTry:"Lamb tagine with prunes & almonds + Moroccan couscous (Friday special)",tip:"Friday couscous is a Moroccan tradition — reserve for the authentic experience.",category:"Local Favorite"}
+],
+transport:[{mode:"Rabat Tramway (T1/T2)",icon:"🚊",badge:"Best Value",badgeColor:"green",cost:"6 MAD (~$0.60)",time:"15–25 min across city",steps:["Take Tram T1 or T2 — the two lines cover most key areas","Closest stop to Moulay El Hassan Stadium: Nahda/Ibn Sina","Buy a rechargeable Inwi card at any station for easy tapping"],tip:"Tram is modern, clean, and frequent (every 10 min). Petit taxis (blue) cost 10–20 MAD for short trips."}],
+fanZones:[
+  {name:"FIFA Fan Zone — Rabat Corniche",area:"Atlantic Corniche, Rabat",dates:"Oct 17 – Nov 7, 2026 (Free)"},
+  {name:"Mohammed V Avenue Fan Area",area:"Central Rabat",dates:"Match days"}
+],
+neighborhoods:[{name:"Agdal",vibe:"Modern, cafes, safe, lively",hotel:"Sofitel Rabat Jardin des Roses, Farah Rabat",dist:"15–20 min via tram"},{name:"Hassan / Centre Ville",vibe:"Central, walkable, historic",hotel:"Le Diwan Rabat, Tour Hassan Palace",dist:"10–15 min via tram"}]
+},
+{id:"sale",tournamentId:"u17wwc2026",name:"Salé",country:"Morocco",flag:"🇲🇦",emoji:"⚽",stadium:"Mohammed VI Football Academy",addr:"Maâmora, Salé, Morocco",capacity:"5,200",matchCount:8,weather:"68–77°F pleasant",tz:"GMT+1",highlights:"Training complex city, across the river from Rabat, traditional medina, football academy",
+matches:[
+  {id:13,date:"Wed, Oct 22",time:"3:00 PM GMT+1",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:14,date:"Wed, Oct 22",time:"6:00 PM GMT+1",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:15,date:"Thu, Oct 23",time:"3:00 PM GMT+1",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:16,date:"Thu, Oct 23",time:"6:00 PM GMT+1",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"}
+],
+attractions:[
+  {name:"Salé Medina",category:"Culture",icon:"🛍️",desc:"Traditional walled medina less touristy than Rabat — authentic local atmosphere and crafts.",duration:"2 hrs",distance:"1 mi",tip:"Visit the Grand Mosque exterior and the mellah (old Jewish quarter).",tags:["Culture","Free"]},
+  {name:"Bou Regreg Marina",category:"Leisure",icon:"⛵",desc:"Modern marina between Rabat and Salé with waterfront cafés, river boat rides, and sunset views.",duration:"1–2 hrs",distance:"2 mi",tip:"Take a small boat (flouka) across the river for just 3 MAD — a classic Rabat-Salé experience.",tags:["Leisure","Views"]}
+],
+dining:[
+  {name:"Café Bou Regreg",cuisine:"Moroccan Café",price:"$",icon:"☕",desc:"Waterfront café on the Salé side of the river with fresh juices and Moroccan street food.",mustTry:"Fresh orange juice + msemen (Moroccan flatbread) + harira soup",tip:"Great for breakfast before a match. Very affordable — most items under 20 MAD.",category:"Local Favorite"}
+],
+transport:[{mode:"Tram + Petit Taxi",icon:"🚊",badge:"Easy",badgeColor:"blue",cost:"6–20 MAD ($0.60–$2)",time:"20–30 min from Rabat center",steps:["Take Tram T1 from Rabat to Salé","OR take a petit taxi (blue) from central Rabat — ~15 MAD","The Football Academy is in Maâmora area — taxi from tram stop"],tip:"Salé is just across the Bou Regreg river from Rabat. Most visitors stay in Rabat and commute."}],
+fanZones:[
+  {name:"FIFA Fan Zone — Salé (shared with Rabat)",area:"Bou Regreg Waterfront, Salé",dates:"Oct 17 – Nov 7, 2026"}
+],
+neighborhoods:[{name:"Stay in Rabat",vibe:"Better hotels, dining, and nightlife",hotel:"See Rabat listings",dist:"20–30 min via tram/taxi"}]
 }
 ];
+
+/* Helper: get cities for a specific tournament */
+function getCitiesForTournament(tid){return CITIES.filter(function(c){return c.tournamentId===tid;});}
+function getActiveTournamentCities(){
+  var live=getLiveTournament();
+  if(live){var cs=getCitiesForTournament(live.id);if(cs.length)return{tournament:live,cities:cs};}
+  var next=getNextTournament();
+  if(next){var cs=getCitiesForTournament(next.id);if(cs.length)return{tournament:next,cities:cs};}
+  return{tournament:null,cities:CITIES};
+}
 
 /* ===================================================
    LANGUAGES — 8 TOTAL
@@ -1454,7 +1546,12 @@ const MONO_DATA=[
    APP STATE
 =================================================== */
 let currentLang="en";
-let currentCity="los-angeles";
+let currentCity=(function(){
+  var saved=null;try{saved=localStorage.getItem('fifamap_city');}catch(e){}
+  if(saved&&CITIES.find(function(c){return c.id===saved;}))return saved;
+  var active=getActiveTournamentCities();
+  return active.cities.length?active.cities[0].id:'los-angeles';
+})();
 let chatMessages=[];
 let chatLoading=false;
 const API_BASE="https://fifamap-ai.customercareblackaiser.workers.dev";
@@ -1537,8 +1634,8 @@ function renderTournamentCard(t){
   var statusClass=t.status;
   var statusLabel=t.status==='live'?'🔴 LIVE NOW':t.status==='upcoming'?'UPCOMING':t.status==='completed'?'COMPLETED':'FUTURE';
   var dateStr=formatTournamentDates(t);
-  var onclick=t.hasLocalData?"onclick=\"showPage('home')\"":"";
-  return '<div class="tournament-card '+statusClass+'" '+onclick+'>'+
+  var onclick=t.hasLocalData?"onclick=\"renderCities('"+t.id+"');showPage('cities')\"":"";
+  return '<div class="tournament-card '+statusClass+'" '+onclick+' style=\"cursor:'+(t.hasLocalData?'pointer':'default')+'\">'+
     '<div class="tc-status '+statusClass+'">'+(t.status==='live'?'<span class="dot"></span>':'')+statusLabel+'</div>'+
     '<div class="tc-name">'+t.name+'</div>'+
     '<div class="tc-host">'+t.hostFlag+' '+t.host+'</div>'+
@@ -1814,16 +1911,30 @@ function renderTransportPage(){
     </div>`).join('');
 }
 
-function renderCities(){
+function renderCities(forTournamentId){
   const T=t();
-  document.getElementById('cities-title').textContent=T.citiesTitle;
-  document.getElementById('cities-sub').textContent=T.citiesSub;
-  const countries=['USA','Canada','Mexico'];
-  const flags={'USA':'🇺🇸','Canada':'🇨🇦','Mexico':'🇲🇽'};
+  var active=getActiveTournamentCities();
+  var tid=forTournamentId||((active.tournament)?active.tournament.id:null);
+  var displayCities=tid?getCitiesForTournament(tid):CITIES;
+  var tourney=TOURNAMENTS.find(function(x){return x.id===tid;});
+  var titleText=tourney?(tourney.shortName+' — Host Cities'):T.citiesTitle;
+  var subText=tourney?(tourney.hostFlag+' '+tourney.host+' · '+displayCities.length+' host '+(displayCities.length===1?'city':'cities')):T.citiesSub;
+  document.getElementById('cities-title').textContent=titleText;
+  document.getElementById('cities-sub').textContent=subText;
+
+  // Group by country
+  var countryMap={};
+  displayCities.forEach(function(c){
+    if(!countryMap[c.country])countryMap[c.country]=[];
+    countryMap[c.country].push(c);
+  });
+  var countries=Object.keys(countryMap);
+
   document.getElementById('cities-countries').innerHTML=countries.map(country=>{
-    const citiesOfCountry=CITIES.filter(c=>c.country===country);
+    const citiesOfCountry=countryMap[country];
+    const flag=citiesOfCountry[0].flag;
     return`<div class="country-section">
-      <div class="country-title">${flags[country]} ${country} — ${citiesOfCountry.length} host ${citiesOfCountry.length===1?'city':'cities'}</div>
+      <div class="country-title">${flag} ${country} — ${citiesOfCountry.length} host ${citiesOfCountry.length===1?'city':'cities'}</div>
       <div class="cities-cards">
         ${citiesOfCountry.map(c=>`
           <button class="city-card-full ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}');closDropdowns();showPage('home')">
@@ -1848,7 +1959,7 @@ function renderCities(){
           </button>`).join('')}
       </div>
     </div>`;
-  }).join('');
+  }).join('')+(tid!=='wc2026'?'<div style="margin-top:2rem;text-align:center"><a href="#" onclick="showPage(\'archive\')" style="color:var(--muted);font-size:.82rem">📁 View WC2026 Archive Cities →</a></div>':'');
 }
 
 function renderPlanner(){
@@ -1884,6 +1995,16 @@ function renderMonetize(){
 }
 function renderAdvertise(){renderMonetize();}
 
+function renderArchive(){
+  var wc26=getCitiesForTournament('wc2026');
+  document.getElementById('archive-cities-grid').innerHTML=wc26.map(function(c){
+    return '<button class="city-card-full" onclick="setCity(\''+c.id+'\');showPage(\'home\')" style="text-align:left">'+
+      '<div class="city-top"><span class="city-emoji">'+c.emoji+'</span><div><div class="city-name">'+c.name+' '+c.flag+'</div><div class="city-stadium">'+c.stadium+'</div></div></div>'+
+      '<div class="city-stats-row"><div class="city-stat-item"><span>⚽ '+c.matchCount+' matches</span></div><div class="city-stat-item"><span>🏟️ '+c.capacity+'</span></div></div>'+
+      '<div class="city-desc">'+c.highlights+'</div></button>';
+  }).join('');
+}
+
 /* ===================================================
    PAGE NAVIGATION
 =================================================== */
@@ -1909,6 +2030,7 @@ function showPage(page){
     else if(page==='guides')renderBlog();
     else if(page==='monetize')renderMonetize();
     else if(page==='tournaments')renderTournamentHub();
+    else if(page==='archive')renderArchive();
   // Close mobile menu
   document.getElementById('navLinks').classList.remove('open');
 }
@@ -1947,11 +2069,27 @@ document.addEventListener('click',function(e){
 
 function buildCityDropdown(){
   const menu=document.getElementById('cityDropMenu');
-  menu.innerHTML=CITIES.map(c=>`
+  var active=getActiveTournamentCities();
+  var activeCities=active.cities;
+  var archiveCities=CITIES.filter(function(c){return activeCities.indexOf(c)===-1;});
+  var html='';
+  if(active.tournament){
+    html+='<div style="padding:.4rem .8rem;font-size:.65rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.05em">'+(active.tournament.status==='live'?'🔴 ':'')+ active.tournament.shortName+'</div>';
+  }
+  html+=activeCities.map(c=>`
     <button class="dd-item ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}');closDropdowns();showPage('home')">
       <span>${c.flag} ${c.emoji} ${c.name}</span>
       <span class="dd-sub">${c.matchCount} matches</span>
     </button>`).join('');
+  if(archiveCities.length){
+    html+='<div style="padding:.4rem .8rem;font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:.5rem;border-top:1px solid var(--border)">📁 WC2026 Archive</div>';
+    html+=archiveCities.map(c=>`
+      <button class="dd-item ${c.id===currentCity?'active':''}" onclick="setCity('${c.id}');closDropdowns();showPage('home')">
+        <span>${c.flag} ${c.emoji} ${c.name}</span>
+        <span class="dd-sub">${c.matchCount} matches</span>
+      </button>`).join('');
+  }
+  menu.innerHTML=html;
 }
 
 /* ===================================================
@@ -2614,7 +2752,7 @@ document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
     if(savedCity && CITIES.find(function(c){return c.id===savedCity;})) currentCity = savedCity;
   }
   var c = CITIES.find(function(x){return x.id===currentCity;});
-  if(c){ document.getElementById('cityBtnName').textContent = c.name; }
+  if(c){ document.getElementById('cityBtnName').textContent = c.name; document.getElementById('cityBtnLabel').children[0].textContent=c.emoji+' '; }
 
   // Init chat
   chatMessages=[{role:'assistant',content:LANGS[currentLang].t.greeting}];
