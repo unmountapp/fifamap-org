@@ -1547,10 +1547,14 @@ const MONO_DATA=[
 =================================================== */
 let currentLang="en";
 let currentCity=(function(){
-  var saved=null;try{saved=localStorage.getItem('fifamap_city');}catch(e){}
-  if(saved&&CITIES.find(function(c){return c.id===saved;}))return saved;
   var active=getActiveTournamentCities();
-  return active.cities.length?active.cities[0].id:'los-angeles';
+  var saved=null;try{saved=localStorage.getItem('fifamap_city');}catch(e){}
+  // Only use saved city if it belongs to the active tournament
+  if(saved){
+    var sc=CITIES.find(function(c){return c.id===saved;});
+    if(sc&&active.tournament&&sc.tournamentId===active.tournament.id)return saved;
+  }
+  return active.cities.length?active.cities[0].id:'rabat';
 })();
 let chatMessages=[];
 let chatLoading=false;
@@ -2744,12 +2748,16 @@ document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
   document.documentElement.lang = currentLang;
   document.documentElement.dir = l.rtl ? 'rtl' : 'ltr';
 
-  // Apply city from URL or localStorage
+  // Apply city from URL or localStorage (only if it matches active tournament)
+  var _active=getActiveTournamentCities();
   if(urlCity && CITIES.find(function(c){return c.id===urlCity;})){
     currentCity = urlCity;
   } else {
     var savedCity = localStorage.getItem('fifamap_city');
-    if(savedCity && CITIES.find(function(c){return c.id===savedCity;})) currentCity = savedCity;
+    if(savedCity){
+      var _sc=CITIES.find(function(c){return c.id===savedCity;});
+      if(_sc&&_active.tournament&&_sc.tournamentId===_active.tournament.id) currentCity = savedCity;
+    }
   }
   var c = CITIES.find(function(x){return x.id===currentCity;});
   if(c){ document.getElementById('cityBtnName').textContent = c.name; document.getElementById('cityBtnLabel').children[0].textContent=c.emoji+' '; }
