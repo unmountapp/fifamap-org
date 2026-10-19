@@ -719,8 +719,8 @@ footer a:hover{text-decoration:underline}
   &#128196; Download PDF Itinerary - $2.99 &nbsp;|&nbsp; Print &amp; Share with your travel group
 </button>
 <div class="ticket-strip">
-  <span style="font-size:.7rem;color:var(--muted);font-weight:600;align-self:center">&#127915; Tickets:</span>
-  <a href="https://www.stubhub.com/fifa-world-cup-2026-tickets/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" class="ticket-link">StubHub</a>
+  <span style="font-size:.7rem;color:var(--muted);font-weight:600;align-self:center">&#127915; FIFA Tickets:</span>
+  <a href="https://www.stubhub.com/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" class="ticket-link">StubHub</a>
   <a href="https://www.viagogo.com/Sport-Tickets/Soccer/FIFA-World-Cup?aff=fifamap" target="_blank" rel="noopener" class="ticket-link">Viagogo</a>
   <a href="https://www.seatgeek.com/fifa-world-cup-tickets" target="_blank" rel="noopener" class="ticket-link">SeatGeek</a>
   <a href="https://www.vividseats.com/soccer/fifa-world-cup-tickets.html" target="_blank" rel="noopener" class="ticket-link">VividSeats</a>
@@ -731,7 +731,7 @@ footer a:hover{text-decoration:underline}
 
   <!-- AdSense Slot 2 (In-planner) -->
   <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.6rem 1rem;text-align:center;margin-top:1rem">
-    <div style="font-size:.7rem;color:var(--muted)">🎫 Get your World Cup tickets via <a href="https://www.viagogo.com/?aff=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">Viagogo</a> · <a href="https://www.stubhub.com/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">StubHub</a></div>
+    <div style="font-size:.7rem;color:var(--muted)">🎫 Find FIFA tournament tickets on <a href="https://www.viagogo.com/?aff=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">Viagogo</a> · <a href="https://www.stubhub.com/?gcid=C12289x277&sid=fifamap" target="_blank" rel="noopener" style="color:var(--primary)">StubHub</a></div>
   </div>
 </div>
 </div>
@@ -802,7 +802,7 @@ footer a:hover{text-decoration:underline}
 <div id="page-monetize" class="page-section">
 <div class="container section">
 <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:.4rem">💰 Partner & Earn with FIFAMap</h1>
-<p style="color:var(--muted);font-size:.85rem;margin-bottom:2rem">FIFAMap.org serves World Cup fans planning trips across 16 cities. Here's how to partner with us or how we make this site profitable — all free to start.</p>
+<p style="color:var(--muted);font-size:.85rem;margin-bottom:2rem">FIFAMap.org serves FIFA fans planning trips to every World Cup. Here's how to partner with us or how we make this site profitable — all free to start.</p>
 
 <div class="mono-grid" id="mono-grid"></div>
 
@@ -1701,8 +1701,9 @@ function renderHome(){
 
 function renderMatches(){
   const c=city(),T=t();
+  const archiveBanner=TOURNAMENTS.find(t=>t.id==='wc2026'&&t.status==='completed')?'<div style="background:rgba(136,146,176,.12);border:1px solid rgba(136,146,176,.25);border-radius:.6rem;padding:.6rem 1rem;margin-bottom:.75rem;font-size:.78rem;color:var(--muted)">📁 <strong>WC2026 Archive</strong> — These matches have been played. Visit the <a href="#" onclick="showPage(\'home\')" style="color:var(--primary)">Tournament Hub</a> for upcoming events.</div>':'';
   document.getElementById('matches-header').innerHTML=`
-    <div style="margin-bottom:1rem">
+    <div style="margin-bottom:1rem">${archiveBanner}
       <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">${c.emoji} ${c.name}</div>
       <h1 style="font-size:1.4rem;font-weight:800;margin-bottom:.3rem">${T.secMatches}</h1>
       <div style="background:var(--navy2);border:1px solid var(--border);border-radius:.75rem;padding:.9rem 1rem;margin-top:.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
@@ -2388,22 +2389,19 @@ async function sendChat(){
       reply += '• Book flights 6+ weeks early on Southwest (free changes)\n';
     }
     else if (isTicket) {
-      reply = '🎫 **How to Get FIFA World Cup Tickets:**\n\n';
-      reply += '**Official (safest):**\n';
-      reply += '• tickets.fifa.com — FIFA official portal\n';
-      reply += '• Check the FIFA+ app on match morning for last-minute releases\n\n';
-      reply += '**Secondary market (resale):**\n';
-      reply += '• StubHub — stubhub.com/fifa-world-cup-2026-tickets\n';
-      reply += '• Viagogo — viagogo.com\n';
-      reply += '• SeatGeek — seatgeek.com/fifa-world-cup-tickets\n';
-      reply += '• VividSeats — vividseats.com\n\n';
-      reply += '**Pricing (estimated):**\n';
+      reply = '🎫 **FIFA World Cup Tickets:**\n\n';
+      reply += '**World Cup 2026 (completed):**\n';
+      reply += '• WC2026 ticket sales have ended. The tournament took place June 11 – July 19, 2026.\n\n';
+      reply += '**Upcoming tournaments:**\n';
+      reply += '• For future FIFA tournaments, check tickets.fifa.com and the FIFA+ app for official ticket sales.\n';
+      reply += '• Secondary market platforms: StubHub, Viagogo, SeatGeek, VividSeats\n\n';
+      reply += '**WC2026 pricing was:**\n';
       reply += '• Group Stage: from $80\n';
       reply += '• Round of 32: from $150\n';
       reply += '• Quarter-Final: from $250\n';
       reply += '• Semi-Final: from $350\n';
       reply += '• Final: from $500+\n\n';
-      reply += '💡 Best time to buy resale: 2-3 weeks before the match — prices drop as sellers get motivated.';
+      reply += '💡 For future tournaments, the best time to buy resale is 2-3 weeks before the match.';
     }
     else if (isFamily) {
       reply = '👨‍👩‍👧‍👦 **Family-Friendly World Cup Cities:**\n\n';
@@ -2475,9 +2473,9 @@ async function sendChat(){
     html += '<div style="color:#555">Mid-range: ' + hotel.mid + '/night</div>';
     html += '<div style="color:#777;font-size:0.85em">Luxury: ' + hotel.luxury + '/night</div></div>';
     html += '<div style="background:#fff7ed;border-radius:8px;padding:10px;grid-column:1/-1">';
-    html += '<div style="font-weight:600;margin-bottom:4px;color:#c05621">Match Tickets (Live Pricing)</div>';
-    html += '<div style="color:#744210;font-size:0.88em">Check current ticket prices at tickets.fifa.com — prices vary by match and category (updated daily)</div>';
-    html += '<div style="color:#92400e;font-size:0.8em;margin-top:3px">Official tickets via tickets.fifa.com - buy tickets now at tickets.fifa.com</div>';
+    html += '<div style="font-weight:600;margin-bottom:4px;color:#c05621">WC2026 Ticket Archive</div>';
+    html += '<div style="color:#744210;font-size:0.88em">World Cup 2026 ticket sales have ended. For upcoming FIFA tournaments, visit tickets.fifa.com</div>';
+    html += '<div style="color:#92400e;font-size:0.8em;margin-top:3px">Check the Tournament Hub for upcoming events and ticket info</div>';
     html += '</div></div></div>';
   });
 
@@ -2758,7 +2756,7 @@ function buildItineraryText() {
   lines.push('Hotels: https://www.awin1.com/cread.php?awinmid=6776&awinaffid=2842560&clickref=fifamap-home&ued=https%3A%2F%2Fwww.booking.com');
   lines.push('Flights: https://www.skyscanner.com/?associateid=AFF_TRA_19354_00001');
   lines.push('Experiences: https://www.viator.com/?pid=P00295782&campaign=fifamap');
-  lines.push('Tickets: https://www.stubhub.com/fifa-world-cup-2026-tickets/');
+  lines.push('Tickets: https://www.fifa.com/tickets');
   lines.push(div);
   lines.push('Generated by FIFAMap.org - https://fifamap.org');
   return lines.join('\n');
@@ -2988,36 +2986,37 @@ var _origRenderHome=renderHome;renderHome=function(){_origRenderHome();renderInt
     <li>Vancouver, Canada — BC Place (54,500) — 6 matches</li>
   </ul>
 
-  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">Match Tickets and Pricing</h2>
+  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">World Cup 2026 Tickets (Archive)</h2>
   <p style="margin-bottom:1rem">
-    Official tickets via FIFA.com/tickets. Group stage from $80 USD, Round of 32 from $150, Quarter-finals from $250,
-    Semi-finals from $350, and the World Cup Final from $500. Resale available on StubHub and Viagogo.
+    Official tickets were sold via FIFA.com/tickets. Group stage from $80 USD, Round of 32 from $150, Quarter-finals from $250,
+    Semi-finals from $350, and the Final from $500. For upcoming FIFA tournaments, check FIFA.com for ticket sales.
   </p>
 
-  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">Free FIFA Fan Zones</h2>
+  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">FIFA Fan Zones</h2>
   <p style="margin-bottom:1rem">
-    FIFA Fan Festivals in every host city are free-entry fan parks with live match screenings for 50,000+ fans.
-    Watch every game on giant screens with food, entertainment, and merchandise — no ticket required.
-    Fan zones open 3-4 hours before kick-off.
+    FIFA Fan Festivals are free-entry fan parks with live match screenings for 50,000+ fans at every World Cup host city.
+    Giant screens, food, entertainment, and merchandise — no ticket required.
+    Fan zones typically open 3-4 hours before kick-off during tournaments.
   </p>
 
   <h2 style="font-size:1.4rem;margin-bottom:0.75rem">Hotel and Accommodation Guide</h2>
   <p style="margin-bottom:1rem">
     Book via Expedia, Hotels.com or Airbnb. Budget: $60-120 per night. Mid-range: $140-280 per night. Luxury: $350 and up.
-    Hotels near stadiums sell out months early. Stay near metro lines to save 30-50 percent on accommodation costs.
+    Hotels near stadiums sell out months before any major tournament. Stay near metro lines to save 30-50 percent on costs.
   </p>
 
-  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">Getting to the Stadiums</h2>
+  <h2 style="font-size:1.4rem;margin-bottom:0.75rem">Getting to WC2026 Stadiums (Archive)</h2>
   <p style="margin-bottom:1rem">
     New York MetLife: NJ Transit from Penn Station. Atlanta: MARTA Blue/Green Line to Vine City. Seattle: Link Light Rail.
     Mexico City Azteca: Metro Line 2 and Tren Ligero. Dallas AT&amp;T Stadium: official shuttle buses (no direct rail).
+    These transit guides remain useful for future events at the same venues.
   </p>
 
   <h2 style="font-size:1.4rem;margin-bottom:0.75rem">AI-Powered Trip Planner</h2>
   <p style="margin-bottom:1.5rem">
-    FIFAMap's AI trip planner builds complete itineraries based on your country and team. Say "Plan my trip from Japan following
-    Japan's national team" and receive match dates, host cities, flight estimates from Tokyo, hotel recommendations, and budget breakdowns.
-    Coverage for all 48 qualified nations.
+    FIFAMap's AI trip planner builds complete itineraries based on your destination and tournament. Say "Plan my trip to the
+    Women's World Cup in Brazil" and receive host cities, flight estimates, hotel recommendations, and budget breakdowns.
+    Coverage for current and upcoming FIFA tournaments.
   </p>
 
   <h2 style="font-size:1.4rem;margin-bottom:0.75rem">About FIFAMap</h2>
