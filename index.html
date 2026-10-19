@@ -4,11 +4,11 @@
 <meta charset="UTF-8"/>
 <meta name="google-site-verification" content="E3J0enPpRtX0_spIseV0cdoc12gXFTUIs7zwqm8nKA4"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>FIFAMap — FIFA World Cup 2026 Global Trip Planner | 16 Cities, 8 Languages</title>
-<meta name="description" content="Plan your FIFA World Cup 2026 trip. All 16 host cities: LA, NYC, Dallas, Miami, Mexico City, Toronto & more. Match schedules, hotels, dining, transport — available in 8 languages. Free."/>
-<meta name="keywords" content="FIFA World Cup 2026, trip planner, World Cup 2026 cities, match schedule 2026, Los Angeles World Cup, New York World Cup, Dallas World Cup, Miami World Cup, Mexico City World Cup, Toronto World Cup, Vancouver World Cup, itinerary planner, travel guide, SoFi Stadium, MetLife Stadium, AT&T Stadium, Estadio Azteca"/>
-<meta property="og:title" content="FIFAMap — FIFA World Cup 2026 Trip Planner"/>
-<meta property="og:description" content="All 16 host cities. 104 matches. 8 languages. Free trip planner for FIFA World Cup 2026 visitors."/>
+<title>FIFAMap — Your Home for Every FIFA World Cup | Past, Present & Future</title>
+<meta name="description" content="FIFAMap.org — the ultimate FIFA World Cup hub. Track every tournament: Men's, Women's, U-20, U-17, Club World Cup. Live scores, host city guides, travel planning. All FIFA World Cups in one place."/>
+<meta name="keywords" content="FIFA World Cup, Women's World Cup 2027, World Cup 2030, World Cup 2034, FIFA U-17 World Cup, FIFA Club World Cup, World Cup 2026 archive, FIFA tournament tracker, host city guide, travel planner"/>
+<meta property="og:title" content="FIFAMap — Every FIFA World Cup, Past, Present & Future"/>
+<meta property="og:description" content="Track every FIFA tournament worldwide. Host city guides, match schedules, travel planning — all in one place."/>
 <meta property="og:url" content="https://fifamap.org"/>
 <meta property="og:type" content="website"/>
 <meta property="og:image" content="https://fifamap.org/og-image.png"/>
@@ -16,8 +16,8 @@
 <meta property="og:image:height" content="630"/>
 <meta property="og:site_name" content="FIFAMap.org"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="FIFAMap — FIFA World Cup 2026 Trip Planner"/>
-<meta name="twitter:description" content="All 16 host cities. 104 matches. 8 languages. Free smart itinerary planner for FIFA World Cup 2026 visitors."/>
+<meta name="twitter:title" content="FIFAMap — Every FIFA World Cup, Past, Present & Future"/>
+<meta name="twitter:description" content="Track every FIFA tournament worldwide. Host city guides, match schedules, travel planning — all in one place."/>
 <meta name="twitter:image" content="https://fifamap.org/og-image.png"/>
 <link rel="canonical" href="https://fifamap.org"/>
 <link rel="alternate" hreflang="en" href="https://fifamap.org"/>
@@ -90,6 +90,39 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,17,26,0.95);backdrop-fi
 .dd-item.active{color:var(--primary);font-weight:700}
 .dd-sub{font-size:.65rem;color:var(--muted)}
 .mobile-menu-btn{display:none;padding:.4rem;border-radius:.5rem;background:var(--navy3);border:1px solid var(--border)}
+
+/* ======= TOURNAMENT HUB ======= */
+.tournament-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-top:1rem}
+.tournament-card{background:var(--navy2);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;transition:all .2s;cursor:pointer;position:relative;overflow:hidden}
+.tournament-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.tournament-card.live{border-color:var(--green);box-shadow:0 0 20px rgba(34,197,94,.15)}
+.tournament-card.live::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--green)}
+.tc-status{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .6rem;border-radius:999px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem}
+.tc-status.live{background:rgba(34,197,94,.15);color:#22c55e}
+.tc-status.live .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 1.5s infinite}
+.tc-status.upcoming{background:rgba(59,130,246,.15);color:#3b82f6}
+.tc-status.completed{background:rgba(136,146,176,.15);color:var(--muted)}
+.tc-status.future{background:rgba(139,92,246,.1);color:#8b5cf6}
+.tc-name{font-size:1rem;font-weight:800;margin-bottom:.25rem}
+.tc-host{font-size:.8rem;color:var(--muted);margin-bottom:.6rem}
+.tc-meta{display:flex;gap:.75rem;flex-wrap:wrap;font-size:.72rem;color:var(--text2)}
+.tc-meta span{display:flex;align-items:center;gap:.25rem}
+.tc-desc{font-size:.78rem;color:var(--muted);margin-top:.6rem;line-height:1.5}
+.tc-dates{font-size:.72rem;color:var(--text2);margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border)}
+.tournament-timeline{position:relative;padding-left:2rem;margin-top:1.5rem}
+.tournament-timeline::before{content:'';position:absolute;left:.75rem;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-year{font-size:1.1rem;font-weight:800;color:var(--gold);margin:1.5rem 0 .75rem;position:relative}
+.tl-year::before{content:'';position:absolute;left:-1.25rem;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--navy)}
+.tl-item{position:relative;margin-bottom:1rem;padding:.8rem 1rem;background:var(--navy2);border:1px solid var(--border);border-radius:.75rem}
+.tl-item::before{content:'';position:absolute;left:-1.6rem;top:1rem;width:8px;height:8px;border-radius:50%;background:var(--border)}
+.tl-item.live::before{background:var(--green);box-shadow:0 0 8px rgba(34,197,94,.5)}
+.hero-tournament-banner{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:1rem;padding:1.2rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;cursor:pointer;transition:all .2s}
+.hero-tournament-banner:hover{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4)}
+.hero-tournament-banner .live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.5s infinite;flex-shrink:0}
+.hero-upcoming-strip{display:flex;gap:.75rem;margin-top:1rem;overflow-x:auto;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
+.hero-upcoming-card{flex-shrink:0;background:var(--navy3);border:1px solid var(--border);border-radius:.75rem;padding:.75rem 1rem;min-width:200px;cursor:pointer;transition:all .2s}
+.hero-upcoming-card:hover{border-color:var(--primary);background:var(--navy4)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* ======= HERO ======= */
 .hero{position:relative;background:linear-gradient(160deg,#0b0d16 0%,#12182d 50%,#0d1520 100%);overflow:hidden;padding:4rem 0 3.5rem}
@@ -398,7 +431,7 @@ footer a:hover{text-decoration:underline}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"WebSite","@id":"https://fifamap.org/#website","url":"https://fifamap.org","name":"FIFAMap","description":"FIFA World Cup 2026 Global Trip Planner — All 16 host cities across USA, Canada and Mexico","inLanguage":["en","es","fr","pt","ar","de","ja","zh"]},
+{"@type":"WebSite","@id":"https://fifamap.org/#website","url":"https://fifamap.org","name":"FIFAMap","description":"FIFAMap — Your home for every FIFA World Cup. Track all tournaments past, present and future.","inLanguage":["en","es","fr","pt","ar","de","ja","zh"]},
 {"@type":"Event","name":"FIFA World Cup 2026","startDate":"2026-06-11","endDate":"2026-07-19","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":[{"@type":"Place","name":"SoFi Stadium","address":{"@type":"PostalAddress","addressLocality":"Inglewood","addressRegion":"CA","addressCountry":"US"}},{"@type":"Place","name":"MetLife Stadium","address":{"@type":"PostalAddress","addressLocality":"East Rutherford","addressRegion":"NJ","addressCountry":"US"}},{"@type":"Place","name":"AT&T Stadium","address":{"@type":"PostalAddress","addressLocality":"Arlington","addressRegion":"TX","addressCountry":"US"}},{"@type":"Place","name":"Estadio Azteca","address":{"@type":"PostalAddress","addressLocality":"Mexico City","addressCountry":"MX"}}],"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
 {"@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"How many cities are hosting FIFA World Cup 2026?","acceptedAnswer":{"@type":"Answer","text":"16 host cities: 11 in the USA (Los Angeles, New York/NJ, Dallas, Miami, Atlanta, San Francisco, Seattle, Houston, Boston, Philadelphia, Kansas City), 3 in Mexico (Mexico City, Guadalajara, Monterrey), and 2 in Canada (Toronto, Vancouver)."}},
@@ -424,6 +457,7 @@ footer a:hover{text-decoration:underline}
   </a>
   <div class="nav-links" id="navLinks">
     <a class="nav-link active" onclick="showPage('home')" data-page="home" href="javascript:void(0)" id="nav-home">🏠 <span class="nl-home">Home</span></a>
+    <a class="nav-link" onclick="showPage('tournaments')" data-page="tournaments" href="javascript:void(0)" id="nav-tournaments" style="border:1px solid rgba(34,197,94,.4);color:#22c55e">🏆 <span>Tournaments</span></a>
     <a class="nav-link" onclick="showPage('cities')" data-page="cities" href="javascript:void(0)" id="nav-cities">🌍 <span class="nl-cities">Cities</span></a>
     <a class="nav-link" onclick="showPage('matches')" data-page="matches" href="javascript:void(0)" id="nav-matches">📅 <span class="nl-matches">Matches</span></a>
     <a class="nav-link" onclick="showPage('attractions')" data-page="attractions" href="javascript:void(0)" id="nav-attractions">🗺️ <span class="nl-attractions">Attractions</span></a>
@@ -460,20 +494,23 @@ footer a:hover{text-decoration:underline}
 <section class="hero">
 <div class="container">
 <div class="hero-inner">
-  <div class="hero-badge"><span class="dot"></span><span id="hero-badge-text">Official Host Cities · June–July 2026</span></div>
-  <h1 id="hero-title1">Welcome to the<br><span class="gradient" id="hero-title2">FIFA World Cup 2026™</span></h1>
-  <p class="hero-sub" id="hero-sub">Hotels. Matches. Transport. Nightlife. 16 cities. Your trip starts here — free.</p>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num">16</div><div class="stat-label" id="stat-cities">Cities</div></div>
-    <div class="stat"><div class="stat-num">104</div><div class="stat-label" id="stat-matches">Matches</div></div>
-    <div class="stat"><div class="stat-num">48</div><div class="stat-label" id="stat-teams">Teams</div></div>
-    <div class="stat"><div class="stat-num">3</div><div class="stat-label" id="stat-nations">Nations</div></div>
-  </div>
+  <div class="hero-badge"><span class="dot"></span><span id="hero-badge-text">Your Home for Every FIFA World Cup</span></div>
+  <h1 id="hero-title1">Every FIFA World Cup.<br><span class="gradient" id="hero-title2">Past, Present & Future.</span></h1>
+  <p class="hero-sub" id="hero-sub">Track every tournament worldwide — Men's, Women's, Youth, Club. Host city guides, match schedules, and travel planning.</p>
+
+  <!-- LIVE TOURNAMENT BANNER (dynamically filled) -->
+  <div id="hero-live-banner"></div>
+
+  <!-- COUNTDOWN to next upcoming tournament -->
   <div class="countdown" id="countdown"></div>
-  <p class="cd-note" id="cd-note">Until the Tournament Opener · Mexico City · June 11, 2026</p>
+  <p class="cd-note" id="cd-note"></p>
+
+  <!-- UPCOMING TOURNAMENTS STRIP -->
+  <div id="hero-upcoming-strip" class="hero-upcoming-strip"></div>
+
   <div class="hero-btns">
-    <a href="#" onclick="showPage('planner')" class="btn btn-primary" id="cta1">✨ Build My Itinerary</a>
-    <a href="#" onclick="showPage('cities')" class="btn btn-outline" id="cta2">Browse All Cities</a>
+    <a href="#" onclick="showPage('tournaments')" class="btn btn-primary" id="cta1">🌍 Tournament Hub</a>
+    <a href="#" onclick="showPage('cities')" class="btn btn-outline" id="cta2">🏟️ WC 2026 Archive</a>
   </div>
 </div>
 </div>
@@ -490,7 +527,7 @@ footer a:hover{text-decoration:underline}
 
 <!-- Quick links -->
 <div class="container section-sm">
-<div class="quick-grid" id="quickGrid"></div></div><div class="container section-sm"><div class="sec-header"><div><div class="sec-title" id="intent-title">Plan Your World Cup Trip</div><div class="sec-sub" id="intent-sub">What do you need help with?</div></div></div><div class="intent-grid" id="intentGrid"></div></div><div class="container section-sm"><div class="sec-header"><div><div class="sec-title">Trusted Travel Partners</div><div class="sec-sub">Book with confidence for all 16 host cities</div></div></div><div class="partner-strip" id="featuredPartners"></div></div><div class="container section-sm"><div class="capture-block" id="homeCaptureBlock"><h3>Get World Cup Planning Updates</h3><p>Host city tips, match-week guides, and travel deals — straight to your inbox.</p><div class="capture-form"><input type="email" class="capture-input" id="homeEmailInput" placeholder="your@email.com" aria-label="Email address"/><button class="capture-submit" onclick="handleEmailCapture('home')">Sign Up Free</button></div><div class="capture-note">No spam. Unsubscribe anytime.</div></div></div>
+<div class="quick-grid" id="quickGrid"></div></div><div class="container section-sm"><div class="sec-header"><div><div class="sec-title" id="intent-title">Explore FIFA World Cups</div><div class="sec-sub" id="intent-sub">What are you looking for?</div></div></div><div class="intent-grid" id="intentGrid"></div></div><div class="container section-sm"><div class="sec-header"><div><div class="sec-title">Trusted Travel Partners</div><div class="sec-sub">Book with confidence for all 16 host cities</div></div></div><div class="partner-strip" id="featuredPartners"></div></div><div class="container section-sm"><div class="capture-block" id="homeCaptureBlock"><h3>Get FIFA Tournament Updates</h3><p>Tournament news, host city tips, and travel deals for every FIFA World Cup — straight to your inbox.</p><div class="capture-form"><input type="email" class="capture-input" id="homeEmailInput" placeholder="your@email.com" aria-label="Email address"/><button class="capture-submit" onclick="handleEmailCapture('home')">Sign Up Free</button></div><div class="capture-note">No spam. Unsubscribe anytime.</div></div></div>
 
 <!-- Currently Viewing City -->
 <div class="container section-sm">
@@ -550,6 +587,29 @@ footer a:hover{text-decoration:underline}
 <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:.75rem"><a href="#" onclick="showPage('advertise')" style="font-size:.72rem;color:var(--muted);text-decoration:underline">Own a venue or brand? Partner with FIFAMap →</a></div>
 </div>
 
+
+<!-- ============ TOURNAMENT HUB PAGE ============ -->
+<div id="page-tournaments" class="page-section">
+<div class="container section">
+  <h1 class="sec-title" style="font-size:1.5rem;margin-bottom:.4rem">🌍 FIFA Tournament Hub</h1>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.5rem">Every FIFA World Cup — past, present, and future. All categories, all ages, one place.</p>
+
+  <!-- Filter tabs -->
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem" id="tournamentFilters">
+    <button class="nav-link active" onclick="filterTournaments('all',this)">All</button>
+    <button class="nav-link" onclick="filterTournaments('live',this)">🔴 Live Now</button>
+    <button class="nav-link" onclick="filterTournaments('upcoming',this)">📅 Upcoming</button>
+    <button class="nav-link" onclick="filterTournaments('completed',this)">✅ Completed</button>
+    <button class="nav-link" onclick="filterTournaments('future',this)">🔮 Future</button>
+  </div>
+
+  <div id="tournamentGrid" class="tournament-grid"></div>
+
+  <!-- Timeline view -->
+  <h2 style="font-size:1.1rem;font-weight:800;margin-top:2.5rem;margin-bottom:.5rem">📅 FIFA World Cup Timeline</h2>
+  <div id="tournamentTimeline" class="tournament-timeline"></div>
+</div>
+</div>
 
 <!-- ============ BLOG PAGE ============ -->
 <div id="page-blog" class="page-section">
@@ -821,7 +881,76 @@ footer a:hover{text-decoration:underline}
 
 <script>
 /* ===================================================
-   DATA — 16 CITIES
+   DATA — FIFA TOURNAMENTS (ALL CATEGORIES)
+=================================================== */
+const TOURNAMENTS=[
+  // COMPLETED
+  {id:"wc2026",name:"FIFA World Cup 2026™",shortName:"World Cup 2026",category:"Men's World Cup",status:"completed",
+   host:"USA, Canada & Mexico",hostFlag:"🇺🇸🇨🇦🇲🇽",cities:16,teams:48,matches:104,
+   startDate:"2026-06-11",endDate:"2026-07-19",
+   winner:"TBD",runnerUp:"TBD",
+   logo:"⚽",color:"#c8102e",
+   desc:"The biggest World Cup ever — 48 teams across 16 cities in 3 nations.",
+   hasLocalData:true},
+  // LIVE NOW
+  {id:"u17wwc2026",name:"FIFA U-17 Women's World Cup 2026™",shortName:"U-17 Women's WC",category:"U-17 Women",status:"live",
+   host:"Morocco",hostFlag:"🇲🇦",cities:1,teams:16,matches:32,
+   startDate:"2026-10-17",endDate:"2026-11-07",
+   logo:"⚽",color:"#22c55e",
+   desc:"16 nations compete in Rabat, Morocco for the U-17 women's crown.",
+   venueCity:"Rabat",hasLocalData:false},
+  // UPCOMING
+  {id:"u17wc2026",name:"FIFA U-17 World Cup 2026™",shortName:"U-17 World Cup",category:"U-17 Men",status:"upcoming",
+   host:"Qatar",hostFlag:"🇶🇦",cities:3,teams:48,matches:52,
+   startDate:"2026-11-19",endDate:"2026-12-13",
+   logo:"⚽",color:"#8b5cf6",
+   desc:"Qatar hosts the expanded 48-team U-17 World Cup.",
+   hasLocalData:false},
+  {id:"wwc2027",name:"FIFA Women's World Cup 2027™",shortName:"Women's WC 2027",category:"Women's World Cup",status:"upcoming",
+   host:"Brazil",hostFlag:"🇧🇷",cities:8,teams:32,matches:64,
+   startDate:"2027-06-24",endDate:"2027-07-25",
+   logo:"⚽",color:"#ec4899",
+   desc:"Brazil hosts the Women's World Cup for the first time — 8 cities, 32 teams.",
+   hasLocalData:false},
+  {id:"u20wc2027",name:"FIFA U-20 World Cup 2027",shortName:"U-20 World Cup",category:"U-20 Men",status:"upcoming",
+   host:"Azerbaijan & Uzbekistan",hostFlag:"🇦🇿🇺🇿",cities:6,teams:24,matches:52,
+   startDate:"2027-09-01",endDate:"2027-09-28",
+   logo:"⚽",color:"#f59e0b",
+   desc:"Co-hosted by Azerbaijan and Uzbekistan.",
+   hasLocalData:false},
+  {id:"cwc2029",name:"FIFA Club World Cup 2029",shortName:"Club WC 2029",category:"Club World Cup",status:"future",
+   host:"TBD",hostFlag:"🌍",cities:0,teams:32,matches:63,
+   startDate:"2029-06-01",endDate:"2029-07-13",
+   logo:"🏆",color:"#6366f1",
+   desc:"The expanded Club World Cup returns.",
+   hasLocalData:false},
+  {id:"wc2030",name:"FIFA World Cup 2030™",shortName:"World Cup 2030",category:"Men's World Cup",status:"future",
+   host:"Spain, Portugal & Morocco",hostFlag:"🇪🇸🇵🇹🇲🇦",cities:20,teams:48,matches:104,
+   startDate:"2030-06-13",endDate:"2030-07-21",
+   logo:"⚽",color:"#3b82f6",
+   desc:"Tri-continental World Cup with centenary matches in Uruguay, Argentina & Paraguay.",
+   note:"Centenary celebration matches in South America",
+   hasLocalData:false},
+  {id:"wwc2031",name:"FIFA Women's World Cup 2031™",shortName:"Women's WC 2031",category:"Women's World Cup",status:"future",
+   host:"TBD",hostFlag:"🌍",cities:0,teams:32,matches:64,
+   startDate:"2031-06-01",endDate:"2031-07-15",
+   logo:"⚽",color:"#ec4899",
+   desc:"Host nation to be announced.",
+   hasLocalData:false},
+  {id:"wc2034",name:"FIFA World Cup 2034™",shortName:"World Cup 2034",category:"Men's World Cup",status:"future",
+   host:"Saudi Arabia",hostFlag:"🇸🇦",cities:5,teams:48,matches:104,
+   startDate:"2034-06-01",endDate:"2034-07-19",
+   logo:"⚽",color:"#10b981",
+   desc:"Saudi Arabia hosts its first FIFA World Cup.",
+   hasLocalData:false}
+];
+
+function getLiveTournament(){return TOURNAMENTS.find(t=>t.status==='live');}
+function getNextTournament(){return TOURNAMENTS.filter(t=>t.status==='upcoming').sort((a,b)=>new Date(a.startDate)-new Date(b.startDate))[0];}
+function getFutureTournaments(){return TOURNAMENTS.filter(t=>t.status==='upcoming'||t.status==='future').sort((a,b)=>new Date(a.startDate)-new Date(b.startDate));}
+
+/* ===================================================
+   DATA — 16 CITIES (World Cup 2026 Archive)
 =================================================== */
 const CITIES=[
 {id:"los-angeles",name:"Los Angeles",country:"USA",flag:"🇺🇸",emoji:"🌴",stadium:"SoFi Stadium",addr:"1001 Stadium Dr, Inglewood, CA 90301",capacity:"70,240",matchCount:8,weather:"72–85·F sunny",tz:"PT (UTC-7)",highlights:"Beaches, Hollywood, world-class dining, perfect weather",
@@ -1400,12 +1529,112 @@ function renderTransport(tr){
 }
 
 /* ===================================================
+   TOURNAMENT HUB RENDERING
+=================================================== */
+function renderTournamentCard(t){
+  var statusClass=t.status;
+  var statusLabel=t.status==='live'?'🔴 LIVE NOW':t.status==='upcoming'?'UPCOMING':t.status==='completed'?'COMPLETED':'FUTURE';
+  var dateStr=formatTournamentDates(t);
+  var onclick=t.hasLocalData?"onclick=\"showPage('home')\"":"";
+  return '<div class="tournament-card '+statusClass+'" '+onclick+'>'+
+    '<div class="tc-status '+statusClass+'">'+(t.status==='live'?'<span class="dot"></span>':'')+statusLabel+'</div>'+
+    '<div class="tc-name">'+t.name+'</div>'+
+    '<div class="tc-host">'+t.hostFlag+' '+t.host+'</div>'+
+    '<div class="tc-meta">'+
+      (t.teams?'<span>👥 '+t.teams+' teams</span>':'')+
+      (t.matches?'<span>⚽ '+t.matches+' matches</span>':'')+
+      (t.cities?'<span>🏙️ '+t.cities+' cities</span>':'')+
+    '</div>'+
+    '<div class="tc-desc">'+t.desc+'</div>'+
+    '<div class="tc-dates">📅 '+dateStr+'</div>'+
+    (t.hasLocalData?'<div style="margin-top:.6rem;font-size:.72rem;color:var(--primary);font-weight:600">View host city guides →</div>':'')+
+  '</div>';
+}
+
+function formatTournamentDates(t){
+  var s=new Date(t.startDate),e=new Date(t.endDate);
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[s.getMonth()]+' '+s.getDate()+' – '+months[e.getMonth()]+' '+e.getDate()+', '+s.getFullYear();
+}
+
+function renderTournamentHub(){
+  var grid=document.getElementById('tournamentGrid');
+  if(!grid)return;
+  grid.innerHTML=TOURNAMENTS.map(renderTournamentCard).join('');
+  renderTournamentTimeline();
+}
+
+function filterTournaments(filter,btn){
+  var btns=document.querySelectorAll('#tournamentFilters .nav-link');
+  btns.forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var grid=document.getElementById('tournamentGrid');
+  var filtered=filter==='all'?TOURNAMENTS:TOURNAMENTS.filter(function(t){return t.status===filter;});
+  grid.innerHTML=filtered.length?filtered.map(renderTournamentCard).join(''):'<p style="color:var(--muted);font-size:.85rem">No tournaments in this category.</p>';
+}
+
+function renderTournamentTimeline(){
+  var el=document.getElementById('tournamentTimeline');
+  if(!el)return;
+  var byYear={};
+  TOURNAMENTS.forEach(function(t){
+    var y=new Date(t.startDate).getFullYear();
+    if(!byYear[y])byYear[y]=[];
+    byYear[y].push(t);
+  });
+  var html='';
+  Object.keys(byYear).sort().forEach(function(year){
+    html+='<div class="tl-year">'+year+'</div>';
+    byYear[year].forEach(function(t){
+      html+='<div class="tl-item '+(t.status==='live'?'live':'')+'">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">'+
+          '<div><div style="font-weight:700;font-size:.85rem">'+t.shortName+'</div>'+
+          '<div style="font-size:.72rem;color:var(--muted)">'+t.hostFlag+' '+t.host+'</div></div>'+
+          '<div class="tc-status '+t.status+'">'+(t.status==='live'?'<span class="dot"></span>':'')+(t.status==='live'?'LIVE':t.status.toUpperCase())+'</div>'+
+        '</div>'+
+        '<div style="font-size:.72rem;color:var(--text2);margin-top:.3rem">'+formatTournamentDates(t)+'</div>'+
+      '</div>';
+    });
+  });
+  el.innerHTML=html;
+}
+
+function renderHeroTournaments(){
+  // Live tournament banner
+  var live=getLiveTournament();
+  var bannerEl=document.getElementById('hero-live-banner');
+  if(live&&bannerEl){
+    bannerEl.innerHTML='<div class="hero-tournament-banner" onclick="showPage(\'tournaments\')">'+
+      '<span class="live-dot"></span>'+
+      '<div style="flex:1"><div style="font-size:.72rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.05em">🔴 Live Now</div>'+
+      '<div style="font-size:.95rem;font-weight:800">'+live.name+'</div>'+
+      '<div style="font-size:.78rem;color:var(--muted)">'+live.hostFlag+' '+live.host+' · '+formatTournamentDates(live)+'</div></div>'+
+      '<div style="font-size:.72rem;color:var(--primary);font-weight:600;white-space:nowrap">View details →</div>'+
+    '</div>';
+  }else if(bannerEl){bannerEl.innerHTML='';}
+
+  // Upcoming strip
+  var upcoming=getFutureTournaments().slice(0,5);
+  var stripEl=document.getElementById('hero-upcoming-strip');
+  if(stripEl&&upcoming.length){
+    stripEl.innerHTML=upcoming.map(function(t){
+      return '<div class="hero-upcoming-card" onclick="showPage(\'tournaments\')">'+
+        '<div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;font-weight:600">'+t.category+'</div>'+
+        '<div style="font-size:.82rem;font-weight:700;margin:.2rem 0">'+t.hostFlag+' '+t.shortName+'</div>'+
+        '<div style="font-size:.7rem;color:var(--text2)">'+formatTournamentDates(t)+'</div>'+
+      '</div>';
+    }).join('');
+  }
+}
+
+/* ===================================================
    PAGE RENDERING
 =================================================== */
 function renderHome(){
   const c=city(),lang=LANGS[currentLang],T=t();
   // Quick grid
   const items=[
+    {icon:'🏆',label:'Tournaments',page:'tournaments'},
     {icon:'🌍',label:T.qlCities,page:'cities'},
     {icon:'📅',label:T.qlMatches,page:'matches'},
     {icon:'🗺️',label:T.qlAttr,page:'attractions'},
@@ -1464,14 +1693,8 @@ function renderHome(){
   // Dining preview (first 2)
   document.getElementById('home-dining').innerHTML=c.dining.slice(0,2).map(renderDiningCard).join('');
 
-  // Hero text
-  document.getElementById('hero-badge-text').textContent=T.badge;
-  document.getElementById('hero-title1').childNodes[0].textContent=T.h1+' ';
-  document.getElementById('hero-title2').textContent=T.h2;
-  document.getElementById('hero-sub').textContent=T.sub;
-  document.getElementById('cta1').textContent=T.cta1;
-  document.getElementById('cta2').textContent=T.cta2;
-  document.getElementById('cd-note').textContent=T.countdown+' · Mexico City · June 11, 2026';
+  // Hero — tournament-aware
+  renderHeroTournaments();
 }
 
 function renderMatches(){
@@ -1682,6 +1905,7 @@ function showPage(page){
     else if(page==='blog')renderBlog();
     else if(page==='guides')renderBlog();
     else if(page==='monetize')renderMonetize();
+    else if(page==='tournaments')renderTournamentHub();
   // Close mobile menu
   document.getElementById('navLinks').classList.remove('open');
 }
@@ -1773,22 +1997,39 @@ function closDropdowns(){
    COUNTDOWN
 =================================================== */
 function updateCountdown(){
-  const target=new Date("2026-06-11T15:00:00-05:00").getTime();
-  const diff=target-Date.now();
-  if(diff<=0){document.getElementById('countdown').innerHTML='';return;}
-  const days=Math.floor(diff/86400000);
-  const hours=Math.floor((diff%86400000)/3600000);
-  const mins=Math.floor((diff%3600000)/60000);
-  const secs=Math.floor((diff%60000)/1000);
-  document.getElementById('countdown').innerHTML=[
+  // Find next upcoming tournament for countdown
+  var next=getNextTournament();
+  var cdEl=document.getElementById('countdown');
+  var noteEl=document.getElementById('cd-note');
+  if(!next){
+    // If nothing upcoming, check for live
+    var live=getLiveTournament();
+    if(live){
+      if(cdEl)cdEl.innerHTML='<div style="font-size:1rem;font-weight:800;color:#22c55e;padding:1rem 0">🔴 Tournament in progress</div>';
+      if(noteEl)noteEl.textContent=live.shortName+' · '+live.host;
+    }else{
+      if(cdEl)cdEl.innerHTML='';
+      if(noteEl)noteEl.textContent='';
+    }
+    return;
+  }
+  var target=new Date(next.startDate+"T12:00:00Z").getTime();
+  var diff=target-Date.now();
+  if(diff<=0){if(cdEl)cdEl.innerHTML='';return;}
+  var days=Math.floor(diff/86400000);
+  var hours=Math.floor((diff%86400000)/3600000);
+  var mins=Math.floor((diff%3600000)/60000);
+  var secs=Math.floor((diff%60000)/1000);
+  if(cdEl)cdEl.innerHTML=[
     {v:days,l:'Days'},{v:hours,l:'Hrs'},{v:mins,l:'Min'},{v:secs,l:'Sec'}
-  ].map(({v,l})=>`<div class="cd-box"><div class="cd-num">${String(v).padStart(2,'0')}</div><div class="cd-label">${l}</div></div>`).join('');
+  ].map(function(x){return '<div class="cd-box"><div class="cd-num">'+String(x.v).padStart(2,'0')+'</div><div class="cd-label">'+x.l+'</div></div>';}).join('');
+  if(noteEl)noteEl.textContent='Until '+next.shortName+' · '+next.host;
 }
 
 /* ===================================================
    AI CHAT
 =================================================== */
-const SYSTEM=`You are FIFAMap.org's expert FIFA World Cup 2026 global travel assistant. You know all 104 matches across 16 host cities in the USA (LA, NYC/NJ, Dallas, Miami, Atlanta, SF, Seattle, Houston, Boston, Philadelphia, Kansas City), Canada (Toronto, Vancouver), and Mexico (Mexico City, Guadalajara, Monterrey). You give practical, friendly, concise advice. Key facts: Final is July 19 at MetLife (NJ). Opener is June 11 Mexico vs South Africa at Azteca. Dallas has most matches (9). Vancouver's BC Place is most walkable. Mexico City Metro is cheapest ($0.25). Tournament: June 11-July 19, 2026. Respond in the same language the user writes in.`;
+const SYSTEM=`You are FIFAMap.org's expert FIFA World Cup travel assistant. You cover ALL FIFA tournaments — Men's, Women's, U-20, U-17, and Club World Cup — past, present, and future. Key current info: FIFA U-17 Women's World Cup 2026 is LIVE in Morocco (Oct 17 – Nov 7). FIFA U-17 World Cup Qatar starts Nov 19, 2026. FIFA Women's World Cup Brazil 2027 (Jun 24 – Jul 25). World Cup 2030 in Spain/Portugal/Morocco. World Cup 2034 in Saudi Arabia. World Cup 2026 (completed Jul 19, 2026) had 104 matches across 16 cities in USA/Canada/Mexico — you know all those host cities in detail. Respond in the same language the user writes in.`;
 
 async function sendChat(){
   const input=document.getElementById('chatInput');
@@ -2389,6 +2630,7 @@ document.querySelectorAll('.dropdown button:first-child').forEach(btn=>{
     showPage(urlSection);
   } else {
     renderHome();
+    renderHeroTournaments();
   }
 })();
 
@@ -2614,7 +2856,7 @@ showPage = function(page) {
 };
 
 
-function renderIntentGrid(){var items=[{icon:'✨',label:'Plan My Trip',sub:'AI-powered itinerary',page:'planner'},{icon:'🏨',label:'Where to Stay',sub:'Hotels near stadiums',page:'transport'},{icon:'🍺',label:'Watch Parties',sub:'Bars & nightlife',page:'nightlife'},{icon:'🚇',label:'Getting Around',sub:'Airport to stadium',page:'transport'},{icon:'⚽',label:'Follow My Team',sub:'Team travel routes',page:'planner'},{icon:'🌍',label:'Explore Cities',sub:'16 host cities',page:'cities'}];var el=document.getElementById('intentGrid');if(!el)return;el.innerHTML=items.map(function(i){return '<a href="#" onclick="showPage(\''+i.page+'\')" class="intent-card"><div class="intent-icon">'+i.icon+'</div><div class="intent-label">'+i.label+'</div><div class="intent-sub">'+i.sub+'</div></a>';}).join('');}
+function renderIntentGrid(){var items=[{icon:'🏆',label:'All Tournaments',sub:'Past, present & future',page:'tournaments'},{icon:'✨',label:'Plan My Trip',sub:'AI-powered itinerary',page:'planner'},{icon:'🏨',label:'Where to Stay',sub:'Hotels near stadiums',page:'transport'},{icon:'🍺',label:'Watch Parties',sub:'Bars & nightlife',page:'nightlife'},{icon:'🚇',label:'Getting Around',sub:'Airport to stadium',page:'transport'},{icon:'🌍',label:'WC 2026 Cities',sub:'16 host cities archive',page:'cities'}];var el=document.getElementById('intentGrid');if(!el)return;el.innerHTML=items.map(function(i){return '<a href="#" onclick="showPage(\''+i.page+'\')" class="intent-card"><div class="intent-icon">'+i.icon+'</div><div class="intent-label">'+i.label+'</div><div class="intent-sub">'+i.sub+'</div></a>';}).join('');}
 
 function renderFeaturedPartners(){var el=document.getElementById('featuredPartners');if(!el||typeof PARTNERS==='undefined')return;el.innerHTML=PARTNERS.filter(function(p){return p.tier==='featured';}).map(function(p){return '<div class="partner-card is-featured">'+(p.badge?'<div class="partner-badge">'+p.badge+'</div>':'')+'<div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:1.5rem">'+p.icon+'</span><div class="partner-name">'+p.name+'</div></div><div class="partner-desc">'+p.shortDesc+'</div><a href="'+p.ctaUrl+'" target="_blank" rel="noopener" class="partner-cta">'+p.ctaLabel+' →</a></div>';}).join('');}
 
