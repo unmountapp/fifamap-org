@@ -1388,10 +1388,15 @@ neighborhoods:[{name:"Stay in Rabat",vibe:"Better hotels, dining, and nightlife"
 /* Helper: get cities for a specific tournament */
 function getCitiesForTournament(tid){return CITIES.filter(function(c){return c.tournamentId===tid;});}
 function getActiveTournamentCities(){
+  // 1. Live tournament with city data
   var live=getLiveTournament();
   if(live){var cs=getCitiesForTournament(live.id);if(cs.length)return{tournament:live,cities:cs};}
-  var next=getNextTournament();
-  if(next){var cs=getCitiesForTournament(next.id);if(cs.length)return{tournament:next,cities:cs};}
+  // 2. Next upcoming tournament with city data
+  var upcoming=TOURNAMENTS.filter(function(t){return t.status==='upcoming';}).sort(function(a,b){return new Date(a.startDate)-new Date(b.startDate);});
+  for(var i=0;i<upcoming.length;i++){var cs=getCitiesForTournament(upcoming[i].id);if(cs.length)return{tournament:upcoming[i],cities:cs};}
+  // 3. Most recently completed tournament with city data
+  var completed=TOURNAMENTS.filter(function(t){return t.status==='completed'&&t.hasLocalData;}).sort(function(a,b){return new Date(b.endDate)-new Date(a.endDate);});
+  for(var i=0;i<completed.length;i++){var cs=getCitiesForTournament(completed[i].id);if(cs.length)return{tournament:completed[i],cities:cs};}
   return{tournament:null,cities:CITIES};
 }
 
@@ -1414,7 +1419,7 @@ en:{name:"English",native:"English",rtl:false,t:{
   chatHint:"Enter to send · Shift+Enter for new line · Responds in your selected language",
   chatPlaceholder:"Ask anything — match days, best restaurants, transport from airport...",
   greeting:"Hello! I'm your FIFA World Cup global trip planner. 🌍\n\nI cover every FIFA tournament — Men's, Women's, U-17, U-20, and Club World Cup — past, present, and future. I know all the host cities, attractions, restaurants, fan zones, and transport.\n\nTell me which tournament you're interested in, which cities you're visiting, your interests, and how many days you have — and I'll build you a personalized itinerary.",
-  prompts:["I'm attending USA vs Paraguay in LA on June 12. Plan my trip!","Plan a 5-day trip covering LA, Dallas, and Miami.","Which cities are best for nightlife and beach?","I have kids (6 & 10) — which cities are most family-friendly?","Best restaurants near the Dallas stadium to celebrate Argentina winning?","Cheapest way to get from New York to Philadelphia for a match?"]
+  prompts:["What's happening at the U-17 Women's WC in Morocco right now?","Plan my trip to Rabat for the tournament — 3 days.","Best things to see in Rabat between matches?","Where should I eat near Moulay El Hassan Stadium?","What's the next FIFA tournament after Morocco?","How do I get around Rabat — tram, taxi, or walk?"]
 }},
 es:{name:"Spanish",native:"Espa·ol",rtl:false,t:{
   badge:"Cada Copa Mundial FIFA · Pasado · Presente · Futuro",h1:"Bienvenido a",h2:"FIFAMap",sub:"Tu hogar para cada Copa Mundial FIFA. Sigue los torneos, explora ciudades sede y planifica tu viaje — gratis.",
@@ -1431,7 +1436,7 @@ es:{name:"Spanish",native:"Espa·ol",rtl:false,t:{
   chatHint:"Enter para enviar · Shift+Enter para nueva l·nea · Responde en tu idioma seleccionado",
   chatPlaceholder:"Pregunta lo que quieras — d·as de partido, mejores restaurantes, transporte...",
   greeting:"·Hola! Soy tu planificador de viajes para todas las Copas Mundiales FIFA. 🌍\n\nCubro todos los torneos FIFA — Masculino, Femenino, Sub-17, Sub-20 y Mundial de Clubes — pasados, presentes y futuros.\n\nCu·ntame qu· torneo te interesa, qu· ciudades visitar·s, tus intereses y cu·ntos d·as tienes — y te crear· un itinerario personalizado.",
-  prompts:["Voy al partido M·xico vs Sud·frica en CDMX el 11 de junio. ·Qu· debo hacer?","Planifica un viaje de 5 d·as por Los Ángeles, Dallas y Miami.","·Cu·les son las mejores ciudades para playa y vida nocturna?","Tengo hijos (6 y 10 a·os) — ·qu· ciudades son m·s familiares?","Mejores restaurantes cerca del estadio de Dallas para celebrar.","·C·mo ir m·s barato de Nueva York a Filadelfia para un partido?"]
+  prompts:["·Qu· partidos hay en el Mundial Sub-17 Femenino en Marruecos?","Planifica 3 d·as en Rabat para el torneo.","·Qu· ver en Rabat entre los partidos?","·D·nde comer cerca del estadio Moulay El Hassan?","·Cu·l es el pr·ximo torneo FIFA?","·C·mo moverse en Rabat — tranv·a, taxi o caminando?"]
 }},
 fr:{name:"French",native:"Fran·ais",rtl:false,t:{
   badge:"Chaque Coupe du Monde FIFA · Pass· · Pr·sent · Futur",h1:"Bienvenue sur",h2:"FIFAMap",sub:"Votre guide pour chaque Coupe du Monde FIFA. Suivez les tournois, explorez les villes h·tes et planifiez votre voyage — gratuitement.",
@@ -1448,7 +1453,7 @@ fr:{name:"French",native:"Fran·ais",rtl:false,t:{
   chatHint:"Entr·e pour envoyer · Maj+Entr·e pour nouvelle ligne",
   chatPlaceholder:"Posez n'importe quelle question — jours de match, meilleurs restaurants...",
   greeting:"Bonjour ! Je suis votre planificateur de voyage pour toutes les Coupes du Monde FIFA. 🌍\n\nJe couvre tous les tournois FIFA — Masculin, F·minin, U-17, U-20 et Coupe du Monde des Clubs — pass·s, pr·sents et futurs.\n\nDites-moi quel tournoi vous int·resse, quelles villes vous visiterez, vos int·r·ts et combien de jours vous avez — je cr·erai un itin·raire personnalis·.",
-  prompts:["Je vais voir France vs S·n·gal · New York. Planifiez mon s·jour!","Planifiez 5 jours entre Los Angeles, Dallas et Miami.","Quelles villes sont les meilleures pour la vie nocturne?","Quelles villes sont les plus adapt·es aux familles?","Meilleurs restaurants · Dallas pour c·l·brer?","Comment aller de New York · Philadelphie pour un match?"]
+  prompts:["Quels matchs se jouent au Mondial U-17 F·minin au Maroc?","Planifiez 3 jours · Rabat pour le tournoi.","Que voir · Rabat entre les matchs?","O· manger pr·s du stade Moulay El Hassan?","Quel est le prochain tournoi FIFA?","Comment se d·placer · Rabat — tramway, taxi ou · pied?"]
 }},
 pt:{name:"Portuguese",native:"Portugu·s",rtl:false,t:{
   badge:"Cada Copa do Mundo FIFA · Passado · Presente · Futuro",h1:"Bem-vindo ao",h2:"FIFAMap",sub:"Seu guia para cada Copa do Mundo FIFA. Acompanhe os torneios, explore as cidades-sede e planeje sua viagem — gr·tis.",
@@ -1465,7 +1470,7 @@ pt:{name:"Portuguese",native:"Portugu·s",rtl:false,t:{
   chatHint:"Enter para enviar · Shift+Enter para nova linha",
   chatPlaceholder:"Pergunte qualquer coisa — dias de jogo, melhores restaurantes...",
   greeting:"Ol·! Sou seu planejador de viagens para todas as Copas do Mundo FIFA. 🌍\n\nCubro todos os torneios FIFA — Masculino, Feminino, Sub-17, Sub-20 e Mundial de Clubes — passados, presentes e futuros.\n\nMe diga qual torneio te interessa, quais cidades vai visitar, seus interesses e quantos dias tem — e criarei um itiner·rio personalizado.",
-  prompts:["Vou ao Brasil vs Marrocos em Nova York. Planeje minha viagem!","Planeje uma viagem de 5 dias por LA, Dallas e Miami.","Quais cidades s·o melhores para praia e vida noturna?","Tenho filhos (6 e 10 anos) — quais cidades s·o mais familiares?","Melhores restaurantes perto do est·dio de Dallas para comemorar?","Como ir de Nova York · Filad·lfia para um jogo?"]
+  prompts:["Quais jogos est·o no Mundial Sub-17 Feminino no Marrocos?","Planeje 3 dias em Rabat para o torneio.","O que ver em Rabat entre os jogos?","Onde comer perto do est·dio Moulay El Hassan?","Qual · o pr·ximo torneio FIFA?","Como se locomover em Rabat — bonde, t·xi ou a p·?"]
 }},
 ar:{name:"Arabic",native:"العربية",rtl:true,t:{
   badge:"كل كأس عالم FIFA · الماضي · الحاضر · المستقبل",h1:"مرحباً بكم في",h2:"FIFAMap",sub:"دليلك لكل كأس عالم FIFA. تابع البطولات واستكشف المدن المضيفة وخطط رحلتك — مجاناً.",
@@ -1482,7 +1487,7 @@ ar:{name:"Arabic",native:"العربية",rtl:true,t:{
   chatHint:"Enter للإرسال · Shift+Enter لسطر جديد · يرد بلغتك المختارة",
   chatPlaceholder:"اسأل عن أي شيء — أيام المباريات، أفضل المطاعم، المواصلات...",
   greeting:"مرحباً! أنا مخطط رحلتك لجميع بطولات كأس العالم FIFA. 🌍\n\nأغطي جميع البطولات — الرجال والسيدات وتحت 17 وتحت 20 وكأس العالم للأندية — الماضية والحالية والمستقبلية.\n\nأخبرني بالبطولة التي تهتم بها والمدن التي ستزورها واهتماماتك وعدد الأيام — وسأنشئ لك برنامجاً مخصصاً.",
-  prompts:["سأحضر مباراة الأرجنتين في كانساس سيتي. ما الذي أفعله؟","خطط رحلة 5 أيام عبر لوس أنجلوس ودالاس وميامي.","ما أفضل المدن للحياة الليلية والشاطئ؟","أسافر مع أطفال — أي المدن الأنسب للعائلات؟","أفضل المطاعم بالقرب من ملعب دالاس؟","كيف أنتقل من نيويورك إلى فيلادلفيا لمباراة؟"]
+  prompts:["ما المباريات في كأس العالم تحت 17 للسيدات في المغرب؟","خطط 3 أيام في الرباط للبطولة.","ماذا أشاهد في الرباط بين المباريات؟","أين آكل بالقرب من ملعب مولاي الحسن؟","ما البطولة القادمة لفيفا؟","كيف أتنقل في الرباط — ترام أو تاكسي أو مشي؟"]
 }},
 de:{name:"German",native:"Deutsch",rtl:false,t:{
   badge:"Jede FIFA Weltmeisterschaft · Vergangenheit · Gegenwart · Zukunft",h1:"Willkommen bei",h2:"FIFAMap",sub:"Dein Guide f·r jede FIFA Weltmeisterschaft. Verfolge Turniere, erkunde Austragungsorte und plane deine Reise — kostenlos.",
@@ -1499,7 +1504,7 @@ de:{name:"German",native:"Deutsch",rtl:false,t:{
   chatHint:"Enter zum Senden · Shift+Enter f·r neue Zeile",
   chatPlaceholder:"Frag alles — Spieltage, beste Restaurants, Transporttipps...",
   greeting:"Hallo! Ich bin dein Reiseplaner f·r alle FIFA Weltmeisterschaften. 🌍\n\nIch decke alle FIFA-Turniere ab — M·nner, Frauen, U-17, U-20 und Klub-WM — vergangene, aktuelle und zuk·nftige.\n\nSag mir, welches Turnier dich interessiert, welche St·dte du besuchen m·chtest, deine Interessen und wie viele Tage du hast — ich erstelle dir einen maßgeschneiderten Reiseplan.",
-  prompts:["Ich besuche Deutschland vs Cura·ao in Houston. Was kann ich machen?","Plane 5 Tage zwischen Los Angeles, Dallas und Miami.","Welche St·dte sind am besten f·r Nachtleben?","Welche St·dte sind am familienfreundlichsten?","Beste Restaurants nahe des Dallas-Stadions?","G·nstigster Weg von New York nach Philadelphia f·r ein Spiel?"]
+  prompts:["Welche Spiele laufen bei der U-17 Frauen-WM in Marokko?","Plane 3 Tage in Rabat f·r das Turnier.","Was gibt es in Rabat zwischen den Spielen zu sehen?","Wo kann man in der N·he des Stadions essen?","Welches ist das n·chste FIFA-Turnier?","Wie komme ich in Rabat herum — Tram, Taxi oder zu Fu·?"]
 }},
 ja:{name:"Japanese",native:"日本語",rtl:false,t:{
   badge:"すべてのFIFAワールドカップ · 過去 · 現在 · 未来",h1:"ようこそ",h2:"FIFAMap",sub:"すべてのFIFAワールドカップのガイド。大会を追跡し、開催都市を探索し、旅を計画しよう — 無料。",
@@ -1516,7 +1521,7 @@ ja:{name:"Japanese",native:"日本語",rtl:false,t:{
   chatHint:"Enterで送信 · Shift+Enterで改行 · 選択した言語で回答",
   chatPlaceholder:"何でも聞いてください — 試合日、おすすめレストラン、交通手段...",
   greeting:"こんにちは！FIFAワールドカップ旅程プランナーです。🌍\n\n男子・女子・U-17・U-20・クラブワールドカップ — 過去・現在・未来のすべてのFIFA大会をカバーしています。\n\n興味のある大会、訪問する都市、興味や滞在日数を教えていただければ、個人に合わせた日程を作成します。",
-  prompts:["6月14日にダラスでオランダvsオランダの試合を観ます。旅程を計画して！","ロサンゼルス・ダラス・マイアミを5日間旅するプランを立てて。","ナイトライフと海が楽しめる都市はどこ？","子供連れ（6歳と10歳）— どの都市が最もファミリーフレンドリー？","ダラスのスタジアム周辺のおすすめレストランは？","ニューヨークからフィラデルフィアへの試合観戦の最安方法は？"]
+  prompts:["モロッコのU-17女子ワールドカップの試合は？","大会のためにラバトで3日間の旅程を計画して。","試合の合間にラバトで何を見るべき？","ムーレイ・エル・ハッサン・スタジアム近くのレストランは？","次のFIFA大会は何？","ラバトの移動方法は？トラム、タクシー、徒歩？"]
 }},
 zh:{name:"Mandarin",native:"中文",rtl:false,t:{
   badge:"每届FIFA世界杯 · 过去 · 现在 · 未来",h1:"欢迎来到",h2:"FIFAMap",sub:"你的FIFA世界杯完全指南。追踪赛事、探索举办城市、规划旅程 — 免费。",
@@ -1533,7 +1538,7 @@ zh:{name:"Mandarin",native:"中文",rtl:false,t:{
   chatHint:"Enter发送 · Shift+Enter换行 · 以您选择的语言回复",
   chatPlaceholder:"随便问我——比赛日、推荐餐厅、从机场如何到达...",
   greeting:"你好！我是你的FIFA世界杯全球旅行规划助手。🌍\n\n我覆盖所有FIFA赛事——男足、女足、U-17、U-20和俱乐部世界杯——过去、现在和未来。\n\n告诉我你感兴趣的赛事、将要访问哪些城市、你的兴趣爱好以及旅行天数——我将为你制定个性化的行程。",
-  prompts:["我6月12日要去洛杉矶看美国vs巴拉圭的比赛，帮我规划行程！","规划一个横跨洛杉矶、达拉斯和迈阿密的5天旅程。","哪些城市最适合夜生活和海滩？","我带着孩子（6岁和10岁）——哪些城市最适合家庭旅行？","达拉斯球场附近的推荐餐厅？","从纽约到费城看比赛最便宜的方式是什么？"]
+  prompts:["摩洛哥U-17女足世界杯有哪些比赛？","为比赛规划拉巴特3天行程。","比赛间隙在拉巴特看什么？","穆莱·哈桑体育场附近哪里吃饭？","下一个FIFA赛事是什么？","在拉巴特怎么出行——电车、出租车还是步行？"]
 }}
 };
 
@@ -3012,7 +3017,7 @@ function renderIntentGrid(){var items=[{icon:'🏆',label:'All Tournaments',sub:
 
 function renderFeaturedPartners(){var el=document.getElementById('featuredPartners');if(!el||typeof PARTNERS==='undefined')return;el.innerHTML=PARTNERS.filter(function(p){return p.tier==='featured';}).map(function(p){return '<div class="partner-card is-featured">'+(p.badge?'<div class="partner-badge">'+p.badge+'</div>':'')+'<div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:1.5rem">'+p.icon+'</span><div class="partner-name">'+p.name+'</div></div><div class="partner-desc">'+p.shortDesc+'</div><a href="'+p.ctaUrl+'" target="_blank" rel="noopener" class="partner-cta">'+p.ctaLabel+' →</a></div>';}).join('');}
 
-function renderHomeGuideCards(){var el=document.getElementById('homeGuideCards');if(!el)return;var g=[{icon:'🏨',title:'Best Hotels Near Each Stadium',desc:'Where to stay for easy match-day access',page:'transport'},{icon:'🚇',title:'Airport-to-Stadium Transport',desc:'Step-by-step guides for every host city',page:'transport'},{icon:'🍺',title:'Watch Parties & Sports Bars',desc:'Best bars for World Cup atmosphere',page:'nightlife'},{icon:'💰',title:'Budget World Cup Travel',desc:'How to see matches without breaking the bank',page:'blog'},{icon:'👨‍👩‍👧‍👦',title:'Family Trip Guide',desc:'Kid-friendly cities and travel tips',page:'blog'},{icon:'🌃',title:'Fan Zones & Free Events',desc:'Watch every match free at official fan festivals',page:'matches'}];el.innerHTML=g.map(function(x){return '<a href="#" onclick="showPage(\''+x.page+'\')" class="guide-card"><div class="guide-card-icon">'+x.icon+'</div><div class="guide-card-title">'+x.title+'</div><div class="guide-card-desc">'+x.desc+'</div></a>';}).join('');}
+function renderHomeGuideCards(){var el=document.getElementById('homeGuideCards');if(!el)return;var active=getActiveTournamentCities();var tName=active.tournament?active.tournament.shortName:'FIFA Tournament';var hostCity=active.cities.length?active.cities[0].name:'host cities';var g=[{icon:'🏨',title:'Hotels Near '+hostCity+' Stadium',desc:'Where to stay for easy match-day access',page:'transport'},{icon:'🚇',title:'Getting Around '+hostCity,desc:'Transport guides for the host city',page:'transport'},{icon:'🗺️',title:'Top Attractions in '+hostCity,desc:'Must-see sights between matches',page:'attractions'},{icon:'🍽️',title:'Best Dining in '+hostCity,desc:'Local favorites near the stadium',page:'dining'},{icon:'📅',title:tName+' Match Schedule',desc:'Full fixtures and kick-off times',page:'matches'},{icon:'🌃',title:'Fan Zones & Free Events',desc:'Watch every match at official fan festivals',page:'matches'}];el.innerHTML=g.map(function(x){return '<a href="#" onclick="showPage(\''+x.page+'\')" class="guide-card"><div class="guide-card-icon">'+x.icon+'</div><div class="guide-card-title">'+x.title+'</div><div class="guide-card-desc">'+x.desc+'</div></a>';}).join('');}
 
 function renderPartnerCard(p){return '<div class="partner-card'+(p.tier==='featured'?' is-featured':'')+'">'+(p.badge?'<div class="partner-badge">'+p.badge+'</div>':'')+'<div style="display:flex;align-items:center;gap:.5rem"><span style="font-size:1.3rem">'+p.icon+'</span><div class="partner-name">'+p.name+'</div></div><div class="partner-desc">'+p.shortDesc+'</div>'+(p.ctaUrl&&p.ctaUrl!=='#'?'<a href="'+p.ctaUrl+'" target="_blank" rel="noopener" class="partner-cta">'+p.ctaLabel+' →</a>':'')+'</div>';}
 
