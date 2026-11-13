@@ -1693,8 +1693,8 @@ function renderTournamentCard(t){
   var statusClass=t.status;
   var statusLabel=t.status==='live'?'🔴 LIVE NOW':t.status==='upcoming'?'UPCOMING':t.status==='completed'?'COMPLETED':'FUTURE';
   var dateStr=formatTournamentDates(t);
-  var onclick=t.hasLocalData?"onclick=\"renderCities('"+t.id+"');showPage('cities')\"":"";
-  return '<div class="tournament-card '+statusClass+'" '+onclick+' style=\"cursor:'+(t.hasLocalData?'pointer':'default')+'\">'+
+  var onclick=t.hasLocalData?"onclick=\"renderCities('"+t.id+"');showPage('cities')\"":"onclick=\"showComingSoon('"+t.id+"')\"";
+  return '<div class="tournament-card '+statusClass+'" '+onclick+' style=\"cursor:pointer\">'+
     '<div class="tc-status '+statusClass+'">'+(t.status==='live'?'<span class="dot"></span>':'')+statusLabel+'</div>'+
     '<div class="tc-name">'+t.name+'</div>'+
     '<div class="tc-host">'+t.hostFlag+' '+t.host+'</div>'+
@@ -1705,10 +1705,29 @@ function renderTournamentCard(t){
     '</div>'+
     '<div class="tc-desc">'+t.desc+'</div>'+
     '<div class="tc-dates">📅 '+dateStr+'</div>'+
-    (t.hasLocalData?'<div style="margin-top:.6rem;font-size:.72rem;color:var(--primary);font-weight:600">View host city guides →</div>':'')+
+    (t.hasLocalData?'<div style="margin-top:.6rem;font-size:.72rem;color:var(--primary);font-weight:600">View host city guides →</div>':
+    '<div style="margin-top:.6rem;font-size:.72rem;color:var(--muted);font-weight:600">City guides coming soon →</div>')+
   '</div>';
 }
 
+function showComingSoon(tid){
+  var t=TOURNAMENTS.find(function(x){return x.id===tid;});
+  if(!t)return;
+  var el=document.getElementById('tournamentGrid');
+  if(!el)return;
+  var msg='<div style="background:var(--navy2);border:1px solid var(--border);border-radius:1rem;padding:2rem;text-align:center;margin-bottom:1.5rem" id="comingSoonBanner">'+
+    '<div style="font-size:2.5rem;margin-bottom:.5rem">'+t.hostFlag+'</div>'+
+    '<h2 style="font-size:1.3rem;font-weight:800;margin-bottom:.4rem">'+t.name+'</h2>'+
+    '<p style="color:var(--muted);font-size:.85rem;margin-bottom:.75rem">'+t.host+' · '+formatTournamentDates(t)+'</p>'+
+    '<p style="color:var(--muted);font-size:.82rem;margin-bottom:1rem">Host city guides, venues, transport, and travel planning for this tournament will be available closer to the event.</p>'+
+    '<div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap">'+
+      '<button class="btn btn-primary" style="font-size:.82rem" onclick="showPage(\'planner\')">✨ Start Planning Early</button>'+
+      '<button class="btn btn-outline" style="font-size:.82rem" onclick="document.getElementById(\'comingSoonBanner\').remove()">← Back to Hub</button>'+
+    '</div>'+
+  '</div>';
+  el.insertAdjacentHTML('afterbegin',msg);
+  el.scrollIntoView({behavior:'smooth'});
+}
 function formatTournamentDates(t){
   var s=new Date(t.startDate),e=new Date(t.endDate);
   var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
