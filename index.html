@@ -936,8 +936,8 @@ const TOURNAMENTS=[
    host:"Qatar",hostFlag:"🇶🇦",cities:1,teams:48,matches:104,
    startDate:"2026-11-19",endDate:"2026-12-13",
    logo:"⚽",color:"#8b5cf6",
-   desc:"Qatar hosts the expanded 48-team U-17 World Cup.",
-   hasLocalData:false},
+   desc:"Qatar hosts the expanded 48-team U-17 World Cup at the Aspire Zone.",
+   venueCity:"Doha",hasLocalData:true},
   {id:"wwc2027",name:"FIFA Women's World Cup 2027™",shortName:"Women's WC 2027",category:"Women's World Cup",status:"upcoming",
    host:"Brazil",hostFlag:"🇧🇷",cities:8,teams:32,matches:64,venues:8,
    startDate:"2027-06-24",endDate:"2027-07-25",
@@ -1382,6 +1382,49 @@ fanZones:[
   {name:"FIFA Fan Zone — Salé (shared with Rabat)",area:"Bou Regreg Waterfront, Salé",dates:"Oct 17 – Nov 7, 2026"}
 ],
 neighborhoods:[{name:"Stay in Rabat",vibe:"Better hotels, dining, and nightlife",hotel:"See Rabat listings",dist:"20–30 min via tram/taxi"}]
+},
+// === QATAR U-17 WORLD CUP 2026 ===
+{id:"doha",tournamentId:"u17wc2026",name:"Doha",country:"Qatar",flag:"🇶🇦",emoji:"🏟️",stadium:"Aspire Zone (8 pitches) & Ahmad bin Ali Stadium",addr:"Aspire Zone, Al Rayyan, Qatar",capacity:"Various (Final: 45,032 at Ahmad bin Ali)",matchCount:104,weather:"75–86°F warm & dry",tz:"AST (UTC+3)",highlights:"Aspire Zone sports complex, Souq Waqif, The Pearl-Qatar, Katara Cultural Village, desert excursions",
+matches:[
+  {id:1,date:"Thu, Nov 19",time:"4:00 PM AST",home:"Qatar",hf:"🇶🇦",away:"Panama",af:"🇵🇦",stage:"Group A (Opening Match)",host:true},
+  {id:2,date:"Thu, Nov 19",time:"7:00 PM AST",home:"Egypt",hf:"🇪🇬",away:"Greece",af:"🇬🇷",stage:"Group A"},
+  {id:3,date:"Fri, Nov 20",time:"4:00 PM AST",home:"South Korea",hf:"🇰🇷",away:"Uganda",af:"🇺🇬",stage:"Group B"},
+  {id:4,date:"Fri, Nov 20",time:"7:00 PM AST",home:"Argentina",hf:"🇦🇷",away:"Australia",af:"🇦🇺",stage:"Group C"},
+  {id:5,date:"Sat, Nov 21",time:"4:00 PM AST",home:"France",hf:"🇫🇷",away:"Haiti",af:"🇭🇹",stage:"Group D"},
+  {id:6,date:"Sat, Nov 21",time:"7:00 PM AST",home:"Brazil",hf:"🇧🇷",away:"Republic of Ireland",af:"🇮🇪",stage:"Group I"},
+  {id:7,date:"Sun, Nov 22",time:"4:00 PM AST",home:"Spain",hf:"🇪🇸",away:"China",af:"🇨🇳",stage:"Group H"},
+  {id:8,date:"Sun, Nov 22",time:"7:00 PM AST",home:"USA",hf:"🇺🇸",away:"Montenegro",af:"🇲🇪",stage:"Group J"},
+  {id:9,date:"Mon, Nov 23",time:"4:00 PM AST",home:"Japan",hf:"🇯🇵",away:"Colombia",af:"🇨🇴",stage:"Group L"},
+  {id:10,date:"Mon, Nov 23",time:"7:00 PM AST",home:"Mexico",hf:"🇲🇽",away:"Romania",af:"🇷🇴",stage:"Group K"},
+  {id:100,date:"Sun, Dec 13",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Final — Ahmad bin Ali Stadium"}
+],
+attractions:[
+  {name:"Souq Waqif",category:"Culture",icon:"🛍️",desc:"Historic marketplace with spice stalls, perfume shops, falcon market, and vibrant restaurants along winding alleys.",duration:"2–4 hrs",distance:"City center",tip:"Visit in the evening when it comes alive. Try the falcon hospital and spice quarter.",tags:["Culture","Dining","Shopping"]},
+  {name:"Katara Cultural Village",category:"Culture",icon:"🎭",desc:"Waterfront arts & culture complex with an amphitheatre, galleries, a beach, and international restaurants.",duration:"2–3 hrs",distance:"West Bay area",tip:"Free to enter. Check for live performances during the tournament.",tags:["Culture","Free","Beach"]},
+  {name:"The Pearl-Qatar",category:"Lifestyle",icon:"🌴",desc:"Artificial island with marina, designer shops, restaurants, and Mediterranean-style waterfront promenades.",duration:"3–4 hrs",distance:"North of West Bay",tip:"Walk the marina at sunset. The Qanat Quartier has a Venice-inspired canal district.",tags:["Dining","Shopping","Waterfront"]},
+  {name:"Museum of Islamic Art",category:"Museum",icon:"🏛️",desc:"I.M. Pei-designed museum on the Corniche with one of the world's finest collections of Islamic art spanning 1,400 years.",duration:"2–3 hrs",distance:"Corniche",tip:"The building itself is worth the visit. MIA Park behind it has great skyline views.",tags:["Museum","Architecture"]},
+  {name:"Desert Safari & Inland Sea",category:"Adventure",icon:"🏜️",desc:"Half-day dune bashing, camel rides, and a visit to the Inland Sea (Khor Al Adaid) — a UNESCO site where desert meets ocean.",duration:"4–6 hrs",distance:"60 km south",tip:"Book a morning or sunset tour. Wear comfortable shoes and bring sunscreen.",tags:["Adventure","Nature"]}
+],
+dining:[
+  {name:"Damasca One",cuisine:"Syrian",price:"$$",icon:"🫕",desc:"Celebrated Syrian restaurant in Souq Waqif with stunning interiors and excellent mezze.",mustTry:"Mixed grill platter + hummus + fattoush",tip:"Reserve for dinner — it's always packed. The courtyard seating is magical.",category:"Iconic"},
+  {name:"Parisa",cuisine:"Iranian/Persian",price:"$$$",icon:"🍽️",desc:"Lavish Iranian restaurant in Souq Waqif with mirror-mosaic ceilings and traditional Persian cuisine.",mustTry:"Joojeh kebab (saffron chicken) + saffron ice cream",tip:"The interior alone is worth a visit. Smart casual dress code.",category:"Fine Dining"},
+  {name:"Shay Al Shoomos",cuisine:"Qatari",price:"$",icon:"☕",desc:"Authentic Qatari café serving traditional dishes in a heritage setting in Souq Waqif.",mustTry:"Machboos (spiced rice with meat) + karak tea + luqaimat (sweet dumplings)",tip:"Best spot for genuine Qatari food. Very affordable. Popular at breakfast.",category:"Local Favorite"},
+  {name:"Nobu Doha",cuisine:"Japanese-Peruvian",price:"$$$$",icon:"🍣",desc:"Celebrity chef Nobu Matsuhisa's outpost at the Four Seasons on The Pearl with waterfront terrace.",mustTry:"Black cod miso + yellowtail jalapeño",tip:"Reserve well ahead. Terrace seating at sunset is spectacular.",category:"Fine Dining"}
+],
+transport:[
+  {mode:"Doha Metro (Gold Line → Aspire Zone)",icon:"🚇",badge:"Best Value",badgeColor:"green",cost:"QAR 2 (~$0.55) / Day Pass QAR 10",time:"20–30 min from city center",steps:["Take the Gold Line to Al Aziziyah station (Aspire Zone)","Walk 5–10 min to the Aspire Zone pitches","For Ahmad bin Ali Stadium: take the Green Line to Al Riffa station + shuttle bus","Metro runs ~6 AM–11 PM, extended hours on match days"],tip:"Buy a reloadable Travel Card at any station. Trains every 3–6 min during peak hours."},
+  {mode:"Uber / Karwa Taxi",icon:"🚕",badge:"Convenient",badgeColor:"blue",cost:"QAR 15–40 (~$4–11)",time:"15–25 min depending on traffic",steps:["Uber is available — app works same as worldwide","Karwa is Qatar's official metered taxi (app or street hail)","From Hamad International Airport: ~QAR 30–50 to city center","Ride-hailing is the easiest option for stadium-to-hotel transport"],tip:"Karwa taxis are metered and reliable. Uber surge pricing applies near stadiums after matches."}
+],
+fanZones:[
+  {name:"FIFA Fan Zone — Aspire Zone",area:"Aspire Zone, Al Rayyan",dates:"Nov 19 – Dec 13, 2026 (included with Day Pass)"},
+  {name:"Souq Waqif Fan Area",area:"Souq Waqif, Doha",dates:"Match days — live screenings and entertainment"}
+],
+neighborhoods:[
+  {name:"West Bay",vibe:"CBD skyline, luxury hotels, Corniche promenade",hotel:"W Doha, Sheraton Grand Doha, St. Regis",dist:"20 min via Gold Line to Aspire Zone"},
+  {name:"Souq Waqif / Msheireb",vibe:"Traditional, walkable, restaurants, heritage quarter",hotel:"Souq Waqif Boutique Hotels, Alwadi Hotel MGallery",dist:"25 min via Gold Line"},
+  {name:"The Pearl-Qatar",vibe:"Upscale island, marina dining, shopping",hotel:"Marsa Malaz Kempinski, The Ritz-Carlton Doha",dist:"30 min via Lusail Tram + Metro"},
+  {name:"Al Rayyan (near Aspire Zone)",vibe:"Closest to venues, quieter residential area",hotel:"Torch Doha (at Aspire Zone), Al Rayyan Hotel Curio by Hilton",dist:"Walking distance to Aspire Zone pitches"}
+]
 }
 ];
 
