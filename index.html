@@ -2387,7 +2387,43 @@ async function sendChat(){
     ['ghana',['ghana','black stars']],
     ['japan',['japan','japanese','samurai blue']],
     ['iran',['iran','iranian']],
-    ['usa',['usa','united states','usmnt']]
+    ['usa',['usa','united states','usmnt']],
+    ['qatar',['qatar']],
+    ['panama',['panama']],
+    ['egypt',['egypt','pharaohs']],
+    ['greece',['greece','greek']],
+    ['uganda',['uganda']],
+    ['new caledonia',['new caledonia']],
+    ['ecuador',['ecuador']],
+    ['mozambique',['mozambique']],
+    ['haiti',['haiti']],
+    ['uruguay',['uruguay','celeste']],
+    ['italy',['italy','italian','azzurri']],
+    ['jamaica',['jamaica','reggae boyz']],
+    ['ivory coast',['ivory coast','cote d\'ivoire']],
+    ['uzbekistan',['uzbekistan']],
+    ['senegal',['senegal','teranga lions']],
+    ['croatia',['croatia','croatian']],
+    ['cuba',['cuba']],
+    ['tajikistan',['tajikistan']],
+    ['mali',['mali']],
+    ['new zealand',['new zealand','all whites']],
+    ['belgium',['belgium','belgian','red devils']],
+    ['vietnam',['vietnam']],
+    ['china',['china','chinese']],
+    ['fiji',['fiji']],
+    ['ireland',['ireland','irish','republic of ireland']],
+    ['tanzania',['tanzania']],
+    ['costa rica',['costa rica']],
+    ['montenegro',['montenegro']],
+    ['chile',['chile','chilean']],
+    ['algeria',['algeria']],
+    ['romania',['romania','romanian']],
+    ['cameroon',['cameroon','indomitable lions']],
+    ['venezuela',['venezuela']],
+    ['colombia',['colombia','colombian']],
+    ['serbia',['serbia','serbian']],
+    ['honduras',['honduras']]
   ];
   let qForTeam = q;
   if (originKey) {
@@ -2414,7 +2450,39 @@ async function sendChat(){
     }
   }
 
-  const teamMatches = {
+  // --- Tournament-aware team data ---
+  // U-17 WC 2026 groups (Qatar, Nov 19 – Dec 13, 2026)
+  const u17Groups = {
+    'A':['qatar','panama','egypt','greece'],
+    'B':['south korea','uganda','new caledonia','ecuador'],
+    'C':['argentina','australia','mozambique','denmark'],
+    'D':['france','haiti','saudi arabia','uruguay'],
+    'E':['italy','jamaica','ivory coast','uzbekistan'],
+    'F':['senegal','croatia','cuba','tajikistan'],
+    'G':['mali','new zealand','belgium','vietnam'],
+    'H':['spain','china','fiji','morocco'],
+    'I':['brazil','ireland','tanzania','costa rica'],
+    'J':['usa','montenegro','chile','algeria'],
+    'K':['mexico','romania','cameroon','venezuela'],
+    'L':['japan','colombia','serbia','honduras']
+  };
+  // Build U-17 team → group lookup and generate group-stage match stubs
+  const u17TeamGroup = {};
+  const u17TeamMatches = {};
+  for (const [grp, teams] of Object.entries(u17Groups)) {
+    teams.forEach(function(t) { u17TeamGroup[t] = grp; });
+    // Each team plays the other 3 in the group; all at Aspire Zone, Doha
+    const grpDates = ['Nov 19','Nov 22','Nov 25']; // approximate MD1-3 spacing
+    teams.forEach(function(t) {
+      var opponents = teams.filter(function(x){return x!==t;});
+      u17TeamMatches[t] = opponents.map(function(opp, i) {
+        return {date: grpDates[i] + ', 2026', opponent: opp.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1);}).join(' '), venue:'Aspire Zone', city:'Doha, Qatar'};
+      });
+    });
+  }
+
+  // WC2026 team matches (ARCHIVE — tournament completed July 19, 2026)
+  const wc2026TeamMatches = {
     'england':    [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'SoFi Stadium',city:'Los Angeles, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}],
     'brazil':     [{date:'June 14, 2026',opponent:'Group Stage Opponent A',venue:'Rose Bowl',city:'Los Angeles, CA'},{date:'June 18, 2026',opponent:'Group Stage Opponent B',venue:'Hard Rock Stadium',city:'Miami, FL'},{date:'June 22, 2026',opponent:'Group Stage Opponent C',venue:'Gillette Stadium',city:'Boston, MA'}],
     'france':     [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'Arrowhead Stadium',city:'Kansas City, MO'}],
@@ -2439,6 +2507,14 @@ async function sendChat(){
     'iran':       [{date:'June 16, 2026',opponent:'Group Stage Opponent A',venue:'SoFi Stadium',city:'Los Angeles, CA'},{date:'June 20, 2026',opponent:'Group Stage Opponent B',venue:"Levi's Stadium",city:'San Francisco, CA'},{date:'June 24, 2026',opponent:'Group Stage Opponent C',venue:'Rose Bowl',city:'Los Angeles, CA'}],
     'ghana':      [{date:'June 15, 2026',opponent:'Group Stage Opponent A',venue:'Lincoln Financial',city:'Philadelphia, PA'},{date:'June 19, 2026',opponent:'Group Stage Opponent B',venue:'MetLife Stadium',city:'New York/NJ'},{date:'June 23, 2026',opponent:'Group Stage Opponent C',venue:'AT&T Stadium',city:'Dallas, TX'}]
   };
+
+  // Determine which tournament(s) the detected team is in
+  const isU17Team = !!u17TeamMatches[detectedTeam];
+  const isWC2026Team = !!wc2026TeamMatches[detectedTeam];
+  // Prefer showing the current/upcoming tournament over archived one
+  const activeTournament = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+  const showU17 = isU17Team && activeTournament && activeTournament.id === 'u17wc2026';
+
   const hotelRanges = {
     'Los Angeles, CA':  {budget:'$120-180',mid:'$200-320',luxury:'$400-700'},
     'New York/NJ':      {budget:'$150-220',mid:'$250-400',luxury:'$500-900'},
@@ -2450,7 +2526,8 @@ async function sendChat(){
     'Boston, MA':       {budget:'$120-190',mid:'$200-320',luxury:'$400-700'},
     'Toronto':          {budget:'$110-170',mid:'$190-300',luxury:'$380-650'},
     'Vancouver':        {budget:'$110-170',mid:'$190-300',luxury:'$370-630'},
-    'Mexico City':      {budget:'$60-100', mid:'$110-180',luxury:'$220-400'}
+    'Mexico City':      {budget:'$60-100', mid:'$110-180',luxury:'$220-400'},
+    'Doha, Qatar':      {budget:'$80-150', mid:'$160-280',luxury:'$300-600'}
   };
   const flightsFrom = {
     'England':     {la:'~$550-900',ny:'~$400-700',dallas:'~$500-850',miami:'~$450-750',sf:'~$580-950',boston:'~$420-700',philly:'~$420-720',kc:'~$520-870',toronto:'~$450-750',vancouver:'~$580-980',mexico:'~$520-860'},
@@ -2476,13 +2553,15 @@ async function sendChat(){
     'Nigeria':     {la:'~$720-1120',ny:'~$640-1040',dallas:'~$680-1080',miami:'~$660-1060',sf:'~$740-1140',boston:'~$650-1050',philly:'~$635-1035',kc:'~$690-1090',toronto:'~$665-1065',vancouver:'~$750-1150',mexico:'~$700-1100'},
     'Saudi Arabia':{la:'~$700-1100',ny:'~$750-1200',dallas:'~$720-1130',miami:'~$740-1160',sf:'~$710-1110',boston:'~$755-1205',philly:'~$745-1195',kc:'~$725-1135',toronto:'~$748-1198',vancouver:'~$718-1118',mexico:'~$730-1150'},
     'Iran':        {la:'~$750-1200',ny:'~$800-1280',dallas:'~$770-1230',miami:'~$790-1260',sf:'~$760-1210',boston:'~$805-1285',philly:'~$795-1275',kc:'~$775-1235',toronto:'~$798-1278',vancouver:'~$768-1228',mexico:'~$780-1250'},
-    'New Zealand': {la:'~$870-1320',ny:'~$960-1460',dallas:'~$920-1400',miami:'~$940-1430',sf:'~$850-1300',boston:'~$965-1465',philly:'~$955-1455',kc:'~$925-1405',toronto:'~$950-1440',vancouver:'~$860-1310',mexico:'~$910-1390'}
+    'New Zealand': {la:'~$870-1320',ny:'~$960-1460',dallas:'~$920-1400',miami:'~$940-1430',sf:'~$850-1300',boston:'~$965-1465',philly:'~$955-1455',kc:'~$925-1405',toronto:'~$950-1440',vancouver:'~$860-1310',mexico:'~$910-1390',doha:'~$900-1350'},
+    'Qatar':       {la:'~$700-1100',ny:'~$750-1200',dallas:'~$720-1130',miami:'~$740-1160',sf:'~$710-1110',boston:'~$755-1205',philly:'~$745-1195',kc:'~$725-1135',toronto:'~$748-1198',vancouver:'~$718-1118',mexico:'~$730-1150',doha:'local'}
   };
   const cityKey = {
     'Los Angeles, CA':'la','New York/NJ':'ny','Dallas, TX':'dallas',
     'Miami, FL':'miami','San Francisco, CA':'sf','Boston, MA':'boston',
     'Philadelphia, PA':'philly','Kansas City, MO':'kc',
-    'Toronto':'toronto','Vancouver':'vancouver','Mexico City':'mexico'
+    'Toronto':'toronto','Vancouver':'vancouver','Mexico City':'mexico',
+    'Doha, Qatar':'doha'
   };
 
   if (!detectedTeam) {
@@ -2565,12 +2644,22 @@ async function sendChat(){
     }
     else if (isMatch) {
       if (isFinal) {
-        reply = '🏆 **The FIFA World Cup 2026 Final (Completed):**\n\n';
-        reply += '📅 **Sunday, July 19, 2026 at 3:00 PM ET**\n';
-        reply += '🏟️ **MetLife Stadium**, East Rutherford, NJ (near New York City)\n';
-        reply += '👥 Capacity: 82,500\n\n';
-        reply += 'The FIFA World Cup 2026 has concluded. Check the Tournament Hub for upcoming FIFA tournaments!\n\n';
-        reply += '🌍 **Next up:** FIFA Women\'s World Cup 2027 in Brazil | FIFA World Cup 2030 in Spain/Portugal/Morocco';
+        var activeTrn = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+        if (activeTrn && activeTrn.id === 'u17wc2026') {
+          reply = '🏆 **FIFA U-17 World Cup 2026 Final:**\n\n';
+          reply += '📅 **December 13, 2026**\n';
+          reply += '🏟️ **Ahmad bin Ali Stadium**, Al Rayyan, Qatar (capacity 45,032)\n\n';
+          reply += '48 teams compete in 12 groups (Nov 19 – Dec 13, 2026). All group matches at Aspire Zone, Doha.\n\n';
+          reply += '🎫 Check tickets.fifa.com for ticket availability.\n\n';
+          reply += '📁 **WC2026 Final archive:** MetLife Stadium, July 19, 2026 (completed)';
+        } else {
+          reply = '🏆 **The FIFA World Cup 2026 Final (Completed):**\n\n';
+          reply += '📅 **Sunday, July 19, 2026 at 3:00 PM ET**\n';
+          reply += '🏟️ **MetLife Stadium**, East Rutherford, NJ (near New York City)\n';
+          reply += '👥 Capacity: 82,500\n\n';
+          reply += 'The FIFA World Cup 2026 has concluded. Check the Tournament Hub for upcoming FIFA tournaments!\n\n';
+          reply += '🌍 **Next up:** FIFA Women\'s World Cup 2027 in Brazil | FIFA World Cup 2030 in Spain/Portugal/Morocco';
+        }
       } else {
         reply = '📅 **Match Schedule at ' + ac.stadium + ', ' + ac.name + ':**\n\n';
         ac.matches.forEach(function(m) {
@@ -2635,7 +2724,14 @@ async function sendChat(){
     }
     else if (isVisa) {
       reply = '🛂 **Visa Requirements for FIFA Host Countries:**\n\n';
-      reply += '**USA (11 cities):**\n';
+      var activeTrn = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+      if (activeTrn && activeTrn.id === 'u17wc2026') {
+        reply += '**Qatar (U-17 World Cup 2026):**\n';
+        reply += '• Citizens of 80+ countries receive visa-free entry or visa-on-arrival to Qatar\n';
+        reply += '• For the World Cup, FIFA\'s Hayya Card system may apply — check fifa.com for details\n';
+        reply += '• Apply via Qatar\'s Ministry of Interior portal: moi.gov.qa\n\n';
+      }
+      reply += '**USA (11 cities — WC2026 archive):**\n';
       reply += '• ESTA (visa waiver) for 41 countries including UK, EU, Japan, Australia, S. Korea — apply at esta.cbp.dhs.gov ($21, approved in minutes)\n';
       reply += '• All others need a B-1/B-2 tourist visa — apply at your nearest US embassy\n\n';
       reply += '**Canada (Toronto, Vancouver):**\n';
@@ -2647,49 +2743,70 @@ async function sendChat(){
       reply += '💡 Apply 3+ months before travel. A valid US visa often waives the Mexico visa requirement.';
     }
     else if (isBudget) {
-      reply = '💰 **Budget Guide for FIFA World Cup Host Cities:**\n\n';
+      var activeTrn = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+      if (activeTrn && activeTrn.id === 'u17wc2026') {
+        reply = '💰 **Budget Guide — FIFA U-17 World Cup 2026 (Qatar):**\n\n';
+        reply += '🇶🇦 **Doha, Qatar:**\n';
+        reply += '• Budget hotels: $80-150/night · Mid-range: $160-280/night\n';
+        reply += '• Doha Metro: ~$0.50-2 per ride\n';
+        reply += '• Street food & cafes: $5-15 per meal\n';
+        reply += '• Uber/Karwa rides: $5-15 across the city\n\n';
+        reply += '**Budget tips:**\n';
+        reply += '• All matches are in the Aspire Zone — no inter-city travel needed\n';
+        reply += '• November weather is pleasant (25-30°C) — less AC needed\n';
+        reply += '• Book flights 2-3 months early for best fares to Doha\n';
+        reply += '• Souq Waqif has affordable dining and free cultural experiences\n\n';
+        reply += '---\n\n';
+      } else {
+        reply = '';
+      }
+      reply += '💰 **Budget Guide — WC2026 Host Cities (Archive):**\n\n';
       reply += '**Cheapest host cities:**\n';
       reply += '1. 🇲🇽 Mexico City — Metro $0.25, tacos $1-2, hotels from $40/night\n';
       reply += '2. 🤠 Kansas City — Hotels $90-140/night, BBQ meals under $20\n';
       reply += '3. ☕ Seattle — Most walkable, $3 transit, great food trucks\n\n';
       reply += '**Most expensive:**\n';
-      reply += '1. 🗽 New York — Hotels $300-600/night (especially Final week Jul 14-20)\n';
-      reply += '2. 🌊 Miami — Hotels $200-400/night during matches\n\n';
-      reply += '**Budget tips:**\n';
-      reply += '• Fan zones are completely FREE — real atmosphere, no ticket needed\n';
-      reply += '• Airbnb runs 30-40% cheaper than hotels in most cities\n';
-      reply += '• Group stage tickets for smaller teams = best value\n';
-      reply += '• Amtrak Boston→NYC→Philly from $35 (faster than flying with airport time)\n';
-      reply += '• Book flights 6+ weeks early on Southwest (free changes)\n';
+      reply += '1. 🗽 New York — Hotels $300-600/night\n';
+      reply += '2. 🌊 Miami — Hotels $200-400/night\n';
     }
     else if (isTicket) {
-      reply = '🎫 **FIFA World Cup Tickets:**\n\n';
+      var activeTrn = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+      reply = '🎫 **FIFA Tournament Tickets:**\n\n';
+      if (activeTrn && activeTrn.id === 'u17wc2026') {
+        reply += '**FIFA U-17 World Cup 2026 (Qatar):**\n';
+        reply += '• Official tickets at tickets.fifa.com and the FIFA+ app\n';
+        reply += '• All 104 matches in Doha (Aspire Zone + Ahmad bin Ali Stadium)\n';
+        reply += '• U-17 tournaments typically offer very affordable pricing\n\n';
+      }
       reply += '**World Cup 2026 (completed):**\n';
       reply += '• WC2026 ticket sales have ended. The tournament took place June 11 – July 19, 2026.\n\n';
-      reply += '**Upcoming tournaments:**\n';
-      reply += '• For future FIFA tournaments, check tickets.fifa.com and the FIFA+ app for official ticket sales.\n';
-      reply += '• Secondary market platforms: StubHub, Viagogo, SeatGeek, VividSeats\n\n';
-      reply += '**WC2026 pricing was:**\n';
-      reply += '• Group Stage: from $80\n';
-      reply += '• Round of 32: from $150\n';
-      reply += '• Quarter-Final: from $250\n';
-      reply += '• Semi-Final: from $350\n';
-      reply += '• Final: from $500+\n\n';
-      reply += '💡 For future tournaments, the best time to buy resale is 2-3 weeks before the match.';
+      reply += '**General tips for FIFA tournaments:**\n';
+      reply += '• Official: tickets.fifa.com and the FIFA+ app\n';
+      reply += '• Secondary market: StubHub, Viagogo, SeatGeek, VividSeats\n';
+      reply += '• Best time to buy resale: 2-3 weeks before the match\n';
+      reply += '• Group stage matches for smaller teams = best value';
     }
     else if (isFamily) {
-      reply = '👨‍👩‍👧‍👦 **Family-Friendly World Cup Cities:**\n\n';
-      reply += '1. **Seattle** — Most walkable, mild weather, Pike Place Market, Space Needle, no car needed\n';
+      var activeTrn = TOURNAMENTS.find(function(t){return t.status==='live'||t.status==='upcoming';});
+      reply = '👨‍👩‍👧‍👦 **Family-Friendly FIFA Travel Guide:**\n\n';
+      if (activeTrn && activeTrn.id === 'u17wc2026') {
+        reply += '**🇶🇦 Doha, Qatar (U-17 World Cup 2026):**\n';
+        reply += '• Qatar is very family-oriented — safe, clean, excellent public facilities\n';
+        reply += '• Aspire Zone has parks, playgrounds, and sports facilities around the venues\n';
+        reply += '• The Pearl-Qatar and Katara Cultural Village are family-friendly attractions\n';
+        reply += '• November weather is pleasant (25-30°C) — comfortable for kids\n';
+        reply += '• Doha Metro is modern, air-conditioned, and stroller-friendly\n\n';
+      }
+      reply += '**Top family-friendly WC2026 host cities (archive):**\n';
+      reply += '1. **Seattle** — Most walkable, mild weather, Pike Place Market, Space Needle\n';
       reply += '2. **Toronto** — CN Tower, Niagara Falls day trip, diverse food, very safe\n';
-      reply += '3. **San Francisco** — Alcatraz, Golden Gate, great transit, cool weather\n';
-      reply += '4. **Vancouver** — Stanley Park, beaches + mountains, family-oriented culture\n';
-      reply += '5. **Atlanta** — Georgia Aquarium (largest in Western Hemisphere), World of Coca-Cola\n\n';
-      reply += '**Tips for families:**\n';
-      reply += '• All stadiums are cashless — bring contactless cards\n';
-      reply += '• Clear bag policy at all venues — check size limits\n';
+      reply += '3. **San Francisco** — Alcatraz, Golden Gate, great transit\n';
+      reply += '4. **Vancouver** — Stanley Park, beaches + mountains\n';
+      reply += '5. **Atlanta** — Georgia Aquarium, World of Coca-Cola\n\n';
+      reply += '**Tips for families at FIFA events:**\n';
+      reply += '• Stadiums are typically cashless — bring contactless cards\n';
       reply += '• Arrive 2+ hours early for smooth security with kids\n';
-      reply += '• Fan zones are free, all ages, and a great alternative to packed stadiums\n';
-      reply += '• Avoid Dallas/Houston/Miami for afternoon matches with young kids (extreme heat)';
+      reply += '• Fan zones are free, all ages, and a great alternative to packed stadiums';
     }
     else {
       // General question — give an overview of the current city
@@ -2716,65 +2833,108 @@ async function sendChat(){
     return reply;
   }
 
-  const matches = teamMatches[detectedTeam] || [];
   const teamDisplay = detectedTeam.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1);}).join(' ');
   const origin = originName || 'your location';
   const flights = flightsFrom[origin] || flightsFrom['England'];
 
-  let html = '<div style="font-family:sans-serif;max-width:680px;margin:0 auto">';
-  html += '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px">';
-  html += '<h2 style="margin:0 0 6px 0;font-size:1.4em">Your ' + teamDisplay + ' FIFA World Cup Itinerary</h2>';
-  html += '<p style="margin:0;opacity:0.8;font-size:0.9em">Flying from ' + origin + ' | Group Stage: 3 matches</p>';
-  html += '</div>';
+  // If team is in the current/upcoming U-17 WC, show that itinerary
+  if (showU17) {
+    const matches = u17TeamMatches[detectedTeam] || [];
+    const grpLetter = u17TeamGroup[detectedTeam] || '?';
+    let html = '<div style="font-family:sans-serif;max-width:680px;margin:0 auto">';
+    html += '<div style="background:linear-gradient(135deg,#7c1d47,#4a0e29);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px">';
+    html += '<h2 style="margin:0 0 6px 0;font-size:1.4em">🇶🇦 ' + teamDisplay + ' — FIFA U-17 World Cup 2026</h2>';
+    html += '<p style="margin:0;opacity:0.8;font-size:0.9em">Group ' + grpLetter + ' | Qatar · Nov 19 – Dec 13, 2026 | Aspire Zone, Doha</p>';
+    html += '</div>';
 
-  matches.forEach(function(m, i) {
-    const hotel = hotelRanges[m.city] || {budget:'$100-160',mid:'$170-270',luxury:'$350-600'};
-    const ck = cityKey[m.city] || 'ny';
-    const fp = flights[ck] || '~$400-800';
-    html += '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">';
-    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
-    html += '<span style="background:#e63946;color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0">' + (i+1) + '</span>';
-    html += '<div><strong style="font-size:1.05em">' + teamDisplay + ' vs ' + m.opponent + '</strong>';
-    html += '<div style="font-size:0.85em;color:#555">' + m.date + ' | ' + m.venue + ', ' + m.city + '</div></div></div>';
+    matches.forEach(function(m, i) {
+      html += '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">';
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
+      html += '<span style="background:#7c1d47;color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0">MD' + (i+1) + '</span>';
+      html += '<div><strong style="font-size:1.05em">' + teamDisplay + ' vs ' + m.opponent + '</strong>';
+      html += '<div style="font-size:0.85em;color:#555">' + m.date + ' | ' + m.venue + ', ' + m.city + '</div></div></div>';
+      html += '</div>';
+    });
+
+    // Travel info for Doha
+    const dohaHotel = hotelRanges['Doha, Qatar'];
+    const ck = cityKey['Doha, Qatar'] || 'doha';
+    const fp = flights[ck] || '~$600-1000';
+    html += '<div style="background:#f8f9fa;border:1px solid #e0e0e0;border-radius:10px;padding:18px 20px;margin-bottom:14px">';
+    html += '<h3 style="margin:0 0 12px 0;font-size:1.05em">🛫 Travel to Doha, Qatar</h3>';
     html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.88em">';
-    html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
-    html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Flight from ' + origin + '</div>';
-    html += '<div style="color:#555">' + fp + ' return</div>';
-    html += '<div style="color:#777;font-size:0.85em;margin-top:2px">Book 3-4 months early for best fares</div></div>';
-    html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
-    html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Hotels in ' + m.city + '</div>';
-    html += '<div style="color:#555">Budget: ' + hotel.budget + '/night</div>';
-    html += '<div style="color:#555">Mid-range: ' + hotel.mid + '/night</div>';
-    html += '<div style="color:#777;font-size:0.85em">Luxury: ' + hotel.luxury + '/night</div></div>';
-    html += '<div style="background:#fff7ed;border-radius:8px;padding:10px;grid-column:1/-1">';
-    html += '<div style="font-weight:600;margin-bottom:4px;color:#c05621">WC2026 Ticket Archive</div>';
-    html += '<div style="color:#744210;font-size:0.88em">World Cup 2026 ticket sales have ended. For upcoming FIFA tournaments, visit tickets.fifa.com</div>';
-    html += '<div style="color:#92400e;font-size:0.8em;margin-top:3px">Check the Tournament Hub for upcoming events and ticket info</div>';
-    html += '</div></div></div>';
-  });
+    html += '<div style="background:#fff;border-radius:8px;padding:10px"><div style="font-weight:600;margin-bottom:4px">Flight from ' + origin + '</div><div style="color:#555">' + fp + ' return</div></div>';
+    html += '<div style="background:#fff;border-radius:8px;padding:10px"><div style="font-weight:600;margin-bottom:4px">Hotels in Doha</div>';
+    html += '<div style="color:#555">Budget: ' + dohaHotel.budget + '/night</div>';
+    html += '<div style="color:#555">Mid-range: ' + dohaHotel.mid + '/night</div></div>';
+    html += '</div></div>';
 
-  html += '<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px 20px;margin-bottom:14px">';
-  html += '<h3 style="margin:0 0 10px 0;color:#14532d;font-size:1.05em">Estimated Trip Budget (per person)</h3>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:0.88em">';
-  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Budget</div><div style="color:#555;margin-top:4px">Flights + hotels + Cat-3 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$3,500-5,000</div></div>';
-  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Mid-Range</div><div style="color:#555;margin-top:4px">Comfort travel + Cat-2 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$6,000-9,000</div></div>';
-  html += '<div style="text-align:center;background:#fff;border-radius:8px;padding:10px"><div style="font-weight:700;color:#15803d;font-size:1.1em">Premium</div><div style="color:#555;margin-top:4px">Business class + Cat-1 tickets</div><div style="font-weight:700;font-size:1.2em;color:#166534;margin-top:6px">~$12,000+</div></div>';
-  html += '</div></div>';
+    html += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px 20px;margin-bottom:14px">';
+    html += '<h3 style="margin:0 0 8px 0;color:#1e40af;font-size:1em">🇶🇦 Qatar Travel Tips</h3>';
+    html += '<ul style="margin:0;padding-left:18px;color:#1e3a8a;font-size:0.88em;line-height:1.7">';
+    html += '<li>Most nationalities receive visa-free or visa-on-arrival entry to Qatar</li>';
+    html += '<li>Doha Metro Red & Gold lines serve the Aspire Zone and city centre</li>';
+    html += '<li>November weather: 25–30°C (77–86°F) — pleasant for outdoor sightseeing</li>';
+    html += '<li>Visit Souq Waqif, Katara Cultural Village, and the Museum of Islamic Art</li>';
+    html += '<li>Uber and Karwa taxis are reliable; rides cost $5-15 across the city</li>';
+    html += '<li>Check tickets.fifa.com for official U-17 World Cup tickets</li>';
+    html += '</ul></div>';
 
-  html += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px 20px;margin-bottom:14px">';
-  html += '<h3 style="margin:0 0 8px 0;color:#1e40af;font-size:1em">Cost-Saving Tips</h3>';
-  html += '<ul style="margin:0;padding-left:18px;color:#1e3a8a;font-size:0.88em;line-height:1.7">';
-  html += '<li>Search live flight prices at Google Flights (flights.google.com) for real-time fares to World Cup cities</li>';
-  html += '<li>Stay in nearby suburbs to save 30-40% vs city centre hotel prices</li>';
-  html += '<li>Use Airbnb or shared apartments for multi-night stays in each city</li>';
-  html += '<li>Check Google Flights for current domestic US flight prices between host cities</li>';
-  html += '<li>Register for FIFA ticket ballot early at tickets.fifa.com</li>';
-  html += '<li>Fan zones and public screenings are free with great atmosphere</li>';
-  html += '</ul></div>';
+    html += '<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:0.8em;color:#78350f">';
+    html += '<strong>Note:</strong> Group opponents based on the official FIFA U-17 World Cup 2026 draw. Exact match times TBC. Flight costs are estimates — verify at Google Flights. Official info at <a href="https://www.fifa.com/tournaments/mens/u17worldcup" target="_blank" style="color:#92400e">fifa.com</a>.';
+    html += '</div></div>';
+    return html;
+  }
 
-  html += '<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:0.8em;color:#78350f">';
-  html += '<strong>Note:</strong> Match opponents, dates and venues reflect the Official 2026 FIFA World Cup schedule confirmed by FIFA after the draw and the confirmed 2026 host city list. The Official 2026 FIFA World Cup schedule has been confirmed by FIFA after the draw. Ticket and flight costs are estimates only. Verify at <a href="https://www.fifa.com/worldcup" target="_blank" style="color:#92400e">fifa.com</a>.';
-  html += '</div></div>';
+  // If team is only in the WC2026 archive, show archive itinerary
+  if (isWC2026Team) {
+    const matches = wc2026TeamMatches[detectedTeam] || [];
+    let html = '<div style="font-family:sans-serif;max-width:680px;margin:0 auto">';
+    html += '<div style="background:linear-gradient(135deg,#555,#333);color:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px">';
+    html += '<div style="background:rgba(255,255,255,0.15);display:inline-block;border-radius:6px;padding:4px 10px;font-size:0.75em;font-weight:700;margin-bottom:10px">📁 ARCHIVE — COMPLETED TOURNAMENT</div>';
+    html += '<h2 style="margin:0 0 6px 0;font-size:1.4em">' + teamDisplay + ' — FIFA World Cup 2026</h2>';
+    html += '<p style="margin:0;opacity:0.8;font-size:0.9em">USA/Canada/Mexico · June 11 – July 19, 2026 (completed)</p>';
+    html += '</div>';
+
+    matches.forEach(function(m, i) {
+      const hotel = hotelRanges[m.city] || {budget:'$100-160',mid:'$170-270',luxury:'$350-600'};
+      const ck = cityKey[m.city] || 'ny';
+      const fp = flights[ck] || '~$400-800';
+      html += '<div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:18px 20px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,0.06)">';
+      html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">';
+      html += '<span style="background:#777;color:#fff;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0">' + (i+1) + '</span>';
+      html += '<div><strong style="font-size:1.05em">' + teamDisplay + ' vs ' + m.opponent + '</strong>';
+      html += '<div style="font-size:0.85em;color:#555">' + m.date + ' | ' + m.venue + ', ' + m.city + '</div></div></div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.88em">';
+      html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
+      html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Flight from ' + origin + '</div>';
+      html += '<div style="color:#555">' + fp + ' return</div></div>';
+      html += '<div style="background:#f8f9fa;border-radius:8px;padding:10px">';
+      html += '<div style="font-weight:600;margin-bottom:4px;color:#333">Hotels in ' + m.city + '</div>';
+      html += '<div style="color:#555">Budget: ' + hotel.budget + '/night</div>';
+      html += '<div style="color:#555">Mid-range: ' + hotel.mid + '/night</div></div>';
+      html += '</div></div>';
+    });
+
+    html += '<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:0.8em;color:#78350f">';
+    html += '<strong>Archive:</strong> FIFA World Cup 2026 concluded July 19, 2026. This data is preserved for reference. For current tournaments, check the <a href="#" onclick="showPage(\'tournaments\')" style="color:#92400e">Tournament Hub</a>.';
+    html += '</div></div>';
+
+    // If this team is ALSO in the U-17 WC, add a note
+    if (isU17Team) {
+      html = '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:0.9em">';
+      html += '🏟️ <strong>' + teamDisplay + '</strong> is also in the <strong>FIFA U-17 World Cup 2026</strong> in Qatar (Nov 19 – Dec 13). ';
+      html += 'Ask me about "' + detectedTeam + ' u-17" for their U-17 group stage schedule!</div>' + html;
+    }
+    return html;
+  }
+
+  // Team not found in any tournament data
+  let html = '<div style="font-family:sans-serif;max-width:680px;margin:0 auto">';
+  html += '<div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:16px 20px">';
+  html += '<p style="margin:0">We don\'t have detailed schedule data for <strong>' + teamDisplay + '</strong> yet. ';
+  html += 'Check the <a href="#" onclick="showPage(\'tournaments\')" style="color:#92400e">Tournament Hub</a> for all upcoming FIFA events, ';
+  html += 'or ask about a specific city for travel tips!</p></div></div>';
   return html;
 }
 
@@ -3070,6 +3230,8 @@ function downloadPDF(text, c) {
 
 /* ── BLOG ARTICLES DATA ── */
 var ARTICLES = [
+{"id": "article-26", "slug": "fifa-u17-world-cup-2026-qatar-complete-guide", "title": "FIFA U-17 World Cup 2026 Qatar: Your Complete Guide to Doha", "category": "Tournament Guide", "city": "Doha", "date": "November 5, 2026", "readTime": "4 min read", "excerpt": "Qatar hosts the expanded 48-team FIFA U-17 World Cup from November 19 to December 13, 2026. All matches take place in Doha at the Aspire Zone and Ahmad bin Ali Stadium — making this the most compact and accessible FIFA tournament of the year.", "content": "<h2>The Tournament at a Glance</h2><p>The FIFA U-17 World Cup 2026 is the first edition to feature 48 teams, divided into 12 groups of four. Qatar hosts every match across two venues: the Aspire Zone sports complex in Doha (eight pitches for group stage and early knockout rounds) and Ahmad bin Ali Stadium in Al Rayyan (capacity 45,032) for the semi-finals and final on December 13. The tournament runs November 19 to December 13, 2026 — three and a half weeks of youth football at the highest level.</p><h2>Groups to Watch</h2><p>The draw produced several compelling groups. Group A features host nation Qatar alongside Panama, Egypt, and Greece. Group D pairs France with Haiti, Saudi Arabia, and Uruguay — a group of serious pedigree. Group H brings together Spain, China, Fiji, and Morocco. And Group L features Japan, Colombia, Serbia, and Honduras — four nations with strong youth development programs. The first matchday begins November 19 with Groups A through D.</p><h2>Getting to Doha</h2><p>Hamad International Airport is one of the best-connected hubs in the world, with direct flights from most major cities. Qatar Airways, the national carrier, operates routes to over 160 destinations. From the airport, the Doha Metro Red Line runs directly to central Doha in about 20 minutes for approximately $0.50. Taxis and Uber are also readily available — a ride to central Doha costs $10-15.</p><h2>Where to Stay</h2><p>The West Bay district offers the widest range of hotels, from luxury towers along the Corniche to mid-range options a short metro ride from the Aspire Zone. Budget travelers should look at hotels in Al Sadd and Al Aziziyah, which sit closer to the venues and offer rooms from $80-150 per night. The Aspire Zone is served by the Al Aziziyah metro station on the Gold Line.</p><h2>What to See Between Matches</h2><p>Souq Waqif is the essential Doha experience — a restored traditional market with spice stalls, falcon shops, restaurants, and art galleries. The Museum of Islamic Art, designed by I.M. Pei, sits on its own island on the Corniche and houses one of the finest collections of Islamic art in the world — free admission. Katara Cultural Village hosts exhibitions, theaters, and a public beach. The Pearl-Qatar is a man-made island with marina-side dining and luxury shopping. For something different, book a desert safari — dune bashing, camel rides, and a traditional Bedouin camp dinner under the stars.</p><h2>Weather and Practical Tips</h2><p>November and December in Doha bring the most pleasant weather of the year: daytime highs of 25-30°C (77-86°F) with minimal rain and low humidity. This is a dramatic contrast to the summer heat that defined Qatar's 2022 World Cup preparation debate. Pack light layers for evenings, which can drop to 18-20°C. Most nationalities receive visa-free or visa-on-arrival entry to Qatar. The Qatari riyal is pegged to the US dollar at approximately 3.64 QAR to $1. English is widely spoken in hotels, restaurants, and tourist areas.</p><h2>Why This Tournament Matters</h2><p>The expanded 48-team format means more nations than ever are represented at a FIFA youth tournament. For many of these players, this is the stage where future World Cup stars are first identified. The 2005 U-17 World Cup in Peru featured a 16-year-old Lionel Messi, Cesc Fàbregas, and Anderson. Keep your eyes on these young players — some of them will headline the 2034 World Cup.</p>", "publish_iso": "2026-11-12"},
+{"id": "article-25", "slug": "morocco-u17-womens-world-cup-2026-recap", "title": "Morocco U-17 Women's World Cup 2026: What We Learned in Rabat and Salé", "category": "Recap & Reflection", "city": "Rabat", "date": "November 10, 2026", "readTime": "4 min read", "excerpt": "The FIFA U-17 Women's World Cup 2026 concluded in Morocco with 24 teams, 52 matches, and a showcase of the next generation of women's football. Rabat and Salé delivered a compact, passionate, and well-organized tournament. Here is what stood out.", "content": "<h2>The Tournament Summary</h2><p>Morocco hosted the FIFA U-17 Women's World Cup from October 17 to November 7, 2026, across two venues in the Rabat metropolitan area: the Moulay El Hassan Stadium in Rabat (capacity 22,000) and the Mohammed VI Football Academy in Salé. Twenty-four teams competed in six groups of four, with the top two from each group plus the four best third-placed teams advancing to the knockout rounds. A total of 52 matches produced 175 goals — an average of 3.37 per match — watched by a cumulative attendance of 72,762.</p><h2>The Champions and Standout Performers</h2><p>Nigeria claimed the title with a dominant campaign, reinforcing their status as a powerhouse in women's youth football. The tournament's individual awards highlighted the depth of talent on display: the Golden Ball and Golden Boot were won by standout performances across the competition. Spain received the FIFA Fair Play Award, continuing their tradition of disciplined, technical football at youth level.</p><h2>What Rabat and Salé Delivered</h2><p>Morocco proved once again that it can host a major FIFA tournament with distinction. The compact two-city format — Rabat and Salé sit directly across the Bouregreg River from each other — meant that fans could attend matches at both venues without significant travel. The Moulay El Hassan Stadium, with its modern facilities and central Rabat location, served as the primary venue. The Mohammed VI Football Academy in Salé, one of the most advanced football training complexes in Africa, hosted group stage matches on its multiple pitches.</p><h2>Rabat as a Football Destination</h2><p>Rabat rewarded visiting fans with its UNESCO-listed medina, the Hassan Tower and Mausoleum of Mohammed V, the Kasbah of the Udayas overlooking the Atlantic, and a food scene that blends Moroccan tradition with modern influence. October and early November weather — 68-77°F with minimal rain — made outdoor exploration between matches genuinely pleasant. The Rabat-Salé tramway and petit taxis kept transport affordable and efficient.</p><h2>What This Means for Women's Football</h2><p>The expanded 24-team format brought more federations into the global spotlight. Nations from Oceania, the Caribbean, and smaller African federations gained invaluable experience competing at FIFA level. The technical quality of play continues to rise with each edition — the passing, pressing, and tactical sophistication on display in Morocco would have been unrecognizable compared to early editions of this tournament. These players are the pipeline for the 2027 Women's World Cup in Brazil and the 2031 Women's World Cup.</p><h2>Looking Ahead</h2><p>Morocco's successful hosting of this tournament adds to its growing portfolio of major football events and strengthens its position as co-host of FIFA World Cup 2030 alongside Spain and Portugal. For FIFAMap, Morocco now joins the growing list of FIFA host nations with dedicated city guides — check our Rabat and Salé pages for full travel information. The next FIFA youth tournament is the U-17 World Cup in Qatar (November 19 – December 13, 2026), where 48 men's U-17 teams compete in Doha.</p>", "publish_iso": "2026-11-10"},
 {"id": "article-24", "slug": "fifa-world-cup-2026-complete-legacy-guide", "title": "FIFA World Cup 2026: The Complete Legacy Guide — What Changed Forever", "category": "Legacy", "city": "All Cities", "date": "July 20, 2026", "readTime": "4 min read", "excerpt": "Four weeks after the final whistle at MetLife Stadium, the lasting impact of FIFA World Cup 2026 is becoming clear — in transit systems, soccer registrations, stadium projects, and the cultural momentum of three host nations. Here is what the tournament changed permanently.", "content": "<h2>Infrastructure That Stays</h2><p>The most tangible World Cup legacy is infrastructure that does not get packed away with the temporary fan zones. The LA Metro C Line received permanent capacity improvements funded through World Cup preparation. Seattle's Link Light Rail Stadium Station, upgraded for the tournament, is now a permanent fixture of the regional transit network. MetLife Stadium's New Jersey transit connections were overhauled as part of the hosting agreement. In Kansas City and Philadelphia, neighborhoods adjacent to the stadium corridors received downtown revitalization investment — improved streetscaping, commercial development, and public space upgrades that city planners had sought for years and that the World Cup deadline finally delivered.</p><h2>The Economic Picture</h2><p>The direct economic impact of FIFA World Cup 2026 across 16 host cities is estimated at $6 billion — the largest single-event economic footprint in North American sporting history. Two hundred thousand jobs were created across construction, hospitality, security, and event operations. FIFA World Cup host cities consistently see elevated inbound tourism for three to five years after the tournament as global media exposure translates into sustained traveler interest. The hospitality sectors of all 16 host cities will feel the World Cup effect well into the decade.</p><h2>Soccer in America: A Threshold Crossed</h2><p>MLS clubs in host cities are reporting record season ticket sales, particularly in Seattle, Atlanta, and Kansas City. Youth soccer registrations in host cities are up 40 percent — mirroring the surge after 1994 that produced the generation of American players who competed in the 2000s. New stadium projects are in planning in Austin, Las Vegas, and Indianapolis, driven directly by the commercial momentum created by the tournament. The sport has crossed a threshold in the United States it will not step back from.</p><h2>Canada and Mexico</h2><p>Toronto FC and the Vancouver Whitecaps are reporting record attendances. The CanMNT's performance on home soil is expected to do for Canadian soccer what 1994 did for the American game. Mexico, confirmed as host of the 2027 CONCACAF Gold Cup, continues building on its position as the most historically significant football nation in North America. Estadio Azteca, the only stadium to host two World Cup finals, adds another chapter to its story.</p><h2>What Comes Next for FIFAMap</h2><p>Thank you for planning your World Cup 2026 journey with FIFAMap.org. The next chapter is already taking shape: the 2027 CONCACAF Gold Cup, the 2028 Summer Olympics in Los Angeles, and FIFA World Cup 2030 across Morocco, Spain, Portugal, Argentina, Uruguay, and Paraguay. FIFAMap will be there with travel guides, venue information, and local tips for every tournament. Stay subscribed — we will see you at the next one.</p>", "publish_iso": "2026-08-03"},
 {"id": "article-23", "slug": "post-world-cup-summer-travel-host-cities", "title": "Post-World Cup Summer: The Best Time to Visit FIFA Host Cities (Without the Crowds)", "category": "Travel Tips", "city": "All Cities", "date": "July 13, 2026", "readTime": "4 min read", "excerpt": "The World Cup is over, the crowds have dispersed, and the host cities are entering their best travel window of the year — peak summer with no match-day congestion and hotel rates 30 to 50 percent below their tournament peaks. Here is how to take advantage of it right now.", "content": "<h2>Why Right Now Is the Best Time</h2><p>The best time to visit a World Cup host city is immediately after the tournament ends. Hotels drop rates aggressively the moment demand disappears — the same algorithms that drove prices to record highs during the World Cup reverse just as sharply. Discounts of 30 to 50 percent off peak rates are standard in the first two to four weeks. Restaurants that required weeks of advance booking now take same-day reservations. The World Cup infrastructure — new transit, renovated parks, improved signage — is all still operational. The crowds are gone. The city is not.</p><h2>Vancouver and Seattle: Peak Summer</h2><p>Vancouver is in its best condition through August — beaches, hiking in Garibaldi Provincial Park, and Whistler under two hours away. Hotel rates have normalized quickly. Seattle is at its finest in August, one of the driest and warmest months in a city better known for rain. The waterfront, Pike Place Market, and easy access to Olympic National Park make it one of the best summer destinations in North America. Both cities received significant World Cup investment and it shows.</p><h2>San Francisco and the Northeast Corridor</h2><p>The San Francisco Bay Area enters wine country harvest season in August — an ideal base for Napa and Sonoma day trips alongside the city's own attractions. In the Northeast, Boston's summer festival calendar runs through August and the harbor sailing scene is excellent. With Amtrak running on its World Cup-enhanced schedule through summer, the Boston–New York–Philadelphia triangle is still the most efficient multi-city trip in the country.</p><h2>Mexico City and Kansas City</h2><p>Mexico City in August means rainy season — afternoon showers, cheaper flights, reduced hotel rates, and the city's extraordinary food and museums without the competition. Kansas City's legendary BBQ joints — the ones with hours-long lines during the World Cup — are finally manageable again. Joe's Kansas City and Q39 are worth a trip on their own merits.</p><h2>What to Book Right Now</h2><p>Booking engines overcorrect on post-event demand forecasts, pushing fares to near off-season lows in the two to four weeks after a major tournament. Book now for late-August travel. Toronto's summer festivals run through August, and Niagara Falls from Toronto is spectacular on a clear summer day. If you want one final World Cup memory, check local city sites — some fan zones may remain operational for a few weeks post-tournament and stadiums are offering post-event tours as they transition back to regular use. There has never been a better or cheaper moment to be in a FIFA host city than right now.</p>", "publish_iso": "2026-07-27"},
 {"id": "article-22", "slug": "fifa-world-cup-2026-recap-reflection", "title": "FIFA World Cup 2026 — It's Over. Here's What Just Happened.", "category": "Recap & Reflection", "city": "All Cities", "date": "July 6, 2026", "readTime": "4 min read", "excerpt": "The final whistle has blown at MetLife Stadium and FIFA World Cup 2026 is history — the first tournament held across three nations, with 48 teams, 104 matches, and an estimated five million international visitors. Here is how to make sense of what just happened.", "content": "<h2>The Tournament by Numbers</h2><p>FIFA World Cup 2026 was the largest in the competition's history: 48 teams, 16 host cities across the United States, Canada, and Mexico, 104 total matches over 39 days, and an estimated five million international visitors. The projected direct economic impact is $6 billion across host cities. Sixteen stadiums. Three national anthems on home soil. One winner.</p><h2>What the Tournament Delivered</h2><p>The Round of 32 — the most debated innovation before the tournament — produced genuine drama and multiple upsets that reshaped the bracket in ways no one predicted. The Quarter-Finals were widely considered the best single round of matches in recent World Cup history. The Semi-Finals at Dallas and MetLife drew combined attendances close to 160,000 across two nights. The Final on July 19 at MetLife Stadium was, by any measure, one of the great evenings in the history of sport on American soil.</p><h2>Which Cities Surprised Everyone</h2><p>Every World Cup produces host cities that exceed expectations. The smaller or less obviously football-mad host cities tend to steal the show — fans converge in tighter spaces, communities embrace the tournament more visibly, and stadium atmospheres overperform. In 1994, the surprise cities were the ones nobody expected to become football towns. In 2026, history repeated itself. The post-tournament city rankings will confirm what many fans already sensed on the ground.</p><h2>What Comes Next</h2><p>FIFA World Cup 2030 is confirmed: primary hosting in Morocco, Spain, and Portugal, with centenary celebration matches in Argentina, Uruguay, and Paraguay — four continents, six nations, and the 100th anniversary of the first World Cup. All 16 stadiums from 2026 are transitioning back to primary uses; temporary FIFA infrastructure is being removed over the coming months. The 200,000 jobs created for the tournament are shifting into legacy roles across tourism, hospitality, and transit.</p><h2>Last Call for World Cup Deals</h2><p>This is the window. Hotels near all 16 host cities are seeing immediate rate drops of 30 to 50 percent from World Cup peaks — book now if you want to extend your stay or return in August. Flights are similarly deflated in the two to four weeks following a major event, as booking algorithms overcorrect on demand. The best cities to visit right now while still in peak summer mode: Vancouver, Seattle, and San Francisco — all spectacular in late July, all transformed by World Cup investment. Follow FIFAMap.org as 2030 planning begins.</p>", "publish_iso": "2026-07-20"},
