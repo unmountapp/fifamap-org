@@ -746,7 +746,7 @@ footer a:hover{text-decoration:underline}
     </button>
   </div>
   <button class="pdf-btn" id="pdfExportBtn" onclick="handlePdfExport()">
-  &#128196; Download PDF Itinerary - $2.99 &nbsp;|&nbsp; Print &amp; Share with your travel group
+  &#128196; Download PDF Itinerary &nbsp;|&nbsp; Print &amp; Share with your travel group
 </button>
 <div class="ticket-strip">
   <span style="font-size:.7rem;color:var(--muted);font-weight:600;align-self:center">&#127915; FIFA Tickets:</span>
@@ -2588,7 +2588,7 @@ async function sendChat(){
       {kw:['u-17 world cup','u17 world cup','u17 wc','under-17','under 17'],tid:'u17wc2026'},
       {kw:['u-17 women','u17 women','u17 wwc','u-17 wwc','under-17 women'],tid:'u17wwc2026'},
       {kw:['world cup 2026','wc2026','wc 2026','men\'s world cup'],tid:'wc2026'},
-      {kw:['women\'s world cup 2027','wwc 2027','brazil 2027','women\'s 2027'],tid:'wwc2027'},
+      {kw:['women\'s world cup 2027','wwc 2027','brazil 2027','women\'s 2027','women\'s world cup','wwc2027','matildas','uswnt'],tid:'wwc2027'},
       {kw:['world cup 2030','wc 2030','spain 2030','morocco 2030'],tid:'wc2030'},
       {kw:['world cup 2034','wc 2034','saudi 2034'],tid:'wc2034'},
       {kw:['qatar'],tid:'u17wc2026'},
@@ -2686,6 +2686,27 @@ async function sendChat(){
 
   /* ---- determine active tournament ---- */
   var queriedTournament = detectTournamentFromQuery(q);
+  // If no tournament detected but a city name is mentioned, infer from city data
+  if (!queriedTournament) {
+    var cityAliases = {'rio':'rio-de-janeiro','sao paulo':'sao-paulo','são paulo':'sao-paulo','belo horizonte':'belo-horizonte','porto alegre':'porto-alegre','bh':'belo-horizonte','sp':'sao-paulo','new york':'new-york','nyc':'new-york','la':'los-angeles','dallas':'dallas','doha':'doha'};
+    for (var ci2 = 0; ci2 < CITIES.length; ci2++) {
+      if (q.indexOf(CITIES[ci2].name.toLowerCase()) >= 0 || q.indexOf(CITIES[ci2].id) >= 0) {
+        var cityTournament = TOURNAMENTS.find(function(t){return t.id===CITIES[ci2].tournamentId;});
+        if (cityTournament) { queriedTournament = cityTournament; break; }
+      }
+    }
+    if (!queriedTournament) {
+      for (var alias in cityAliases) {
+        if (q.indexOf(alias) >= 0) {
+          var matchedCity = CITIES.find(function(c){return c.id===cityAliases[alias];});
+          if (matchedCity) {
+            var ct = TOURNAMENTS.find(function(t){return t.id===matchedCity.tournamentId;});
+            if (ct) { queriedTournament = ct; break; }
+          }
+        }
+      }
+    }
+  }
   var activeTournament = queriedTournament || getActiveTournament();
   var activeCities = getTournamentCities(activeTournament.id);
   if (!activeCities.length) {
@@ -2700,10 +2721,20 @@ async function sendChat(){
 
     // Detect which city the user is asking about
     var askedCity = c;
+    var cityAliasMap = {'rio':'rio-de-janeiro','sao paulo':'sao-paulo','são paulo':'sao-paulo','belo horizonte':'belo-horizonte','porto alegre':'porto-alegre','bh':'belo-horizonte','sp':'sao-paulo','new york':'new-york','nyc':'new-york','la':'los-angeles'};
     for (var ci = 0; ci < allCities.length; ci++) {
       var cn = allCities[ci].name.toLowerCase();
       if (q.indexOf(cn) >= 0 || q.indexOf(allCities[ci].id) >= 0) {
         askedCity = allCities[ci]; break;
+      }
+    }
+    // Check aliases if no match yet
+    if (askedCity === c) {
+      for (var al in cityAliasMap) {
+        if (q.indexOf(al) >= 0) {
+          var found = allCities.find(function(x){return x.id===cityAliasMap[al];});
+          if (found) { askedCity = found; break; }
+        }
       }
     }
 
@@ -2721,6 +2752,7 @@ async function sendChat(){
     var isTicket = /ticket|buy.*ticket|get.*ticket|where.*ticket|how.*ticket|official.*ticket|resale|stubhub/i.test(q);
     var isFinal = /\bfinal\b|championship|last.*match|big.*game/i.test(q);
     var isFamily = /family|kid|child|children|baby|stroller|age|safe.*for/i.test(q);
+    var isTripPlan = /plan|itinerary|trip|day.?by.?day|schedule|flying from|coming from|travel.*from|group stage|round of 16|knockout/i.test(q);
 
     var reply = '';
     var ac = askedCity;
@@ -2858,6 +2890,76 @@ async function sendChat(){
       reply += '• Fan zones are free, all ages, and a great alternative to packed stadiums\n';
       reply += '• Book accommodation close to stadiums/metro for easy travel with children\n\n';
       reply += '💡 Check each city\'s attractions section for family-friendly activities.';
+    }
+    else if (isTripPlan && activeCities.length) {
+      // Build a day-by-day trip plan from city data
+      reply = '✈️ **Your ' + tName + ' Trip Plan — Based in ' + ac.name + ':**\n\n';
+      reply += '📍 **' + activeTournament.host + '** · ' + (activeTournament.startDate ? activeTournament.startDate.slice(0,10) : '') + ' to ' + (activeTournament.endDate ? activeTournament.endDate.slice(0,10) : '') + '\n';
+      reply += '🏟️ **Stadium:** ' + ac.stadium + ' (' + ac.capacity + ' capacity)\n';
+      reply += '⛅ **Weather:** ' + ac.weather + '\n';
+      reply += '🕒 **Timezone:** ' + ac.tz + '\n\n';
+      // Matches
+      if (ac.matches && ac.matches.length) {
+        reply += '📅 **Your Matches:**\n';
+        ac.matches.forEach(function(m,i){
+          reply += '• **' + m.date + '** ' + m.time + ' — ' + m.hf + ' ' + m.home + ' vs ' + m.af + ' ' + m.away + ' (' + m.stage + ')\n';
+        });
+        reply += '\n';
+      } else {
+        reply += '📅 **Match Schedule:** Awaiting official draw. The tournament runs ' + (activeTournament.startDate||'') + ' to ' + (activeTournament.endDate||'') + '. Group stage matches are typically in the first 2 weeks.\n\n';
+      }
+      // Day-by-day skeleton
+      reply += '---\n\n**📋 Sample Day-by-Day Itinerary:**\n\n';
+      reply += '**Day 1 — Arrive in ' + ac.name + '**\n';
+      reply += '• Arrive at airport, transfer to hotel\n';
+      if (ac.neighborhoods && ac.neighborhoods.length) {
+        reply += '• **Recommended area:** ' + ac.neighborhoods[0].name + ' — ' + ac.neighborhoods[0].vibe + '\n';
+        reply += '  Hotels: ' + ac.neighborhoods[0].hotel + '\n';
+      }
+      reply += '• Settle in, explore the neighbourhood\n';
+      if (ac.dining && ac.dining.length) {
+        reply += '• **Dinner:** ' + ac.dining[0].name + ' (' + ac.dining[0].cuisine + ') — ' + ac.dining[0].mustTry + '\n';
+      }
+      reply += '\n**Day 2 — Explore ' + ac.name + '**\n';
+      if (ac.attractions && ac.attractions.length) {
+        ac.attractions.slice(0,3).forEach(function(a){
+          reply += '• ' + a.icon + ' **' + a.name + '** — ' + a.desc.split('.')[0] + '. (' + a.duration + ')\n';
+        });
+      }
+      if (ac.dining && ac.dining.length > 1) {
+        reply += '• **Lunch:** ' + ac.dining[1].name + ' — ' + ac.dining[1].mustTry + '\n';
+      }
+      reply += '\n**Day 3 — Match Day** ⚽\n';
+      reply += '• Morning at leisure\n';
+      if (ac.transport && ac.transport.length) {
+        reply += '• **Getting to stadium:** ' + ac.transport[0].mode + ' (' + ac.transport[0].cost + ', ' + ac.transport[0].time + ')\n';
+        reply += '  💡 ' + ac.transport[0].tip + '\n';
+      }
+      reply += '• Arrive 2 hours early for atmosphere and food stalls\n';
+      reply += '• Post-match: explore local nightlife\n';
+      // Other cities
+      if (activeCities.length > 1) {
+        reply += '\n**Day 4+ — Travel to Another Host City**\n';
+        var otherCities = activeCities.filter(function(x){return x.id!==ac.id;}).slice(0,3);
+        reply += '• Other host cities: ' + otherCities.map(function(x){return '**' + x.name + '** (' + x.stadium + ')';}).join(', ') + '\n';
+        reply += '• Domestic flights between cities: typically 1–3 hours, R$200–600 (~US$40–120)\n';
+        reply += '• Book on GOL, LATAM, or Azul airlines\n';
+      }
+      // Visa info for Brazil
+      if (activeTournament.id === 'wwc2027') {
+        reply += '\n---\n\n**🛂 Entry Requirements for Brazil:**\n';
+        reply += '• 🇦🇺 **Australia:** eVisa required (~US$80, apply online, ~5 business days processing)\n';
+        reply += '• 🇺🇸 **USA:** eVisa required (~US$80, apply online)\n';
+        reply += '• 🇬🇧 **UK:** Visa-free for stays up to 90 days\n';
+        reply += '• Passport must be valid 6+ months beyond travel dates\n';
+        reply += '• Source: Brazilian government & Smartraveller.gov.au\n';
+      }
+      reply += '\n---\n\n💰 **Budget Estimate (mid-range, per person):**\n';
+      reply += '• Hotels: US$60–150/night (depending on city and area)\n';
+      reply += '• Meals: US$15–40/day\n';
+      reply += '• Local transport: US$5–15/day\n';
+      reply += '• Match tickets: Check tickets.fifa.com for official pricing\n\n';
+      reply += '💡 **Tip:** Use the city dropdown above to explore each host city\'s full guide!';
     }
     else {
       // General overview of current city
