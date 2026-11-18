@@ -1053,7 +1053,7 @@ const TOURNAMENTS=[
    logo:"⚽",color:"#3b82f6",
    desc:"Tri-continental World Cup with centenary matches in Uruguay, Argentina & Paraguay.",
    note:"Centenary celebration matches in South America",
-   hasLocalData:false},
+   hasLocalData:true},
   {id:"wwc2031",name:"FIFA Women's World Cup 2031™",shortName:"Women's WC 2031",category:"Women's World Cup",status:"future",
    host:"TBD",hostFlag:"🌍",cities:0,teams:48,matches:104,
    startDate:"2031-06-01",endDate:"2031-07-15",
@@ -1714,6 +1714,37 @@ neighborhoods:[
   {name:"Boa Viagem",vibe:"Long beach, hotels, restaurants",hotel:"Atlante Plaza, Hotel Luzeiros",dist:"50 min to arena by metro+shuttle"},
   {name:"Recife Antigo / Santo Antônio",vibe:"Historic centre, nightlife",hotel:"Boutique hotels",dist:"40 min to arena by metro"}
 ]
+},
+// === FIFA World Cup 2030 — Spain, Portugal & Morocco (stub data) ===
+{id:"madrid",tournamentId:"wc2030",name:"Madrid",country:"Spain",flag:"🇪🇸",emoji:"🏛️",stadium:"Santiago Bernabéu",addr:"Av. de Concha Espina, 1, Madrid",capacity:"83,186",matchCount:0,weather:"25–35°C (77–95°F), hot summer",tz:"CEST (UTC+2)",highlights:"Prado Museum, Royal Palace, Retiro Park, tapas culture",
+dining:[{name:"Mercado de San Miguel",cuisine:"Spanish tapas",mustTry:"Jamón ibérico, croquetas, local wines"},{name:"Sobrino de Botín",cuisine:"Traditional Castilian",mustTry:"Cochinillo asado (roast suckling pig) — world's oldest restaurant"}],
+attractions:[{name:"Prado Museum",icon:"🎨",desc:"World-class art museum with works by Velázquez, Goya, El Greco.",duration:"3–4 hours"},{name:"Retiro Park",icon:"🌳",desc:"Beautiful royal park with boating lake and Crystal Palace.",duration:"2 hours"},{name:"Royal Palace",icon:"🏰",desc:"Official residence of the Spanish royal family.",duration:"1.5 hours"}],
+transport:[{mode:"Metro",cost:"€1.50–2.00 per ride",time:"20–40 min to stadium",tip:"Buy a multi-trip card for savings"}],
+neighborhoods:[{name:"Sol / Gran Vía",vibe:"Central, walkable, tourist hub",hotel:"Mid-range to luxury hotels",dist:"15 min to Bernabéu by metro"},{name:"Salamanca",vibe:"Upscale, near stadium",hotel:"Luxury hotels",dist:"10 min walk to Bernabéu"}]
+},
+{id:"barcelona",tournamentId:"wc2030",name:"Barcelona",country:"Spain",flag:"🇪🇸",emoji:"🎭",stadium:"Spotify Camp Nou",addr:"C/ d'Arístides Maillol, Barcelona",capacity:"105,000",matchCount:0,weather:"24–30°C (75–86°F), warm Mediterranean summer",tz:"CEST (UTC+2)",highlights:"Sagrada Família, La Rambla, Gothic Quarter, beaches",
+dining:[{name:"La Boqueria Market",cuisine:"Catalan / Mediterranean",mustTry:"Fresh seafood, jamón, fresh juices"},{name:"Cal Pep",cuisine:"Catalan tapas",mustTry:"Fried whitebait, grilled prawns"}],
+attractions:[{name:"Sagrada Família",icon:"⛪",desc:"Gaudí's iconic basilica, a UNESCO World Heritage Site.",duration:"2 hours"},{name:"Park Güell",icon:"🌈",desc:"Colourful Gaudí-designed park overlooking the city.",duration:"1.5 hours"},{name:"La Rambla & Gothic Quarter",icon:"🚶",desc:"Iconic pedestrian boulevard and medieval streets.",duration:"2–3 hours"}],
+transport:[{mode:"Metro",cost:"€2.40 per ride",time:"25 min to stadium",tip:"Buy a T-Casual card (10 rides)"}],
+neighborhoods:[{name:"Eixample",vibe:"Modernist architecture, central",hotel:"Wide range of hotels",dist:"20 min to Camp Nou by metro"},{name:"Les Corts",vibe:"Local neighbourhood near stadium",hotel:"Mid-range, convenient",dist:"10 min walk to Camp Nou"}]
+},
+{id:"lisbon",tournamentId:"wc2030",name:"Lisbon",country:"Portugal",flag:"🇵🇹",emoji:"🌊",stadium:"Estádio da Luz",addr:"Av. Eusébio da Silva Ferreira, Lisbon",capacity:"64,642",matchCount:0,weather:"22–30°C (72–86°F), warm and dry",tz:"WEST (UTC+1)",highlights:"Belém Tower, Alfama district, pastéis de nata, tram 28",
+dining:[{name:"Time Out Market",cuisine:"Portuguese / international",mustTry:"Pastéis de nata, bacalhau, seafood rice"},{name:"Cervejaria Ramiro",cuisine:"Seafood",mustTry:"Tiger prawns, percebes (barnacles)"}],
+attractions:[{name:"Belém Tower & Jerónimos Monastery",icon:"🏰",desc:"UNESCO sites celebrating Portugal's Age of Discovery.",duration:"2–3 hours"},{name:"Alfama District",icon:"🏘️",desc:"Oldest neighbourhood with Fado music, narrow streets.",duration:"2 hours"},{name:"Tram 28",icon:"🚋",desc:"Iconic yellow tram winding through historic hills.",duration:"45 min"}],
+transport:[{mode:"Metro",cost:"€1.65 per ride",time:"15 min to stadium",tip:"Get a Viva Viagem card at any station"}],
+neighborhoods:[{name:"Baixa / Chiado",vibe:"Central, walkable, historic",hotel:"Mid to luxury hotels",dist:"20 min to Estádio da Luz by metro"},{name:"Benfica",vibe:"Local area near stadium",hotel:"Budget-friendly",dist:"5 min walk"}]
+},
+{id:"casablanca",tournamentId:"wc2030",name:"Casablanca",country:"Morocco",flag:"🇲🇦",emoji:"🕌",stadium:"Grand Stade de Casablanca",addr:"Casablanca, Morocco",capacity:"93,000",matchCount:0,weather:"22–28°C (72–82°F), warm and humid",tz:"WEST (UTC+1)",highlights:"Hassan II Mosque, Old Medina, Corniche, Art Deco architecture",
+dining:[{name:"Rick's Café",cuisine:"Moroccan-European fusion",mustTry:"Tagine, couscous, Moroccan mint tea"},{name:"Central Market",cuisine:"Street food",mustTry:"Fresh fish, msemen (flatbread), harira soup"}],
+attractions:[{name:"Hassan II Mosque",icon:"🕌",desc:"Stunning oceanside mosque, one of the world's largest.",duration:"1.5 hours"},{name:"Old Medina",icon:"🏘️",desc:"Historic walled quarter with souks and local crafts.",duration:"2 hours"},{name:"Corniche",icon:"🌊",desc:"Beachfront promenade with restaurants and ocean views.",duration:"1.5 hours"}],
+transport:[{mode:"Tramway / Taxi",cost:"6–20 MAD (US$0.60–2)",time:"30–45 min to stadium",tip:"Use the tramway or agree taxi fare before getting in"}],
+neighborhoods:[{name:"Maarif / Racine",vibe:"Modern, restaurants, shopping",hotel:"Mid-range hotels",dist:"20 min to stadium"},{name:"Anfa",vibe:"Upscale, beachfront",hotel:"Luxury hotels",dist:"15 min to stadium"}]
+},
+{id:"marrakech",tournamentId:"wc2030",name:"Marrakech",country:"Morocco",flag:"🇲🇦",emoji:"🌴",stadium:"Grand Stade de Marrakech",addr:"Route de l'Ourika, Marrakech",capacity:"45,240",matchCount:0,weather:"28–38°C (82–100°F), hot and dry",tz:"WEST (UTC+1)",highlights:"Jemaa el-Fnaa, souks, Majorelle Garden, Atlas Mountains nearby",
+dining:[{name:"Jemaa el-Fnaa food stalls",cuisine:"Moroccan street food",mustTry:"Lamb tagine, snail soup, freshly squeezed OJ"},{name:"Le Jardin",cuisine:"Moroccan-Mediterranean",mustTry:"Pastilla, grilled kefta"}],
+attractions:[{name:"Jemaa el-Fnaa",icon:"🎪",desc:"Iconic square with performers, food stalls and snake charmers.",duration:"2–3 hours"},{name:"Majorelle Garden",icon:"🌿",desc:"Beautiful botanical garden with striking blue buildings.",duration:"1.5 hours"},{name:"Bahia Palace",icon:"🏰",desc:"19th-century palace with stunning Islamic architecture.",duration:"1 hour"}],
+transport:[{mode:"Taxi / Bus",cost:"10–30 MAD (US$1–3)",time:"20 min to stadium",tip:"Agree taxi fare before getting in — insist on meter or negotiate"}],
+neighborhoods:[{name:"Gueliz",vibe:"Modern quarter, cafés, restaurants",hotel:"Mid-range hotels",dist:"15 min to stadium"},{name:"Medina / Riad district",vibe:"Traditional, atmospheric",hotel:"Riads (traditional guesthouses)",dist:"20 min to stadium"}]
 }
 ];
 
@@ -2589,16 +2620,32 @@ async function sendChat(){
       {kw:['u-17 women','u17 women','u17 wwc','u-17 wwc','under-17 women'],tid:'u17wwc2026'},
       {kw:['world cup 2026','wc2026','wc 2026','men\'s world cup'],tid:'wc2026'},
       {kw:['women\'s world cup 2027','wwc 2027','brazil 2027','women\'s 2027','women\'s world cup','wwc2027','matildas','uswnt'],tid:'wwc2027'},
-      {kw:['world cup 2030','wc 2030','spain 2030','morocco 2030'],tid:'wc2030'},
-      {kw:['world cup 2034','wc 2034','saudi 2034'],tid:'wc2034'},
+      {kw:['world cup 2030','wc 2030','spain 2030','morocco 2030','portugal 2030'],tid:'wc2030'},
+      {kw:['world cup 2034','wc 2034','saudi 2034','saudi arabia 2034'],tid:'wc2034'},
       {kw:['qatar'],tid:'u17wc2026'},
       {kw:['morocco u-17','morocco u17'],tid:'u17wwc2026'}
     ];
+    // Host country → tournament mapping (matches when country name appears without year)
+    var hostCountryMap = [
+      {countries:['brazil','brasil'],tid:'wwc2027',status:['upcoming','live']},
+      {countries:['spain','portugal','morocco','casablanca','madrid','barcelona','lisbon'],tid:'wc2030',status:['upcoming','live','future']},
+      {countries:['saudi arabia','saudi','riyadh','jeddah'],tid:'wc2034',status:['upcoming','live','future']}
+    ];
+    // First check explicit tournament keywords
     for (var i = 0; i < tournamentKeywords.length; i++) {
       for (var j = 0; j < tournamentKeywords[i].kw.length; j++) {
         if (q.indexOf(tournamentKeywords[i].kw[j]) >= 0) {
           var t = TOURNAMENTS.find(function(t){return t.id===tournamentKeywords[i].tid;});
           if (t) return t;
+        }
+      }
+    }
+    // Then check host country names (less specific, so lower priority)
+    for (var hi = 0; hi < hostCountryMap.length; hi++) {
+      for (var hj = 0; hj < hostCountryMap[hi].countries.length; hj++) {
+        if (q.indexOf(hostCountryMap[hi].countries[hj]) >= 0) {
+          var ht = TOURNAMENTS.find(function(t){return t.id===hostCountryMap[hi].tid;});
+          if (ht) return ht;
         }
       }
     }
@@ -2629,7 +2676,23 @@ async function sendChat(){
     ['montenegro','Montenegro'],['fiji','Fiji'],['cuba','Cuba'],
     ['tajikistan','Tajikistan'],['uzbekistan','Uzbekistan'],['vietnam','Vietnam'],
     ['mali','Mali'],['mozambique','Mozambique'],['tanzania','Tanzania'],
-    ['uganda','Uganda'],['haiti','Haiti'],
+    ['uganda','Uganda'],['haiti','Haiti'],['turkey','Turkey'],
+    ['istanbul','Turkey'],['ankara','Turkey'],['scotland','Scotland'],
+    ['wales','Wales'],['philippines','Philippines'],['thailand','Thailand'],
+    ['indonesia','Indonesia'],['malaysia','Malaysia'],['kenya','Kenya'],
+    ['ethiopia','Ethiopia'],['tunisia','Tunisia'],['peru','Peru'],
+    ['bolivia','Bolivia'],['paraguay','Paraguay'],['guatemala','Guatemala'],
+    ['kuwait','Kuwait'],['bahrain','Bahrain'],['oman','Oman'],
+    ['iraq','Iraq'],['jordan','Jordan'],['lebanon','Lebanon'],
+    ['iceland','Iceland'],['finland','Finland'],['austria','Austria'],
+    ['switzerland','Switzerland'],['czech republic','Czech Republic'],
+    ['hungary','Hungary'],['slovakia','Slovakia'],['bosnia','Bosnia'],
+    ['taiwan','Taiwan'],['hong kong','Hong Kong'],['mumbai','India'],
+    ['delhi','India'],['nairobi','Kenya'],['accra','Ghana'],
+    ['manila','Philippines'],['jakarta','Indonesia'],['kuala lumpur','Malaysia'],
+    ['vienna','Austria'],['zurich','Switzerland'],['munich','Germany'],
+    ['barcelona','Spain'],['casablanca','Morocco'],['doha','Qatar'],
+    ['glasgow','Scotland'],['cardiff','Wales'],['edinburgh','Scotland'],
     ['sydney','Australia'],['melbourne','Australia'],['perth','Australia'],['brisbane','Australia'],
     ['london','England'],['manchester','England'],['liverpool','England'],
     ['new york','USA'],['los angeles','USA'],['chicago','USA'],['miami','USA'],['houston','USA'],
