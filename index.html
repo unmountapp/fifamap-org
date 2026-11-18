@@ -2629,7 +2629,18 @@ async function sendChat(){
     ['montenegro','Montenegro'],['fiji','Fiji'],['cuba','Cuba'],
     ['tajikistan','Tajikistan'],['uzbekistan','Uzbekistan'],['vietnam','Vietnam'],
     ['mali','Mali'],['mozambique','Mozambique'],['tanzania','Tanzania'],
-    ['uganda','Uganda'],['haiti','Haiti']
+    ['uganda','Uganda'],['haiti','Haiti'],
+    ['sydney','Australia'],['melbourne','Australia'],['perth','Australia'],['brisbane','Australia'],
+    ['london','England'],['manchester','England'],['liverpool','England'],
+    ['new york','USA'],['los angeles','USA'],['chicago','USA'],['miami','USA'],['houston','USA'],
+    ['toronto','Canada'],['vancouver','Canada'],['montreal','Canada'],
+    ['dublin','Ireland'],['auckland','New Zealand'],['tokyo','Japan'],
+    ['paris','France'],['berlin','Germany'],['madrid','Spain'],['rome','Italy'],
+    ['buenos aires','Argentina'],['lagos','Nigeria'],['cairo','Egypt'],
+    ['johannesburg','South Africa'],['cape town','South Africa'],
+    ['amsterdam','Netherlands'],['lisbon','Portugal'],['copenhagen','Denmark'],
+    ['brussels','Belgium'],['seoul','South Korea'],['singapore','Singapore'],
+    ['bangkok','Thailand'],['dubai','UAE'],['riyadh','Saudi Arabia']
   ];
   var originKey = null, originName = null;
   var triggerMatch = originTrigger.exec(q);
@@ -2786,13 +2797,89 @@ async function sendChat(){
         reply += '💡 ' + a.tip + '\n\n';
       });
     }
+    else if (isTripPlan && activeCities.length) {
+      // Build a day-by-day trip plan from city data
+      reply = '✈️ **Your ' + tName + ' Trip Plan — Based in ' + ac.name + ':**\n\n';
+      reply += '📍 **' + activeTournament.host + '** · ' + (activeTournament.startDate ? activeTournament.startDate.slice(0,10) : '') + ' to ' + (activeTournament.endDate ? activeTournament.endDate.slice(0,10) : '') + '\n';
+      reply += '🏟️ **Stadium:** ' + ac.stadium + ' (' + ac.capacity + ' capacity)\n';
+      reply += '⛅ **Weather:** ' + ac.weather + '\n';
+      reply += '🕒 **Timezone:** ' + ac.tz + '\n\n';
+      // Origin info
+      if (originName) {
+        reply += '🛫 **Flying from:** ' + originName + '\n\n';
+      }
+      // Matches
+      if (ac.matches && ac.matches.length) {
+        reply += '📅 **Your Matches:**\n';
+        ac.matches.forEach(function(m,i){
+          reply += '• **' + m.date + '** ' + m.time + ' — ' + m.hf + ' ' + m.home + ' vs ' + m.af + ' ' + m.away + ' (' + m.stage + ')\n';
+        });
+        reply += '\n';
+      } else {
+        reply += '📅 **Match Schedule:** Awaiting official draw. The tournament runs ' + (activeTournament.startDate||'') + ' to ' + (activeTournament.endDate||'') + '. Group stage matches are typically in the first 2 weeks.\n\n';
+      }
+      // Day-by-day skeleton
+      reply += '---\n\n**📋 Sample Day-by-Day Itinerary:**\n\n';
+      reply += '**Day 1 — Arrive in ' + ac.name + '**\n';
+      reply += '• Arrive at airport, transfer to hotel\n';
+      if (ac.neighborhoods && ac.neighborhoods.length) {
+        reply += '• **Recommended area:** ' + ac.neighborhoods[0].name + ' — ' + ac.neighborhoods[0].vibe + '\n';
+        reply += '  Hotels: ' + ac.neighborhoods[0].hotel + '\n';
+      }
+      reply += '• Settle in, explore the neighbourhood\n';
+      if (ac.dining && ac.dining.length) {
+        reply += '• **Dinner:** ' + ac.dining[0].name + ' (' + ac.dining[0].cuisine + ') — ' + ac.dining[0].mustTry + '\n';
+      }
+      reply += '\n**Day 2 — Explore ' + ac.name + '**\n';
+      if (ac.attractions && ac.attractions.length) {
+        ac.attractions.slice(0,3).forEach(function(a){
+          reply += '• ' + a.icon + ' **' + a.name + '** — ' + a.desc.split('.')[0] + '. (' + a.duration + ')\n';
+        });
+      }
+      if (ac.dining && ac.dining.length > 1) {
+        reply += '• **Lunch:** ' + ac.dining[1].name + ' — ' + ac.dining[1].mustTry + '\n';
+      }
+      reply += '\n**Day 3 — Match Day** ⚽\n';
+      reply += '• Morning at leisure\n';
+      if (ac.transport && ac.transport.length) {
+        reply += '• **Getting to stadium:** ' + ac.transport[0].mode + ' (' + ac.transport[0].cost + ', ' + ac.transport[0].time + ')\n';
+        reply += '  💡 ' + ac.transport[0].tip + '\n';
+      }
+      reply += '• Arrive 2 hours early for atmosphere and food stalls\n';
+      reply += '• Post-match: explore local nightlife\n';
+      // Other cities
+      if (activeCities.length > 1) {
+        reply += '\n**Day 4+ — Travel to Another Host City**\n';
+        var otherCities = activeCities.filter(function(x){return x.id!==ac.id;}).slice(0,3);
+        reply += '• Other host cities: ' + otherCities.map(function(x){return '**' + x.name + '** (' + x.stadium + ')';}).join(', ') + '\n';
+        reply += '• Domestic flights between cities: typically 1–3 hours, R$200–600 (~US$40–120)\n';
+        reply += '• Book on GOL, LATAM, or Azul airlines\n';
+      }
+      // Visa info for Brazil
+      if (activeTournament.id === 'wwc2027') {
+        reply += '\n---\n\n**🛂 Entry Requirements for Brazil:**\n';
+        reply += '• 🇦🇺 **Australia:** eVisa required (~US$80, apply online, ~5 business days processing)\n';
+        reply += '• 🇺🇸 **USA:** eVisa required (~US$80, apply online)\n';
+        reply += '• 🇬🇧 **UK:** Visa-free for stays up to 90 days\n';
+        reply += '• Passport must be valid 6+ months beyond travel dates\n';
+        reply += '• Source: Brazilian government & Smartraveller.gov.au\n';
+      }
+      reply += '\n---\n\n💰 **Budget Estimate (mid-range, per person):**\n';
+      reply += '• Hotels: US$60–150/night (depending on city and area)\n';
+      reply += '• Meals: US$15–40/day\n';
+      reply += '• Local transport: US$5–15/day\n';
+      reply += '• Match tickets: US$30–300+ (depending on stage and category)\n';
+      reply += '• Total estimate (7 days): US$1,200–2,500 per person (excluding flights)\n\n';
+      reply += '✈️ **Flights:** Check Google Flights (flights.google.com) for real-time prices from your city.\n\n';
+      reply += '💡 *Upgrade to Premium for personalised day-by-day plans with AI-powered recommendations.*';
+    }
     else if (isMatch) {
       if (isFinal) {
         reply = '🏆 **' + tName + ' Final:**\n\n';
         if (activeTournament.status === 'completed') {
           reply += 'This tournament has concluded. Check the Tournament Hub for upcoming FIFA tournaments!\n\n';
         } else {
-          reply += 'The Final will be held during the ' + tName + ' (' + activeTournament.dates + ').\n';
+          reply += 'The Final will be held during the ' + tName + ' (' + (activeTournament.startDate||'') + ' to ' + (activeTournament.endDate||'') + ').\n';
           reply += '🏟️ Check the Match Schedule section for venue details.\n\n';
         }
         reply += '🌍 **Upcoming:** ' + TOURNAMENTS.filter(function(t){return t.status==='upcoming';}).map(function(t){return t.shortName+' in '+t.host;}).join(' | ');
@@ -2803,6 +2890,12 @@ async function sendChat(){
           reply += m.hf + ' ' + m.home + ' vs ' + m.af + ' ' + m.away + '\n';
           reply += '📋 ' + m.stage + '\n\n';
         });
+      } else {
+        reply = '📅 **Match Schedule for ' + tName + ' in ' + ac.name + ':**\n\n';
+        reply += 'The official match schedule has not been announced yet.\n';
+        reply += '• Tournament dates: ' + (activeTournament.startDate||'TBD') + ' to ' + (activeTournament.endDate||'TBD') + '\n';
+        reply += '• 🏟️ **' + ac.stadium + '** (' + ac.capacity + ' capacity)\n\n';
+        reply += '💡 Check tickets.fifa.com for updates on the draw and match schedule.';
       }
     }
     else if (isFanZone && ac.fanZones && ac.fanZones.length) {
@@ -2890,76 +2983,6 @@ async function sendChat(){
       reply += '• Fan zones are free, all ages, and a great alternative to packed stadiums\n';
       reply += '• Book accommodation close to stadiums/metro for easy travel with children\n\n';
       reply += '💡 Check each city\'s attractions section for family-friendly activities.';
-    }
-    else if (isTripPlan && activeCities.length) {
-      // Build a day-by-day trip plan from city data
-      reply = '✈️ **Your ' + tName + ' Trip Plan — Based in ' + ac.name + ':**\n\n';
-      reply += '📍 **' + activeTournament.host + '** · ' + (activeTournament.startDate ? activeTournament.startDate.slice(0,10) : '') + ' to ' + (activeTournament.endDate ? activeTournament.endDate.slice(0,10) : '') + '\n';
-      reply += '🏟️ **Stadium:** ' + ac.stadium + ' (' + ac.capacity + ' capacity)\n';
-      reply += '⛅ **Weather:** ' + ac.weather + '\n';
-      reply += '🕒 **Timezone:** ' + ac.tz + '\n\n';
-      // Matches
-      if (ac.matches && ac.matches.length) {
-        reply += '📅 **Your Matches:**\n';
-        ac.matches.forEach(function(m,i){
-          reply += '• **' + m.date + '** ' + m.time + ' — ' + m.hf + ' ' + m.home + ' vs ' + m.af + ' ' + m.away + ' (' + m.stage + ')\n';
-        });
-        reply += '\n';
-      } else {
-        reply += '📅 **Match Schedule:** Awaiting official draw. The tournament runs ' + (activeTournament.startDate||'') + ' to ' + (activeTournament.endDate||'') + '. Group stage matches are typically in the first 2 weeks.\n\n';
-      }
-      // Day-by-day skeleton
-      reply += '---\n\n**📋 Sample Day-by-Day Itinerary:**\n\n';
-      reply += '**Day 1 — Arrive in ' + ac.name + '**\n';
-      reply += '• Arrive at airport, transfer to hotel\n';
-      if (ac.neighborhoods && ac.neighborhoods.length) {
-        reply += '• **Recommended area:** ' + ac.neighborhoods[0].name + ' — ' + ac.neighborhoods[0].vibe + '\n';
-        reply += '  Hotels: ' + ac.neighborhoods[0].hotel + '\n';
-      }
-      reply += '• Settle in, explore the neighbourhood\n';
-      if (ac.dining && ac.dining.length) {
-        reply += '• **Dinner:** ' + ac.dining[0].name + ' (' + ac.dining[0].cuisine + ') — ' + ac.dining[0].mustTry + '\n';
-      }
-      reply += '\n**Day 2 — Explore ' + ac.name + '**\n';
-      if (ac.attractions && ac.attractions.length) {
-        ac.attractions.slice(0,3).forEach(function(a){
-          reply += '• ' + a.icon + ' **' + a.name + '** — ' + a.desc.split('.')[0] + '. (' + a.duration + ')\n';
-        });
-      }
-      if (ac.dining && ac.dining.length > 1) {
-        reply += '• **Lunch:** ' + ac.dining[1].name + ' — ' + ac.dining[1].mustTry + '\n';
-      }
-      reply += '\n**Day 3 — Match Day** ⚽\n';
-      reply += '• Morning at leisure\n';
-      if (ac.transport && ac.transport.length) {
-        reply += '• **Getting to stadium:** ' + ac.transport[0].mode + ' (' + ac.transport[0].cost + ', ' + ac.transport[0].time + ')\n';
-        reply += '  💡 ' + ac.transport[0].tip + '\n';
-      }
-      reply += '• Arrive 2 hours early for atmosphere and food stalls\n';
-      reply += '• Post-match: explore local nightlife\n';
-      // Other cities
-      if (activeCities.length > 1) {
-        reply += '\n**Day 4+ — Travel to Another Host City**\n';
-        var otherCities = activeCities.filter(function(x){return x.id!==ac.id;}).slice(0,3);
-        reply += '• Other host cities: ' + otherCities.map(function(x){return '**' + x.name + '** (' + x.stadium + ')';}).join(', ') + '\n';
-        reply += '• Domestic flights between cities: typically 1–3 hours, R$200–600 (~US$40–120)\n';
-        reply += '• Book on GOL, LATAM, or Azul airlines\n';
-      }
-      // Visa info for Brazil
-      if (activeTournament.id === 'wwc2027') {
-        reply += '\n---\n\n**🛂 Entry Requirements for Brazil:**\n';
-        reply += '• 🇦🇺 **Australia:** eVisa required (~US$80, apply online, ~5 business days processing)\n';
-        reply += '• 🇺🇸 **USA:** eVisa required (~US$80, apply online)\n';
-        reply += '• 🇬🇧 **UK:** Visa-free for stays up to 90 days\n';
-        reply += '• Passport must be valid 6+ months beyond travel dates\n';
-        reply += '• Source: Brazilian government & Smartraveller.gov.au\n';
-      }
-      reply += '\n---\n\n💰 **Budget Estimate (mid-range, per person):**\n';
-      reply += '• Hotels: US$60–150/night (depending on city and area)\n';
-      reply += '• Meals: US$15–40/day\n';
-      reply += '• Local transport: US$5–15/day\n';
-      reply += '• Match tickets: Check tickets.fifa.com for official pricing\n\n';
-      reply += '💡 **Tip:** Use the city dropdown above to explore each host city\'s full guide!';
     }
     else {
       // General overview of current city
