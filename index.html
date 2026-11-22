@@ -548,7 +548,7 @@ footer a:hover{text-decoration:underline}
       <div class="city-current" id="cur-city-name">🕌 Rabat <span style="font-size:.75rem;font-weight:400;color:var(--muted)">🇲🇦</span></div>
       <div class="city-sub" id="cur-city-sub">Moulay El Hassan Stadium · 24 matches · 68–77°F pleasant</div>
     </div>
-    <a href="javascript:void(0)" onclick="showPage('cities')" class="sec-link" id="change-city-link">Change city →</a>
+    <a href="javascript:void(0)" onclick="var cc=city();if(cc)window._viewTournament=cc.tournamentId;showPage('cities')" class="sec-link" id="change-city-link">Change city →</a>
   </div>
   <!-- First match preview -->
   <div id="home-first-match"></div>
@@ -639,7 +639,7 @@ footer a:hover{text-decoration:underline}
       </div>
     </div>
     <div style="display:flex;gap:.75rem;flex-wrap:wrap">
-      <button class="btn btn-primary" style="font-size:.82rem" onclick="renderCities('wc2026');showPage('cities')">🌍 View 16 Host Cities</button>
+      <button class="btn btn-primary" style="font-size:.82rem" onclick="window._viewTournament='wc2026';showPage('cities')">🌍 View 16 Host Cities</button>
       <button class="btn btn-outline" style="font-size:.82rem" onclick="showPage('blog')">📖 Travel Guides</button>
     </div>
   </div>
@@ -2024,7 +2024,7 @@ function renderTournamentCard(t){
   var statusClass=t.status;
   var statusLabel=t.status==='live'?'🔴 LIVE NOW':t.status==='upcoming'?'UPCOMING':t.status==='completed'?'COMPLETED':'FUTURE';
   var dateStr=formatTournamentDates(t);
-  var onclick=t.hasLocalData?"onclick=\"renderCities('"+t.id+"');showPage('cities')\"":"";
+  var onclick=t.hasLocalData?"onclick=\"window._viewTournament='"+t.id+"';showPage('cities')\"":"";
   return '<div class="tournament-card '+statusClass+'" '+onclick+' style=\"cursor:'+(t.hasLocalData?'pointer':'default')+'\">'+
     '<div class="tc-status '+statusClass+'">'+(t.status==='live'?'<span class="dot"></span>':'')+statusLabel+'</div>'+
     '<div class="tc-name">'+t.name+'</div>'+
@@ -2421,7 +2421,7 @@ function showPage(page){
   window.scrollTo({top:0,behavior:'smooth'});
   // Render on demand
   if(page==='home')renderHome();
-  else if(page==='cities')renderCities();
+  else if(page==='cities'){renderCities(window._viewTournament||undefined);window._viewTournament=null;}
   else if(page==='matches')renderMatches();
   else if(page==='attractions')renderAttractions();
   else if(page==='dining')renderDining();
