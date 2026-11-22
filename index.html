@@ -432,11 +432,12 @@ footer a:hover{text-decoration:underline}
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"WebSite","@id":"https://fifamap.org/#website","url":"https://fifamap.org","name":"FIFAMap","description":"FIFAMap — Your home for every FIFA World Cup. Track all tournaments past, present and future.","inLanguage":["en","es","fr","pt","ar","de","ja","zh"]},
-{"@type":"Event","name":"FIFA World Cup 2026","startDate":"2026-06-11","endDate":"2026-07-19","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":[{"@type":"Place","name":"SoFi Stadium","address":{"@type":"PostalAddress","addressLocality":"Inglewood","addressRegion":"CA","addressCountry":"US"}},{"@type":"Place","name":"MetLife Stadium","address":{"@type":"PostalAddress","addressLocality":"East Rutherford","addressRegion":"NJ","addressCountry":"US"}}],"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
-{"@type":"Event","name":"FIFA U-17 Women's World Cup 2026","startDate":"2026-10-17","endDate":"2026-11-07","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Morocco"},"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
+{"@type":"Event","name":"FIFA World Cup 2026","startDate":"2026-06-11","endDate":"2026-07-19","eventStatus":"https://schema.org/EventCompleted","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":[{"@type":"Place","name":"SoFi Stadium","address":{"@type":"PostalAddress","addressLocality":"Inglewood","addressRegion":"CA","addressCountry":"US"}},{"@type":"Place","name":"MetLife Stadium","address":{"@type":"PostalAddress","addressLocality":"East Rutherford","addressRegion":"NJ","addressCountry":"US"}}],"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
+{"@type":"Event","name":"FIFA U-17 Women's World Cup 2026","startDate":"2026-10-17","endDate":"2026-11-07","eventStatus":"https://schema.org/EventCompleted","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Morocco"},"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
+{"@type":"Event","name":"FIFA U-17 World Cup 2026","startDate":"2026-11-19","endDate":"2026-12-13","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Qatar"},"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
 {"@type":"Event","name":"FIFA Women's World Cup 2027","startDate":"2027-06-24","endDate":"2027-07-25","eventStatus":"https://schema.org/EventScheduled","eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","location":{"@type":"Place","name":"Brazil"},"organizer":{"@type":"Organization","name":"FIFA","url":"https://www.fifa.com"},"url":"https://fifamap.org"},
 {"@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"What FIFA tournaments are coming up?","acceptedAnswer":{"@type":"Answer","text":"The FIFA U-17 Women's World Cup 2026 is currently live in Morocco (Oct 17 – Nov 7). Next up: FIFA U-17 World Cup 2026 in Qatar (Nov 19 – Dec 7), FIFA Women's World Cup 2027 in Brazil (Jun 24 – Jul 25), and FIFA World Cup 2030 in Spain, Portugal & Morocco."}},
+{"@type":"Question","name":"What FIFA tournaments are coming up?","acceptedAnswer":{"@type":"Answer","text":"The FIFA U-17 World Cup 2026 is currently live in Qatar (Nov 19 – Dec 13). Next up: FIFA Women's World Cup 2027 in Brazil (Jun 24 – Jul 25), FIFA U-20 World Cup 2027 in Azerbaijan & Uzbekistan (Sep 17 – Oct 9), and FIFA World Cup 2030 in Spain, Portugal & Morocco."}},
 {"@type":"Question","name":"What happened at FIFA World Cup 2026?","acceptedAnswer":{"@type":"Answer","text":"Spain won FIFA World Cup 2026, beating Argentina 1-0 in the final at MetLife Stadium on July 19, 2026. The tournament took place June 11 – July 19, 2026 across 16 cities in the USA, Canada, and Mexico — the largest World Cup in history with 48 teams and 104 matches."}},
 {"@type":"Question","name":"When is the next FIFA World Cup?","acceptedAnswer":{"@type":"Answer","text":"The next Men's FIFA World Cup is in 2030, hosted by Spain, Portugal, and Morocco, with centenary matches in Argentina, Uruguay, and Paraguay. The next Women's World Cup is in 2027 in Brazil."}}
 ]}
@@ -1016,8 +1017,8 @@ const TOURNAMENTS=[
    logo:"⚽",color:"#22c55e",
    desc:"24 nations compete in Rabat & Salé, Morocco for the U-17 women's crown.",
    venueCity:"Rabat",hasLocalData:true},
-  // UPCOMING
-  {id:"u17wc2026",name:"FIFA U-17 World Cup 2026™",shortName:"U-17 World Cup",category:"U-17 Men",status:"upcoming",
+  // LIVE
+  {id:"u17wc2026",name:"FIFA U-17 World Cup 2026™",shortName:"U-17 World Cup",category:"U-17 Men",status:"live",
    host:"Qatar",hostFlag:"🇶🇦",cities:3,teams:48,matches:52,
    startDate:"2026-11-19",endDate:"2026-12-13",
    logo:"⚽",color:"#8b5cf6",
