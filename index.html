@@ -198,6 +198,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(15,17,26,0.95);backdrop-fi
 .badge-host{background:rgba(255,215,0,.15);color:#FFD700}
 .badge-final{background:linear-gradient(135deg,var(--gold),#FFA500);color:#000}
 .badge-green{background:rgba(34,197,94,.15);color:#4ade80}
+.match-card.played{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.2)}
+.match-card.match-today{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.3)}
+.match-score{font-size:1.1rem;font-weight:800;color:var(--primary);padding:0 .5rem;min-width:3rem;text-align:center}
+.badge-ft{background:rgba(34,197,94,.15);color:#22c55e;border-color:rgba(34,197,94,.3)}
+.badge-today{background:rgba(251,191,36,.15);color:#fbbf24;border-color:rgba(251,191,36,.3);animation:pulse-today 2s ease-in-out infinite}
+@keyframes pulse-today{0%,100%{opacity:1}50%{opacity:.6}}
 
 /* ======= CARDS GRID ======= */
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
@@ -1477,44 +1483,44 @@ neighborhoods:[{name:"Stay in Rabat",vibe:"Better hotels, dining, and nightlife"
 /* FIFA U-17 World Cup 2026 — Qatar */
 {id:"doha",tournamentId:"u17wc2026",name:"Doha",country:"Qatar",flag:"🇶🇦",emoji:"🏙️",stadium:"Aspire Zone Training Pitches",addr:"Aspire Zone, Al Waab St, Doha, Qatar",capacity:"Various (8 pitches)",matchCount:48,weather:"77–86°F warm, dry",tz:"AST (UTC+3)",highlights:"Main tournament hub, 48 group-stage & knockout matches, Aspire Zone sports complex, desert-meets-modern city",
 matches:[
-  {id:1,date:"Thu, Nov 19",time:"4:00 PM AST",home:"Qatar",hf:"🇶🇦",away:"Panama",af:"🇵🇦",stage:"Group A (Opening Match)",host:true},
-  {id:2,date:"Thu, Nov 19",time:"7:00 PM AST",home:"Egypt",hf:"🇪🇬",away:"Greece",af:"🇬🇷",stage:"Group A"},
-  {id:3,date:"Fri, Nov 20",time:"4:00 PM AST",home:"South Korea",hf:"🇰🇷",away:"Uganda",af:"🇺🇬",stage:"Group B"},
-  {id:4,date:"Fri, Nov 20",time:"7:00 PM AST",home:"New Caledonia",hf:"🇳🇨",away:"Ecuador",af:"🇪🇨",stage:"Group B"},
-  {id:5,date:"Fri, Nov 20",time:"1:00 PM AST",home:"Argentina",hf:"🇦🇷",away:"Australia",af:"🇦🇺",stage:"Group C"},
-  {id:6,date:"Fri, Nov 20",time:"10:00 PM AST",home:"Mozambique",hf:"🇲🇿",away:"Denmark",af:"🇩🇰",stage:"Group C"},
-  {id:7,date:"Sat, Nov 21",time:"4:00 PM AST",home:"France",hf:"🇫🇷",away:"Haiti",af:"🇭🇹",stage:"Group D"},
-  {id:8,date:"Sat, Nov 21",time:"7:00 PM AST",home:"Saudi Arabia",hf:"🇸🇦",away:"Uruguay",af:"🇺🇾",stage:"Group D"},
-  {id:9,date:"Sat, Nov 21",time:"1:00 PM AST",home:"Italy",hf:"🇮🇹",away:"Jamaica",af:"🇯🇲",stage:"Group E"},
-  {id:10,date:"Sat, Nov 21",time:"10:00 PM AST",home:"Ivory Coast",hf:"🇨🇮",away:"Uzbekistan",af:"🇺🇿",stage:"Group E"},
-  {id:11,date:"Sun, Nov 22",time:"4:00 PM AST",home:"Senegal",hf:"🇸🇳",away:"Croatia",af:"🇭🇷",stage:"Group F"},
-  {id:12,date:"Sun, Nov 22",time:"7:00 PM AST",home:"Cuba",hf:"🇨🇺",away:"Tajikistan",af:"🇹🇯",stage:"Group F"},
-  {id:13,date:"Sun, Nov 22",time:"1:00 PM AST",home:"Mali",hf:"🇲🇱",away:"New Zealand",af:"🇳🇿",stage:"Group G"},
-  {id:14,date:"Sun, Nov 22",time:"10:00 PM AST",home:"Belgium",hf:"🇧🇪",away:"Vietnam",af:"🇻🇳",stage:"Group G"},
-  {id:15,date:"Mon, Nov 23",time:"4:00 PM AST",home:"Spain",hf:"🇪🇸",away:"China",af:"🇨🇳",stage:"Group H"},
-  {id:16,date:"Mon, Nov 23",time:"7:00 PM AST",home:"Fiji",hf:"🇫🇯",away:"Morocco",af:"🇲🇦",stage:"Group H"},
-  {id:17,date:"Mon, Nov 23",time:"1:00 PM AST",home:"Brazil",hf:"🇧🇷",away:"Ireland",af:"🇮🇪",stage:"Group I"},
-  {id:18,date:"Mon, Nov 23",time:"10:00 PM AST",home:"Tanzania",hf:"🇹🇿",away:"Costa Rica",af:"🇨🇷",stage:"Group I"},
-  {id:19,date:"Tue, Nov 24",time:"4:00 PM AST",home:"USA",hf:"🇺🇸",away:"Montenegro",af:"🇲🇪",stage:"Group J"},
-  {id:20,date:"Tue, Nov 24",time:"7:00 PM AST",home:"Chile",hf:"🇨🇱",away:"Algeria",af:"🇩🇿",stage:"Group J"},
-  {id:21,date:"Tue, Nov 24",time:"1:00 PM AST",home:"Mexico",hf:"🇲🇽",away:"Romania",af:"🇷🇴",stage:"Group K"},
-  {id:22,date:"Tue, Nov 24",time:"10:00 PM AST",home:"Cameroon",hf:"🇨🇲",away:"Venezuela",af:"🇻🇪",stage:"Group K"},
-  {id:23,date:"Wed, Nov 25",time:"4:00 PM AST",home:"Japan",hf:"🇯🇵",away:"Colombia",af:"🇨🇴",stage:"Group L"},
-  {id:24,date:"Wed, Nov 25",time:"7:00 PM AST",home:"Serbia",hf:"🇷🇸",away:"Honduras",af:"🇭🇳",stage:"Group L"},
-  {id:25,date:"Thu, Nov 26",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
-  {id:26,date:"Fri, Nov 27",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
-  {id:27,date:"Sat, Nov 28",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
-  {id:28,date:"Sun, Nov 29",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
-  {id:29,date:"Mon, Nov 30",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
-  {id:30,date:"Tue, Dec 1",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
-  {id:31,date:"Thu, Dec 3",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
-  {id:32,date:"Fri, Dec 4",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
-  {id:33,date:"Sat, Dec 5",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 16"},
-  {id:34,date:"Sun, Dec 6",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 16"},
-  {id:35,date:"Tue, Dec 8",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"},
-  {id:36,date:"Wed, Dec 9",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"},
-  {id:37,date:"Fri, Dec 11",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Semi-Final"},
-  {id:38,date:"Sat, Dec 12",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Semi-Final"}
+  {id:1,date:"Wed, Nov 19",time:"4:00 PM AST",home:"Qatar",hf:"🇶🇦",away:"Panama",af:"🇵🇦",stage:"Group A (Opening Match)",host:true,hscore:2,ascore:0},
+  {id:2,date:"Wed, Nov 19",time:"7:00 PM AST",home:"Egypt",hf:"🇪🇬",away:"Greece",af:"🇬🇷",stage:"Group A",hscore:1,ascore:2},
+  {id:3,date:"Wed, Nov 19",time:"1:00 PM AST",home:"South Korea",hf:"🇰🇷",away:"Uganda",af:"🇺🇬",stage:"Group B",hscore:3,ascore:0},
+  {id:4,date:"Wed, Nov 19",time:"4:00 PM AST",home:"New Caledonia",hf:"🇳🇨",away:"Ecuador",af:"🇪🇨",stage:"Group B",hscore:0,ascore:1},
+  {id:5,date:"Wed, Nov 19",time:"7:00 PM AST",home:"Argentina",hf:"🇦🇷",away:"Australia",af:"🇦🇺",stage:"Group C",hscore:0,ascore:2},
+  {id:6,date:"Wed, Nov 19",time:"10:00 PM AST",home:"Mozambique",hf:"🇲🇿",away:"Denmark",af:"🇩🇰",stage:"Group C",hscore:4,ascore:0},
+  {id:7,date:"Wed, Nov 19",time:"1:00 PM AST",home:"France",hf:"🇫🇷",away:"Haiti",af:"🇭🇹",stage:"Group D",hscore:3,ascore:1},
+  {id:8,date:"Wed, Nov 19",time:"10:00 PM AST",home:"Saudi Arabia",hf:"🇸🇦",away:"Uruguay",af:"🇺🇾",stage:"Group D",hscore:2,ascore:3},
+  {id:9,date:"Thu, Nov 20",time:"1:00 PM AST",home:"Italy",hf:"🇮🇹",away:"Jamaica",af:"🇯🇲",stage:"Group E",hscore:6,ascore:0},
+  {id:10,date:"Thu, Nov 20",time:"4:00 PM AST",home:"Ivory Coast",hf:"🇨🇮",away:"Uzbekistan",af:"🇺🇿",stage:"Group E",hscore:2,ascore:1},
+  {id:11,date:"Thu, Nov 20",time:"7:00 PM AST",home:"Senegal",hf:"🇸🇳",away:"Croatia",af:"🇭🇷",stage:"Group F",hscore:1,ascore:1},
+  {id:12,date:"Thu, Nov 20",time:"10:00 PM AST",home:"Cuba",hf:"🇨🇺",away:"Tajikistan",af:"🇹🇯",stage:"Group F",hscore:3,ascore:5},
+  {id:13,date:"Thu, Nov 20",time:"1:00 PM AST",home:"Mali",hf:"🇲🇱",away:"New Zealand",af:"🇳🇿",stage:"Group G",hscore:3,ascore:0},
+  {id:14,date:"Thu, Nov 20",time:"4:00 PM AST",home:"Belgium",hf:"🇧🇪",away:"Vietnam",af:"🇻🇳",stage:"Group G",hscore:3,ascore:2},
+  {id:15,date:"Thu, Nov 20",time:"7:00 PM AST",home:"Spain",hf:"🇪🇸",away:"China",af:"🇨🇳",stage:"Group H",hscore:5,ascore:0},
+  {id:16,date:"Thu, Nov 20",time:"10:00 PM AST",home:"Fiji",hf:"🇫🇯",away:"Morocco",af:"🇲🇦",stage:"Group H",hscore:0,ascore:6},
+  {id:17,date:"Fri, Nov 21",time:"1:00 PM AST",home:"Brazil",hf:"🇧🇷",away:"Ireland",af:"🇮🇪",stage:"Group I",status:"today"},
+  {id:18,date:"Fri, Nov 21",time:"4:00 PM AST",home:"Tanzania",hf:"🇹🇿",away:"Costa Rica",af:"🇨🇷",stage:"Group I",status:"today"},
+  {id:19,date:"Fri, Nov 21",time:"7:00 PM AST",home:"USA",hf:"🇺🇸",away:"Montenegro",af:"🇲🇪",stage:"Group J",status:"today"},
+  {id:20,date:"Fri, Nov 21",time:"10:00 PM AST",home:"Chile",hf:"🇨🇱",away:"Algeria",af:"🇩🇿",stage:"Group J",status:"today"},
+  {id:21,date:"Fri, Nov 21",time:"1:00 PM AST",home:"Mexico",hf:"🇲🇽",away:"Romania",af:"🇷🇴",stage:"Group K",status:"today"},
+  {id:22,date:"Fri, Nov 21",time:"4:00 PM AST",home:"Cameroon",hf:"🇨🇲",away:"Venezuela",af:"🇻🇪",stage:"Group K",status:"today"},
+  {id:23,date:"Fri, Nov 21",time:"7:00 PM AST",home:"Japan",hf:"🇯🇵",away:"Colombia",af:"🇨🇴",stage:"Group L",status:"today"},
+  {id:24,date:"Fri, Nov 21",time:"10:00 PM AST",home:"Serbia",hf:"🇷🇸",away:"Honduras",af:"🇭🇳",stage:"Group L",status:"today"},
+  {id:25,date:"Sun, Nov 22",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:26,date:"Mon, Nov 23",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:27,date:"Tue, Nov 24",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD2"},
+  {id:28,date:"Wed, Nov 25",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
+  {id:29,date:"Thu, Nov 26",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
+  {id:30,date:"Fri, Nov 27",time:"4:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Group Stage MD3"},
+  {id:31,date:"Mon, Nov 30",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
+  {id:32,date:"Tue, Dec 1",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 32"},
+  {id:33,date:"Thu, Dec 3",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 16"},
+  {id:34,date:"Fri, Dec 4",time:"5:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Round of 16"},
+  {id:35,date:"Sun, Dec 6",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"},
+  {id:36,date:"Mon, Dec 7",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Quarter-Final"},
+  {id:37,date:"Thu, Dec 10",time:"6:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Semi-Final"},
+  {id:38,date:"Thu, Dec 10",time:"9:00 PM AST",home:"TBD",hf:"⚽",away:"TBD",af:"⚽",stage:"Semi-Final"}
 ],
 attractions:[
   {name:"Souq Waqif",category:"Culture",icon:"🛍️",desc:"Historic market with spice stalls, falcon shops, traditional textiles, and alleyway restaurants — the heart of old Doha.",duration:"2–4 hrs",distance:"Central Doha",tip:"Go in the evening when temperatures drop and the souq comes alive. The falcon market is unlike anything you've seen.",tags:["Culture","Free","Evening"]},
@@ -1945,19 +1951,24 @@ function makeBadge(cls,text){return`<span class="badge badge-${cls}">${text}</sp
 
 function renderMatchCard(m,showAccent){
   const hl=m.usmnt||m.host||m.stage==="FINAL"||m.stage.includes("Semi");
-  return`<div class="match-card ${hl?'highlight':''}">
+  const played=typeof m.hscore==='number';
+  const isToday=m.status==='today';
+  const cardClass='match-card'+(hl?' highlight':'')+(played?' played':'')+(isToday?' match-today':'');
+  return`<div class="${cardClass}">
     ${showAccent&&hl?'<div class="accent-bar"></div>':''}
     <div class="match-inner">
       <div class="match-meta"><strong>Match ${m.id}</strong><br>${m.date} · ${m.time}</div>
       <div class="match-teams">
         <span class="match-flag">${m.hf}</span>
         <span class="match-team">${m.home}</span>
-        <span class="match-vs">vs</span>
+        ${played?`<span class="match-score">${m.hscore} - ${m.ascore}</span>`:`<span class="match-vs">vs</span>`}
         <span class="match-flag">${m.af}</span>
         <span class="match-team">${m.away}</span>
       </div>
       <div class="match-badges">
         <span class="badge badge-stage">${m.stage}</span>
+        ${played?'<span class="badge badge-ft">✅ FT</span>':''}
+        ${isToday?'<span class="badge badge-today">📺 TODAY</span>':''}
         ${m.usmnt?makeBadge('usmnt','🇺🇸 USMNT'):''}
         ${m.host?makeBadge('host','🏠 Host'):''}
         ${m.stage==='FINAL'?makeBadge('final','🏆 FINAL'):''}
@@ -2134,21 +2145,29 @@ function renderHome(){
 
   // First match card
   const fm=c.matches[0];
-  document.getElementById('home-first-match').innerHTML=`<div class="match-card" style="background:rgba(230,57,70,.05);border-color:rgba(230,57,70,.25)">
-    <div class="match-inner">
-      <div class="match-meta"><strong>Next Match</strong><br>${fm.shortDate||fm.date}</div>
-      <div class="match-teams">
-        <span class="match-flag">${fm.hf}</span><span class="match-team">${fm.home}</span>
-        <span class="match-vs">vs</span>
-        <span class="match-flag">${fm.af}</span><span class="match-team">${fm.away}</span>
+  if(fm){
+    document.getElementById('home-first-match').innerHTML=`<div class="match-card" style="background:rgba(230,57,70,.05);border-color:rgba(230,57,70,.25)">
+      <div class="match-inner">
+        <div class="match-meta"><strong>${typeof fm.hscore==='number'?'Latest Result':'Next Match'}</strong><br>${fm.shortDate||fm.date}</div>
+        <div class="match-teams">
+          <span class="match-flag">${fm.hf}</span><span class="match-team">${fm.home}</span>
+          ${typeof fm.hscore==='number'?`<span class="match-score">${fm.hscore} - ${fm.ascore}</span>`:`<span class="match-vs">vs</span>`}
+          <span class="match-flag">${fm.af}</span><span class="match-team">${fm.away}</span>
+        </div>
+        <div class="match-badges">
+          <span class="badge badge-stage">${fm.stage}</span>
+          ${fm.usmnt?makeBadge('usmnt','🇺🇸 USMNT'):''}
+          ${fm.host?makeBadge('host','🏠 Host'):''}
+        </div>
       </div>
-      <div class="match-badges">
-        <span class="badge badge-stage">${fm.stage}</span>
-        ${fm.usmnt?makeBadge('usmnt','🇺🇸 USMNT'):''}
-        ${fm.host?makeBadge('host','🏠 Host'):''}
+    </div>`;
+  } else {
+    document.getElementById('home-first-match').innerHTML=`<div class="match-card" style="background:rgba(136,146,176,.06);border-color:rgba(136,146,176,.2)">
+      <div class="match-inner">
+        <div class="match-meta" style="text-align:center;width:100%"><strong>📅 Match Schedule</strong><br>Coming soon — check back closer to the tournament</div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
+  }
 
   // Section headers
   document.getElementById('sec-matches-title').textContent=T.secMatches;
@@ -2165,7 +2184,7 @@ function renderHome(){
   document.getElementById('ai-cta-btn').textContent=T.aiBtn;
 
   // Matches preview (first 3)
-  document.getElementById('home-matches').innerHTML=c.matches.slice(0,3).map(m=>renderMatchCard(m,true)).join('');
+  document.getElementById('home-matches').innerHTML=c.matches.length?c.matches.slice(0,3).map(m=>renderMatchCard(m,true)).join(''):'<div style="text-align:center;color:var(--muted);padding:1.5rem;font-size:.85rem">📅 Match schedule not yet available for this city</div>';
   // Attractions preview (first 3)
   document.getElementById('home-attractions').innerHTML=c.attractions.slice(0,3).map(renderAttrCard).join('');
   // Dining preview (first 2)
@@ -2203,20 +2222,25 @@ function renderMatches(){
       b.classList.toggle('active',b.dataset.f===activeFilter);
     });
   }
-  document.getElementById('match-filters').innerHTML=['All','Group Stage','Knockout'].map(f=>`<button class="filter-btn ${f==='All'?'active':''}" data-f="${f}" onclick="this.closest('.filters').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');window._mf='${f}';window._renderMatches()">${f}</button>`).join('');
-  window._mf='All';
-  window._renderMatches=function(){
-    const f=window._mf;
-    const matches=f==='All'?c.matches:f==='Group Stage'?c.matches.filter(m=>m.stage.startsWith('Group')):c.matches.filter(m=>!m.stage.startsWith('Group'));
-    document.getElementById('matches-list').innerHTML=matches.map(m=>renderMatchCard(m,true)).join('');
-  };
-  document.getElementById('matches-list').innerHTML=c.matches.map(m=>renderMatchCard(m,true)).join('');
+  if(c.matches.length){
+    document.getElementById('match-filters').innerHTML=['All','Group Stage','Knockout'].map(f=>`<button class="filter-btn ${f==='All'?'active':''}" data-f="${f}" onclick="this.closest('.filters').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');window._mf='${f}';window._renderMatches()">${f}</button>`).join('');
+    window._mf='All';
+    window._renderMatches=function(){
+      const f=window._mf;
+      const matches=f==='All'?c.matches:f==='Group Stage'?c.matches.filter(m=>m.stage.startsWith('Group')):c.matches.filter(m=>!m.stage.startsWith('Group'));
+      document.getElementById('matches-list').innerHTML=matches.map(m=>renderMatchCard(m,true)).join('');
+    };
+    document.getElementById('matches-list').innerHTML=c.matches.map(m=>renderMatchCard(m,true)).join('');
+  } else {
+    document.getElementById('match-filters').innerHTML='';
+    document.getElementById('matches-list').innerHTML='<div style="text-align:center;color:var(--muted);padding:2rem 1rem;font-size:.85rem">📅 Match schedule not yet available for this tournament. Check back closer to the event for fixtures and results.</div>';
+  }
 
   // Fan zones
   document.getElementById('fan-zones-title').textContent=T.fanZonesTitle;
   document.getElementById('fan-zones-sub').textContent=T.fanZonesSub;
-  document.getElementById('fan-zones-list').innerHTML=c.fanZones.map(fz=>`
-    <div class="card"><div class="card-icon">⚽</div><div class="card-title">${fz.name}</div><div class="card-sub">${fz.area} · ${fz.dates}</div></div>`).join('');
+  document.getElementById('fan-zones-list').innerHTML=c.fanZones&&c.fanZones.length?c.fanZones.map(fz=>`
+    <div class="card"><div class="card-icon">⚽</div><div class="card-title">${fz.name}</div><div class="card-sub">${fz.area} · ${fz.dates}</div></div>`).join(''):'<div style="text-align:center;color:var(--muted);padding:1rem;font-size:.82rem">Fan zone information coming soon</div>';
 }
 
 function renderAttractions(){
@@ -2333,7 +2357,7 @@ function renderCities(forTournamentId){
             </div>
             <div class="city-desc">${c.highlights}</div>
             <div class="city-first-match">
-              First: ${c.matches[0].hf} ${c.matches[0].home} vs ${c.matches[0].af} ${c.matches[0].away} · ${c.matches[0].date||c.matches[0].shortDate}
+              ${c.matches.length?`First: ${c.matches[0].hf} ${c.matches[0].home} vs ${c.matches[0].af} ${c.matches[0].away} · ${c.matches[0].date||c.matches[0].shortDate}`:'📅 Match schedule coming soon'}
             </div>
           </button>`).join('')}
       </div>
